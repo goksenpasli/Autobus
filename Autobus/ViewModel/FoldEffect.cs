@@ -1,0 +1,37 @@
+﻿using System;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
+
+namespace Autobus.ViewModel
+{
+    public class FoldEffect : ShaderEffect
+    {
+        public static readonly DependencyProperty FoldAmountProperty = DependencyProperty.Register("FoldAmount", typeof(double), typeof(FoldEffect), new UIPropertyMetadata(0.0D, PixelShaderConstantCallback(0)));
+
+        public static readonly DependencyProperty InputProperty = RegisterPixelShaderSamplerProperty("Input", typeof(FoldEffect), 0);
+
+        public FoldEffect()
+        {
+            PixelShader = new PixelShader
+            {
+                UriSource = new Uri("/Autobus;component/Resources/FoldEffect.ps", UriKind.Relative)
+            };
+
+            UpdateShaderValue(InputProperty);
+            UpdateShaderValue(FoldAmountProperty);
+        }
+
+        public double FoldAmount
+        {
+            get => (double)(GetValue(FoldAmountProperty));
+            set => SetValue(FoldAmountProperty, value);
+        }
+
+        public Brush Input
+        {
+            get => (Brush)(GetValue(InputProperty));
+            set => SetValue(InputProperty, value);
+        }
+    }
+}

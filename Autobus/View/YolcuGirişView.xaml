@@ -1,0 +1,137 @@
+﻿<UserControl x:Class="Autobus.View.YolcuGirişView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Autobus.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodel="clr-namespace:Autobus.ViewModel"
+    d:DataContext="{d:DesignInstance Type={x:Type viewmodel:YolcuGirişViewModel}}"
+    d:DesignHeight="450" d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Grid>
+        <GroupBox Header="YOLCU İŞLEMLERİ">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="YOLCU ADI" />
+                    <TextBox Text="{Binding Müşteri.Ad, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Text="YOLCU SOYADI" />
+                    <TextBox Text="{Binding Müşteri.Soyad, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Text="YOLCU TELEFON" />
+                    <Extensions:MaskedTextBox IncludeLiterals="False" IncludePrompt="False" Mask="(000) 000 00 00"
+                        Value="{Binding Müşteri.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Text="YOLCU CİNSİYET" />
+                    <ComboBox SelectedValue="{Binding Müşteri.Cinsiyet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Tag">
+                        <ComboBoxItem Content="ERKEK" Tag="0" />
+                        <ComboBoxItem Content="KADIN" Tag="1" />
+                    </ComboBox>
+                    <TextBlock Text="YOLCU ADRES" />
+                    <TextBox Text="{Binding Müşteri.Adres, UpdateSourceTrigger=PropertyChanged}" />
+                    <Button Command="{Binding MüşteriResimYükle}"
+                        Content="YOLCU RESİM EKLE" IsTabStop="False" />
+                    <TextBlock Text="SEFER" />
+                    <ComboBox x:Name="CbSefer"
+                        HorizontalContentAlignment="Stretch"
+                        ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
+                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                        ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
+                        Loaded="Loaded"
+                        SelectedItem="{Binding SeçiliSefer}">
+                        <x:Code>
+                            <![CDATA[
+                            void Loaded(object sender, RoutedEventArgs e)
+                            {
+                                CbSefer.IsDropDownOpen = true;
+                                CbSefer.IsDropDownOpen = false;
+                            }]]>
+                        </x:Code>
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                    </ComboBox>
+                    <ComboBox IsEnabled="False"
+                        ItemTemplate="{StaticResource AraçTemplate}"
+                        ItemsSource="{Binding Otobüs.Araçlar.Araç, Source={StaticResource MainViewModel}}"
+                        SelectedItem="{Binding SeçiliAraç}"
+                        SelectedValue="{Binding ElementName=CbSefer, Path=SelectedItem.AraçId}"
+                        SelectedValuePath="Id" />
+                    <TextBlock Text="KOLTUK SEÇ" />
+                    <ComboBox ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                        ItemsSource="{Binding SeçiliAraç.KoltukÖnizlemeListe}"
+                        SelectedIndex="{Binding Müşteri.KoltukNo}"
+                        SelectedItem="{Binding Müşteri.KoltukNo}">
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <Setter Property="IsEnabled">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource KoltukNoDisabledConverter}">
+                                            <Binding Mode="OneWay" />
+                                            <Binding ElementName="CbSefer" Path="SelectedItem" />
+                                            <Binding Path="DataContext.Müşteri.KoltukNo" RelativeSource="{RelativeSource AncestorType=UserControl}" />
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                    </ComboBox>
+                    <CheckBox VerticalContentAlignment="Center" IsChecked="{Binding Müşteri.BiletÖdendi}">
+                        <CheckBox.Content>
+                            <TextBlock FontSize="16" Foreground="Red">
+                                <Run Text="BİLET PARASI ÖDENDİ" />
+                                <Separator />
+                                <Run Language="tr-tr" Text="{Binding SeçiliSefer.BiletTutarı, StringFormat=\{0:C\}}" />
+                            </TextBlock>
+                        </CheckBox.Content>
+                    </CheckBox>
+                    <Button Command="{Binding MüşteriEkle}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center" Text="YOLCU EKLE" />
+                                <Image Width="32" Height="32"
+                                    Source="/Resources/car-sharing.png" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+                <GroupBox Grid.Column="1"
+                    DataContext="{Binding SeçiliAraç}"
+                    Header="ÖNİZLEME">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="120.6" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Canvas Width="96" Height="96"
+                                HorizontalAlignment="Left"
+                                Background="{StaticResource Direksiyon}" />
+                            <ListBox Grid.Column="1"
+                                d:ItemsSource="{d:SampleData ItemCount=5}"
+                                ItemTemplate="{StaticResource ListBoxMüşteriTemplate}"
+                                ItemsSource="{Binding ElementName=CbSefer, Path=SelectedItem.Müşteri}" />
+                        </Grid>
+                        <ContentControl Grid.Row="1"
+                            Content="{Binding}"
+                            ContentTemplate="{StaticResource AraçÖnizleme}" />
+                    </Grid>
+                </GroupBox>
+            </Grid>
+
+        </GroupBox>
+    </Grid>
+</UserControl>
