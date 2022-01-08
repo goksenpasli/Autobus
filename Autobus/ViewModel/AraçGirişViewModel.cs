@@ -25,6 +25,8 @@ namespace Autobus.ViewModel
 
                 (parameter as Araçlar)?.Araç.Add(araç);
                 MainViewModel.DatabaseSave.Execute(null);
+
+                ResetAraç();
             }, parameter => Araç?.MarkaId != 0 && !string.IsNullOrWhiteSpace(Araç?.Plaka));
 
             MarkaEkle = new RelayCommand<object>(parameter =>
@@ -45,5 +47,15 @@ namespace Autobus.ViewModel
         public Marka Marka { get; set; }
 
         public ICommand MarkaEkle { get; }
+
+        private void ResetAraç()
+        {
+            Araç.KoltukSayısı = 0;
+            Araç.BölmeSayısı = 1;
+            Araç.MarkaId = -1;
+            Araç.Plaka = null;
+            Araç.Resim = null;
+            Araç.Aktif = true;
+        }
     }
 }

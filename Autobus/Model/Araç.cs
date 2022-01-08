@@ -40,7 +40,7 @@ namespace Autobus.Model
         public int KoltukSayısı { get; set; }
 
         [XmlAttribute(AttributeName = "MarkaId")]
-        public int MarkaId { get; set; }
+        public int MarkaId { get; set; } = 1;
 
         [XmlElement(ElementName = "Masraf")]
         public ObservableCollection<Masraf> Masraf { get; set; } = new();

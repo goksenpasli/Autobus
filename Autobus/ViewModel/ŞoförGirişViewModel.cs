@@ -27,6 +27,8 @@ namespace Autobus.ViewModel
 
                 (parameter as Otobüs)?.Şöförler.Şöför.Add(şöför);
                 MainViewModel.DatabaseSave.Execute(null);
+
+                ResetŞöför();
             }, parameter => !string.IsNullOrWhiteSpace(Şöför?.Ad) && !string.IsNullOrWhiteSpace(Şöför?.Soyad));
 
             ŞöförSil = new RelayCommand<object>(parameter =>
@@ -59,5 +61,15 @@ namespace Autobus.ViewModel
         public ICommand ŞöförResimYükle { get; }
 
         public ICommand ŞöförSil { get; }
+
+        private void ResetŞöför()
+        {
+            Şöför.Ad = null;
+            Şöför.Adres = null;
+            Şöför.Soyad = null;
+            Şöför.Telefon = null;
+            Şöför.Resim = null;
+            Şöför.Etkin = true;
+        }
     }
 }

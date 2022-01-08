@@ -18,7 +18,7 @@ namespace Autobus.Model
         public event PropertyChangedEventHandler PropertyChanged;
 
         [XmlAttribute(AttributeName = "AraçId")]
-        public int AraçId { get; set; }
+        public int AraçId { get; set; } = -1;
 
         [XmlAttribute(AttributeName = "BiletTutarı")]
         public double BiletTutarı { get; set; }
@@ -30,7 +30,7 @@ namespace Autobus.Model
         public TimeSpan KalkışSaat { get; set; }
 
         [XmlAttribute(AttributeName = "KalkışŞehirId")]
-        public int KalkışŞehirId { get; set; }
+        public int KalkışŞehirId { get; set; } = -1;
 
         [XmlAttribute(AttributeName = "KalkışZamanı")]
         public DateTime KalkışZamanı { get; set; } = DateTime.Today;
@@ -48,7 +48,7 @@ namespace Autobus.Model
         public bool Tamamlandı { get; set; }
 
         [XmlAttribute(AttributeName = "VarışŞehirId")]
-        public int VarışŞehirId { get; set; }
+        public int VarışŞehirId { get; set; } = -1;
 
         [XmlAttribute(AttributeName = "VarışZamanı")]
         public DateTime VarışZamanı { get; set; }
