@@ -23,5 +23,8 @@ namespace Autobus.Model
 
         [XmlElement(ElementName = "Şöförler")]
         public Şöförler Şöförler { get; set; }
+
+        [XmlElement(ElementName = "Ürünler")]
+        public Ürünler Ürünler { get; set; }
     }
 }

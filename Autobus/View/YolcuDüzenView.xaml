@@ -73,10 +73,16 @@
                                     Style="{StaticResource VirtualizingStackPanelItemsControl}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <StackPanel Width="75" Height="75"
-                                                Background="Red">
-                                                <TextBlock HorizontalAlignment="Center" Visibility="{Binding DataContext, ConverterParameter=reverse, Converter={StaticResource NullToVisibilityConverter}, ElementName=Bd}">
+                                            <StackPanel Width="75" Height="75">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                    FontSize="16" FontWeight="Bold"
+                                                    Visibility="{Binding DataContext, ConverterParameter=reverse, Converter={StaticResource NullToVisibilityConverter}, ElementName=Bd}">
                                                     <Hyperlink Command="{Binding YolcuDüzenViewModel.MüşteriEkleEkranı, Mode=OneWay, Source={StaticResource MainViewModel}}">
+                                                        <Hyperlink.Style>
+                                                            <Style BasedOn="{StaticResource {x:Type Hyperlink}}" TargetType="Hyperlink">
+                                                                <Setter Property="Foreground" Value="Red" />
+                                                            </Style>
+                                                        </Hyperlink.Style>
                                                         <Hyperlink.CommandParameter>
                                                             <MultiBinding Converter="{StaticResource CloneConverter}">
                                                                 <Binding Source="{StaticResource MainViewModel}" />
@@ -86,7 +92,8 @@
                                                             </MultiBinding>
                                                         </Hyperlink.CommandParameter>
                                                         <Run Text="{Binding Mode=OneWay}" />
-                                                    </Hyperlink></TextBlock>
+                                                    </Hyperlink>
+                                                </TextBlock>
                                                 <Border x:Name="Bd"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center"
                                                     d:DataContext="{d:DesignInstance Type={x:Type model:Müşteri}}">
@@ -99,10 +106,40 @@
                                                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
                                                         FontSize="14" Foreground="White">
                                                         <TextBlock.ToolTip>
-                                                            <Image MaxWidth="128" MaxHeight="128"
-                                                                Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
-                                                        </TextBlock.ToolTip><Run Text="{Binding Ad}" /><LineBreak /><Run Text="{Binding Soyad}" /></TextBlock>
+                                                            <StackPanel>
+                                                                <ListBox ItemsSource="{Binding Sipariş}">
+                                                                    <ListBox.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <ComboBox ItemTemplate="{StaticResource ComboBoxItemSiparişTemplate}"
+                                                                                ItemsSource="{Binding Otobüs.Ürünler.Ürün, Source={StaticResource MainViewModel}}"
+                                                                                SelectedValue="{Binding ÜrünId}"
+                                                                                SelectedValuePath="Id"
+                                                                                Template="{DynamicResource ComboBoxSimpleTemplate}" />
+                                                                        </DataTemplate>
+                                                                    </ListBox.ItemTemplate>
+                                                                </ListBox>
+                                                                <Image MaxWidth="128" MaxHeight="128"
+                                                                    Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
+                                                            </StackPanel>
+                                                        </TextBlock.ToolTip>
+                                                        <Run Text="{Binding Ad}" />
+                                                        <LineBreak />
+                                                        <Run Text="{Binding Soyad}" />
+                                                    </TextBlock>
                                                 </Border>
+                                                <StackPanel.Style>
+                                                    <Style TargetType="StackPanel">
+                                                        <Setter Property="Background" Value="{StaticResource Koltuk}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ElementName=Bd, Path=DataContext.Cinsiyet}" Value="0">
+                                                                <Setter Property="Background" Value="{StaticResource KoltukBay}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ElementName=Bd, Path=DataContext.Cinsiyet}" Value="1">
+                                                                <Setter Property="Background" Value="{StaticResource KoltukBayan}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </StackPanel.Style>
                                             </StackPanel>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>

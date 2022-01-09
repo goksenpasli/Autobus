@@ -7,11 +7,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="clr-namespace:Autobus.ViewModel"
     d:DataContext="{d:DesignInstance Type={x:Type viewmodel:YolcuGirişViewModel}}"
-    d:DesignHeight="450" d:DesignWidth="800"
+    d:DesignHeight="600" d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
         <GroupBox Header="YOLCU İŞLEMLERİ">
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*" />
                     <ColumnDefinition />
@@ -104,7 +108,40 @@
                         </Button.Content>
                     </Button>
                 </StackPanel>
-                <GroupBox Grid.Column="1"
+                <GroupBox Grid.Row="2" Header="SİPARİŞ">
+                    <UniformGrid Columns="2">
+                        <GroupBox Header="ÜRÜN GİRİŞİ">
+                            <StackPanel DataContext="{Binding Ürün}">
+                                <TextBlock Text="ÜRÜN ADI" />
+                                <TextBox Text="{Binding ÜrünAçıklama, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBlock Text="ÜRÜN FİYATI" />
+                                <Extensions:NumericUpDownControl Maximum="1000" Minimum="0"
+                                    Value="{Binding ÜrünFiyat, UpdateSourceTrigger=PropertyChanged}" />
+                                <Button Command="{Binding YolcuGirişViewModel.ÜrünEkle, Mode=OneWay, Source={StaticResource MainViewModel}}"
+                                    CommandParameter="{Binding Otobüs.Ürünler.Ürün, Source={StaticResource MainViewModel}}"
+                                    Content="EKLE" />
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="ÜRÜN SAT">
+                            <ListBox d:ItemsSource="{d:SampleData ItemCount=5}"
+                                ItemsSource="{Binding Otobüs.Ürünler.Ürün, Source={StaticResource MainViewModel}}"
+                                SelectedItem="{Binding SeçiliÜrün}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock VerticalAlignment="Center">
+                                                <Run Text="{Binding ÜrünAçıklama}" />
+                                                <Run Language="tr-tr" Text="{Binding ÜrünFiyat, StringFormat=\{0:C\}}" />
+                                            </TextBlock>
+                                            <Button Command="{Binding YolcuGirişViewModel.MüşteriSiparişEkle, Mode=OneWay, Source={StaticResource MainViewModel}}" Content="ÜRÜN SAT" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </GroupBox>
+                    </UniformGrid>
+                </GroupBox>
+                <GroupBox Grid.RowSpan="2" Grid.Column="1"
                     DataContext="{Binding SeçiliAraç}"
                     Header="ÖNİZLEME">
                     <Grid>
@@ -123,7 +160,8 @@
                             <ListBox Grid.Column="1"
                                 d:ItemsSource="{d:SampleData ItemCount=5}"
                                 ItemTemplate="{StaticResource ListBoxMüşteriTemplate}"
-                                ItemsSource="{Binding ElementName=CbSefer, Path=SelectedItem.Müşteri}" />
+                                ItemsSource="{Binding ElementName=CbSefer, Path=SelectedItem.Müşteri}"
+                                SelectedItem="{Binding YolcuGirişViewModel.SeçiliMüşteri, Source={StaticResource MainViewModel}}" />
                         </Grid>
                         <ContentControl Grid.Row="1"
                             Content="{Binding}"

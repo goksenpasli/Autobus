@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Xml.Serialization;
 
 namespace Autobus.Model
@@ -25,5 +26,8 @@ namespace Autobus.Model
 
         [XmlAttribute(AttributeName = "KoltukNo")]
         public int KoltukNo { get; set; } = -1;
+
+        [XmlElement(ElementName = "Sipariş")]
+        public ObservableCollection<Sipariş> Sipariş { get; set; } = new();
     }
 }

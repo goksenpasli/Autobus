@@ -75,6 +75,9 @@
     <Compile Include="Converter\KoltukNoDisabledConverter.cs" />
     <Compile Include="Converter\KoltukNoMüşteriConverter.cs" />
     <Compile Include="Converter\SeferSüreGeçtiConverter.cs" />
+    <Compile Include="Model\Sipariş.cs" />
+    <Compile Include="Model\Ürün.cs" />
+    <Compile Include="Model\Ürünler.cs" />
     <Compile Include="ViewModel\AraçGirişViewModel.cs" />
     <Compile Include="ViewModel\AraçMasrafGirişViewModel.cs" />
     <Compile Include="ViewModel\ExtensionMethods.cs" />

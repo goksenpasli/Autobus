@@ -13,12 +13,12 @@
                 <ResourceDictionary Source="/Resources/Resource.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ViewModel:MainViewModel x:Key="MainViewModel" />
-            <Extensions:ReverseBooleanConverter x:Key="ReverseBooleanConverter"/>
+            <Extensions:ReverseBooleanConverter x:Key="ReverseBooleanConverter" />
             <Converter:KoltukNoDisabledConverter x:Key="KoltukNoDisabledConverter" />
             <Converter:KoltukNoMüşteriConverter x:Key="KoltukNoMüşteriConverter" />
             <Converter:SeferSüreGeçtiConverter x:Key="SeferSüreGeçtiConverter" />
             <Converter:FilePathMergeConverter x:Key="FilePathMergeConverter" />
-            <Converter:CloneConverter x:Key="CloneConverter"/>
+            <Converter:CloneConverter x:Key="CloneConverter" />
             <DataTemplate DataType="{x:Type ViewModel:AraçGirişViewModel}">
                 <View:AraçGirişView />
             </DataTemplate>
@@ -37,9 +37,6 @@
             <DataTemplate DataType="{x:Type ViewModel:YolcuDüzenViewModel}">
                 <View:YolcuDüzenView />
             </DataTemplate>
-
-
-
             <ItemsPanelTemplate x:Key="ComboBoxItemsVirtualizedPanel">
                 <VirtualizingStackPanel />
             </ItemsPanelTemplate>
@@ -141,10 +138,15 @@
                     ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                     IsHitTestVisible="False" />
             </ControlTemplate>
+            <DataTemplate x:Key="ComboBoxItemSiparişTemplate">
+                <TextBlock><Run Text="{Binding ÜrünAçıklama}" />
+                    <Run Language="tr-tr" Text="{Binding ÜrünFiyat, StringFormat=\{0:C\}}" />
+                </TextBlock>
+            </DataTemplate>
             <DataTemplate x:Key="KoltukÖnizlemeTemplate">
                 <Border Width="50" Height="50"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Background="Red">
+                    Background="{StaticResource Koltuk}">
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
                         FontSize="15" Foreground="White"
                         Text="{Binding Mode=OneWay}" />

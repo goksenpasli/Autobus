@@ -91,5 +91,19 @@ namespace Autobus.ViewModel
             _ = Directory.CreateDirectory(Path.GetDirectoryName(MainViewModel.xmldatapath));
             return new ObservableCollection<Şöför>();
         }
+
+        public static ObservableCollection<Ürün> ÜrünleriYükle()
+        {
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+            {
+                return null;
+            }
+            if (File.Exists(MainViewModel.xmldatapath))
+            {
+                return MainViewModel.xmldatapath.DeSerialize<Otobüs>().Ürünler.Ürün;
+            }
+            _ = Directory.CreateDirectory(Path.GetDirectoryName(MainViewModel.xmldatapath));
+            return new ObservableCollection<Ürün>();
+        }
     }
 }

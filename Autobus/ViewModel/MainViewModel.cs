@@ -31,7 +31,12 @@ namespace Autobus.ViewModel
                 Şöförler = new Şöförler
                 {
                     Şöför = ExtensionMethods.ŞoförleriYükle()
+                },
+                Ürünler = new Ürünler
+                {
+                    Ürün=ExtensionMethods.ÜrünleriYükle()
                 }
+                
             };
 
             AraçGirişViewModel = new AraçGirişViewModel();
