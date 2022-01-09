@@ -27,7 +27,7 @@ namespace Autobus.ViewModel
                 şöför.Resim = Şöför.Resim;
                 şöför.Etkin = true;
 
-                (parameter as Otobüs)?.Şöförler.Şöför.Add(şöför);
+                (parameter as Şöförler)?.Şöför.Add(şöför);
                 MainViewModel.DatabaseSave.Execute(null);
 
                 ResetŞöför();
@@ -37,7 +37,7 @@ namespace Autobus.ViewModel
             {
                 if (MessageBox.Show("Seçili Şoförü Silmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    (parameter as Otobüs)?.Şöförler.Şöför?.Remove(SeçiliŞöför);
+                    (parameter as Şöförler)?.Şöför?.Remove(SeçiliŞöför);
                     MainViewModel.DatabaseSave.Execute(null);
                 }
             }, parameter => SeçiliŞöför is not null);
@@ -48,7 +48,6 @@ namespace Autobus.ViewModel
                 if (openFileDialog.ShowDialog() == true)
                 {
                     string filename = Guid.NewGuid() + Path.GetExtension(openFileDialog.FileName);
-
                     image = new BitmapImage(new Uri(openFileDialog.FileName));
                     File.WriteAllBytes($"{Path.GetDirectoryName(MainViewModel.xmldatapath)}\\{filename}", image.Resize(Settings.Default.ResimEn, Settings.Default.ResimBoy).ToTiffJpegByteArray(Extensions.ExtensionMethods.Format.Jpg));
                     Şöför.Resim = filename;

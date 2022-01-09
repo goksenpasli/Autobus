@@ -18,6 +18,7 @@
             <Converter:KoltukNoMüşteriConverter x:Key="KoltukNoMüşteriConverter" />
             <Converter:SeferSüreGeçtiConverter x:Key="SeferSüreGeçtiConverter" />
             <Converter:FilePathMergeConverter x:Key="FilePathMergeConverter" />
+            <Converter:NumberToSplitterVisibilityConverter x:Key="NumberToSplitterVisibilityConverter" />
             <Converter:CloneConverter x:Key="CloneConverter" />
             <DataTemplate DataType="{x:Type ViewModel:AraçGirişViewModel}">
                 <View:AraçGirişView />
@@ -81,7 +82,8 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ItemsControl">
-                            <ScrollViewer Padding="{TemplateBinding Control.Padding}" Focusable="False">
+                            <ScrollViewer Padding="{TemplateBinding Control.Padding}"
+                                Focusable="False" VerticalScrollBarVisibility="Auto">
                                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
                             </ScrollViewer>
                         </ControlTemplate>
@@ -205,6 +207,19 @@
                     <Hyperlink Command="{Binding YolcuGirişViewModel.MüşteriSil, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding Mode=OneWay}">
                         <Run Text="X" />
                     </Hyperlink>
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Black" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Cinsiyet}" Value="0">
+                                    <Setter Property="Foreground" Value="Blue" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Cinsiyet}" Value="1">
+                                    <Setter Property="Foreground" Value="Magenta" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
                 </TextBlock>
             </DataTemplate>
             <DataTemplate x:Key="ListBoxŞoförTemplate">
@@ -215,7 +230,9 @@
                         <TextBlock VerticalAlignment="Center">
                             <Run Text="{Binding Ad}" />
                             <Run Text="{Binding Soyad}" />
-                            <Hyperlink Command="{Binding ŞoförGirişViewModel.ŞöförSil, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding Otobüs, Source={StaticResource MainViewModel}}">
+                            <Hyperlink Command="{Binding ŞoförGirişViewModel.ŞöförSil, Mode=OneWay, Source={StaticResource MainViewModel}}"
+                                CommandParameter="{Binding Otobüs.Şöförler, Source={StaticResource MainViewModel}}"
+                                IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}">
                                 <Run Text="X" />
                             </Hyperlink>
                         </TextBlock>

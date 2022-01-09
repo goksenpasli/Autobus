@@ -3,7 +3,6 @@ using Autobus.Properties;
 using Extensions;
 using Microsoft.Win32;
 using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
@@ -54,9 +53,9 @@ namespace Autobus.ViewModel
                 ürün.Id = ExtensionMethods.RandomNumber();
                 ürün.ÜrünFiyat = Ürün.ÜrünFiyat;
                 ürün.ÜrünAçıklama = Ürün.ÜrünAçıklama;
-                (parameter as ObservableCollection<Ürün>)?.Add(ürün);
+                (parameter as Ürünler)?.Ürün?.Add(ürün);
                 MainViewModel.DatabaseSave.Execute(null);
-            }, parameter => true);
+            }, parameter => !string.IsNullOrWhiteSpace(Ürün.ÜrünAçıklama));
 
             MüşteriSiparişEkle = new RelayCommand<object>(parameter =>
              {

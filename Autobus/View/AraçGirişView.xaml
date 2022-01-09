@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Autobus.View.AraçGirişView"
+﻿<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
@@ -6,9 +6,13 @@
     xmlns:local="clr-namespace:Autobus.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Autobus.Model" xmlns:viewmodel="clr-namespace:Autobus.ViewModel"
+    xmlns:Converter="clr-namespace:Autobus.Converter" x:Class="Autobus.View.AraçGirişView"
     d:DataContext="{d:DesignInstance Type={x:Type viewmodel:AraçGirişViewModel}}"
     d:DesignHeight="450" d:DesignWidth="800" UseLayoutRounding="True"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <Converter:NumberToSplitterVisibilityConverter x:Key="NumberToSplitterVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid>
         <GroupBox Header="ARAÇ GİRİŞİ">
             <Grid>
@@ -28,11 +32,11 @@
                     <TextBlock Text="TOPLAM KOLTUK SAYISI" />
                     <Extensions:NumericUpDownControl Minimum="0" SmallChange="1"
                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                        Value="{Binding Araç.KoltukSayısı, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                        Value="{Binding Araç.KoltukSayısı, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
                     <TextBlock Text="BÖLME SAYISI" />
                     <Extensions:NumericUpDownControl Minimum="1" SmallChange="1"
                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                        Value="{Binding Araç.BölmeSayısı, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                        Value="{Binding Araç.BölmeSayısı, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
                     <TextBlock Text="ARAÇ MARKASI" />
                     <ComboBox DisplayMemberPath="Açıklama"
                         ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
@@ -40,13 +44,11 @@
                         SelectedValue="{Binding Araç.MarkaId}"
                         SelectedValuePath="Id" />
                     <Button Command="{Binding AraçEkle}" CommandParameter="{Binding Otobüs.Araçlar, Source={StaticResource MainViewModel}}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock VerticalAlignment="Center" Text="ARAÇ GİR" />
-                                <Image Width="32" Height="32"
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center" Text="ARAÇ GİR" />
+                            <Image Width="32" Height="32"
                                     Source="/Resources/car.png" />
-                            </StackPanel>
-                        </Button.Content>
+                        </StackPanel>
                     </Button>
                 </StackPanel>
                 <GroupBox Grid.Row="1" Grid.Column="0"
@@ -55,13 +57,11 @@
                         <TextBlock Text="MARKA AÇIKLAMA" />
                         <TextBox CharacterCasing="Upper" Text="{Binding Marka.Açıklama, UpdateSourceTrigger=PropertyChanged}" />
                         <Button Command="{Binding MarkaEkle}" CommandParameter="{Binding Otobüs.Markalar, Source={StaticResource MainViewModel}}">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock VerticalAlignment="Center" Text="MARKA GİR" />
-                                    <Image Width="32" Height="32"
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center" Text="MARKA GİR" />
+                                <Image Width="32" Height="32"
                                         Source="/Resources/car.png" />
-                                </StackPanel>
-                            </Button.Content>
+                            </StackPanel>
                         </Button>
                     </StackPanel>
                 </GroupBox>
@@ -90,9 +90,12 @@
                                     Text="{Binding Plaka}" />
                             </Grid>
                         </Grid>
-                        <ContentControl Grid.Row="1"
-                            Content="{Binding}"
-                            ContentTemplate="{StaticResource AraçÖnizleme}" />
+                        <Grid Grid.Row="1">
+                            <ContentControl Content="{Binding}" ContentTemplate="{StaticResource AraçÖnizleme}" />
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Visibility="{Binding BölmeSayısı, Converter={StaticResource NumberToSplitterVisibilityConverter}}">
+                                <Separator Background="Black" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                            </StackPanel>
+                        </Grid>
                     </Grid>
                 </GroupBox>
             </Grid>

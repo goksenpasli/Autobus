@@ -28,7 +28,7 @@
                         Value="{Binding Şöför.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <Button Command="{Binding ŞöförResimYükle}"
                         Content="ŞOFÖR RESİM EKLE" IsTabStop="False" />
-                    <Button Command="{Binding ŞöförEkle}" CommandParameter="{Binding Otobüs, Source={StaticResource MainViewModel}}">
+                    <Button Command="{Binding ŞöförEkle}" CommandParameter="{Binding Otobüs.Şöförler, Source={StaticResource MainViewModel}}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock VerticalAlignment="Center" Text="ŞOFÖR EKLE" />
