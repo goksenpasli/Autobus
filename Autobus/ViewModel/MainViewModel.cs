@@ -3,7 +3,9 @@ using Extensions;
 using System;
 using System.ComponentModel;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -53,6 +55,23 @@ namespace Autobus.ViewModel
                 AraçMasrafGirişViewModel.SeçiliSefer = null;
                 CurrentView = AraçMasrafGirişViewModel;
             }, parameter => CurrentView != AraçMasrafGirişViewModel);
+
+            UygulamadanÇık = new RelayCommand<object>(parameter =>
+            {
+                if (MessageBox.Show("Uygulamadan çıkmak istiyor musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    Application.Current.MainWindow.Close();
+                }
+            });
+
+            VeritabanınıAç = new RelayCommand<object>(parameter =>
+            {
+                if (File.Exists(xmldatapath) && MessageBox.Show("Veritabanı dosyasını düzenlemek istiyor musun? Dikkat yanlış düzenleme programın açılmamasına neden olabilir. Devam edilsin mi?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    _ = Process.Start(xmldatapath);
+                }
+            });
+
             PropertyChanged += MainViewModel_PropertyChanged;
         }
 
@@ -81,6 +100,10 @@ namespace Autobus.ViewModel
         public ICommand ŞoförGirişEkranı { get; }
 
         public ŞoförGirişViewModel ŞoförGirişViewModel { get; set; }
+
+        public ICommand UygulamadanÇık { get; }
+
+        public ICommand VeritabanınıAç { get; }
 
         public ICommand YolcuDüzeniEkranı { get; }
 

@@ -1,4 +1,5 @@
 ﻿using Autobus.Model;
+using Autobus.Properties;
 using Extensions;
 using Microsoft.Win32;
 using System;
@@ -6,6 +7,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Autobus.ViewModel
 {
@@ -50,7 +52,9 @@ namespace Autobus.ViewModel
                 if (openFileDialog.ShowDialog() == true)
                 {
                     string filename = Guid.NewGuid() + Path.GetExtension(openFileDialog.FileName);
-                    File.Copy(openFileDialog.FileName, $"{Path.GetDirectoryName(MainViewModel.xmldatapath)}\\{filename}");
+
+                    image = new BitmapImage(new Uri(openFileDialog.FileName));
+                    File.WriteAllBytes($"{Path.GetDirectoryName(MainViewModel.xmldatapath)}\\{filename}", image.Resize(Settings.Default.ResimEn, Settings.Default.ResimBoy).ToTiffJpegByteArray(Extensions.ExtensionMethods.Format.Jpg));
                     Müşteri.Resim = filename;
                 }
             }, parameter => true);
@@ -69,6 +73,8 @@ namespace Autobus.ViewModel
         public Araç SeçiliAraç { get; set; }
 
         public Sefer SeçiliSefer { get; set; }
+
+        private BitmapImage image;
 
         private void ResetMüşteri()
         {

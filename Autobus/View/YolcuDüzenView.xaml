@@ -1,5 +1,4 @@
-﻿<UserControl 
-    x:Class="Autobus.View.YolcuDüzenView"
+﻿<UserControl x:Class="Autobus.View.YolcuDüzenView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
@@ -100,7 +99,7 @@
                                                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
                                                         FontSize="14" Foreground="White">
                                                         <TextBlock.ToolTip>
-                                                            <Image MaxWidth="256" MaxHeight="256"
+                                                            <Image MaxWidth="128" MaxHeight="128"
                                                                 Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
                                                         </TextBlock.ToolTip><Run Text="{Binding Ad}" /><LineBreak /><Run Text="{Binding Soyad}" /></TextBlock>
                                                 </Border>

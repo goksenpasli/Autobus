@@ -2,10 +2,13 @@
     x:Class="Autobus.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Extension="clr-namespace:Extensions;assembly=Extensions"
     xmlns:Model="clr-namespace:Autobus.Model"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Autobus"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:viewmodel="clr-namespace:Autobus.ViewModel"
-        d:DesignHeight="578" d:DesignWidth="1280"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:Autobus.Properties"
+    xmlns:viewmodel="clr-namespace:Autobus.ViewModel"
+    d:DesignHeight="578" d:DesignWidth="1280"
     DataContext="{Binding Mode=OneWay, Source={StaticResource MainViewModel}}"
     UseLayoutRounding="True" WindowStartupLocation="CenterScreen" WindowState="Maximized"
     mc:Ignorable="d">
@@ -17,7 +20,47 @@
         </Grid.RowDefinitions>
         <Ribbon Margin="0,-22,0,0">
             <Ribbon.ApplicationMenu>
-                <RibbonApplicationMenu Visibility="Collapsed" />
+                <RibbonApplicationMenu>
+                    <RibbonApplicationMenu.SmallImageSource>
+                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                            <Binding Source="Shell32.dll" />
+                            <Binding Source="21" />
+                        </MultiBinding>
+                    </RibbonApplicationMenu.SmallImageSource>
+                    <RibbonApplicationMenu.AuxiliaryPaneContent>
+                        <GroupBox Header="AYARLAR">
+                            <StackPanel>
+                                <HeaderedContentControl Header="RESİM EN">
+                                    <Extension:NumericUpDownControl Maximum="1024" Minimum="120" SmallChange="1"
+                                        Value="{Binding Path=ResimEn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
+                                </HeaderedContentControl>
+                                <HeaderedContentControl Header="RESİM BOY">
+                                    <Extension:NumericUpDownControl Maximum="1024" Minimum="160" SmallChange="1"
+                                        Value="{Binding Path=ResimBoy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
+                                </HeaderedContentControl>
+                            </StackPanel>
+                        </GroupBox>
+                    </RibbonApplicationMenu.AuxiliaryPaneContent>
+                    <RibbonApplicationMenuItem Command="{Binding VeritabanınıAç}" Header="VERİTABANINI AÇ">
+                        <RibbonApplicationMenuItem.ImageSource>
+                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                <Binding Source="Shell32.dll" />
+                                <Binding Source="72" />
+                            </MultiBinding>
+                        </RibbonApplicationMenuItem.ImageSource>
+                    </RibbonApplicationMenuItem>
+                    <RibbonApplicationMenuItem Command="{Binding UygulamadanÇık}" Header="ÇIKIŞ">
+                        <RibbonApplicationMenuItem.ImageSource>
+                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                <Binding Source="Shell32.dll" />
+                                <Binding Source="215" />
+                            </MultiBinding>
+                        </RibbonApplicationMenuItem.ImageSource>
+                    </RibbonApplicationMenuItem>
+                    <RibbonApplicationMenuItem IsEnabled="False" />
+                    <RibbonApplicationMenuItem IsEnabled="False" />
+                    <RibbonApplicationMenuItem IsEnabled="False" />
+                </RibbonApplicationMenu>
             </Ribbon.ApplicationMenu>
             <RibbonTab Header="OTOBÜS" RenderOptions.BitmapScalingMode="NearestNeighbor">
                 <RibbonGroup Header="Araç İşlemleri">
@@ -37,7 +80,8 @@
                 <RibbonGroup Header="Yolcu İşlemleri">
                     <RibbonButton Command="{Binding YolcuGirişEkranı}"
                         KeyTip="Y" Label="YOLCU GİRİŞİ YAP" LargeImageSource="/Resources/car-sharing.png" />
-                    <RibbonButton Command="{Binding YolcuDüzeniEkranı}" KeyTip="YD" Label="YOLCU DÜZENİ" LargeImageSource="/Resources/car-sharing.png" />
+                    <RibbonButton Command="{Binding YolcuDüzeniEkranı}"
+                        KeyTip="YD" Label="YOLCU DÜZENİ" LargeImageSource="/Resources/car-sharing.png" />
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>

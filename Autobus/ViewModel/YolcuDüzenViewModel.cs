@@ -12,11 +12,10 @@ namespace Autobus.ViewModel
             {
                 if (parameter is object[] data && data[0] is MainViewModel mainViewModel && data[1] is int koltukno && data[2] is Sefer sefer && data[3] is Araç araç)
                 {
-                    YolcuGirişViewModel yolcuGirişViewModel = mainViewModel.YolcuGirişViewModel;
-                    yolcuGirişViewModel.SeçiliSefer = sefer;
-                    yolcuGirişViewModel.SeçiliAraç = araç;
-                    yolcuGirişViewModel.Müşteri.KoltukNo = koltukno;
-                    mainViewModel.CurrentView = yolcuGirişViewModel;
+                    mainViewModel.YolcuGirişViewModel.SeçiliSefer = sefer;
+                    mainViewModel.YolcuGirişViewModel.SeçiliAraç = araç;
+                    mainViewModel.YolcuGirişViewModel.Müşteri.KoltukNo = koltukno;
+                    mainViewModel.CurrentView = mainViewModel.YolcuGirişViewModel;
                 }
             }, parameter => true);
         }
