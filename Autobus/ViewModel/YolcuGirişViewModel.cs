@@ -2,13 +2,14 @@
 using Extensions;
 using Microsoft.Win32;
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Autobus.ViewModel
 {
-    public class YolcuGirişViewModel
+    public class YolcuGirişViewModel : INotifyPropertyChanged
     {
         public YolcuGirişViewModel()
         {
@@ -55,6 +56,8 @@ namespace Autobus.ViewModel
             }, parameter => true);
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public Müşteri Müşteri { get; set; }
 
         public ICommand MüşteriEkle { get; }
@@ -77,6 +80,7 @@ namespace Autobus.ViewModel
             Müşteri.BiletÖdendi = false;
             Müşteri.KoltukNo = -1;
             Müşteri.Cinsiyet = -1;
+            //SeçiliSefer = null;
         }
     }
 }

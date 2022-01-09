@@ -15,38 +15,53 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <GroupBox Header="MASRAF GİRİŞİ">
-            <StackPanel>
-                <TextBlock Text="SEFER" />
-                <ComboBox x:Name="CbSefer"
-                    HorizontalContentAlignment="Stretch"
-                    ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
-                    ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                    ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
-                    SelectedItem="{Binding SeçiliSefer}"
-                    SelectedValue="{Binding Masraf.SeferId}"
-                    SelectedValuePath="Id" />
-                <TextBlock Text="ARAÇ SEÇİMİ" />
-                <ComboBox IsEnabled="False"
-                    ItemTemplate="{StaticResource AraçTemplate}"
-                    ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                    ItemsSource="{Binding Otobüs.Araçlar.Araç, Source={StaticResource MainViewModel}}"
-                    SelectedItem="{Binding SeçiliAraç}"
-                    SelectedValue="{Binding ElementName=CbSefer, Path=SelectedItem.AraçId}"
-                    SelectedValuePath="Id" />
-                <TextBlock Text="MASRAF AÇIKLAMA" />
-                <TextBox Text="{Binding Masraf.Açıklama, UpdateSourceTrigger=PropertyChanged}" />
-                <Extensions:NumericUpDownControl Minimum="0" ShowMode="CurrencyMode" SmallChange="1"
-                    Value="{Binding Masraf.Tutar, UpdateSourceTrigger=PropertyChanged}" />
-                <Button Command="{Binding MasrafEkle}">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock VerticalAlignment="Center" Text="MASRAF EKLE" />
-                            <Image Width="32" Height="32"
-                                Source="/Resources/car-repair.png" />
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
-            </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <TextBlock Text="SEFER" />
+                    <ComboBox x:Name="CbSefer"
+                        HorizontalContentAlignment="Stretch"
+                        ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
+                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                        ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
+                        SelectedItem="{Binding SeçiliSefer}" />
+                    <TextBlock Text="ARAÇ SEÇİMİ" />
+                    <ComboBox IsEnabled="False"
+                        ItemTemplate="{StaticResource AraçTemplate}"
+                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                        ItemsSource="{Binding Otobüs.Araçlar.Araç, Source={StaticResource MainViewModel}}"
+                        SelectedItem="{Binding SeçiliAraç}"
+                        SelectedValue="{Binding ElementName=CbSefer, Path=SelectedItem.AraçId}"
+                        SelectedValuePath="Id" />
+                    <TextBlock Text="MASRAF AÇIKLAMA" />
+                    <TextBox Text="{Binding Masraf.Açıklama, UpdateSourceTrigger=PropertyChanged}" />
+                    <Extensions:NumericUpDownControl Minimum="0" ShowMode="CurrencyMode" SmallChange="1"
+                        Value="{Binding Masraf.Tutar, UpdateSourceTrigger=PropertyChanged}" />
+                    <Button Command="{Binding MasrafEkle}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center" Text="MASRAF EKLE" />
+                                <Image Width="32" Height="32"
+                                    Source="/Resources/car-repair.png" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+                <GroupBox Grid.Row="1" Header="MASRAFLAR">
+                    <UniformGrid Columns="2">
+                        <ListBox x:Name="LbAraç"
+                            d:ItemsSource="{d:SampleData ItemCount=5}"
+                            ItemTemplate="{DynamicResource AraçTemplate}"
+                            ItemsSource="{Binding Otobüs.Araçlar.Araç, Source={StaticResource MainViewModel}}" />
+                        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}"
+                            ItemTemplate="{DynamicResource MasrafTemplate}"
+                            ItemsSource="{Binding ElementName=LbAraç, Path=SelectedItem.Masraf}" />
+                    </UniformGrid>
+                </GroupBox>
+            </Grid>
         </GroupBox>
         <GroupBox Grid.Column="1" Header="ÖNİZLEME">
             <Grid>

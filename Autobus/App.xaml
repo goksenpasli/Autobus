@@ -13,10 +13,12 @@
                 <ResourceDictionary Source="/Resources/Resource.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ViewModel:MainViewModel x:Key="MainViewModel" />
+            <Extensions:ReverseBooleanConverter x:Key="ReverseBooleanConverter"/>
             <Converter:KoltukNoDisabledConverter x:Key="KoltukNoDisabledConverter" />
             <Converter:KoltukNoMüşteriConverter x:Key="KoltukNoMüşteriConverter" />
             <Converter:SeferSüreGeçtiConverter x:Key="SeferSüreGeçtiConverter" />
             <Converter:FilePathMergeConverter x:Key="FilePathMergeConverter" />
+            <Converter:CloneConverter x:Key="CloneConverter"/>
             <DataTemplate DataType="{x:Type ViewModel:AraçGirişViewModel}">
                 <View:AraçGirişView />
             </DataTemplate>
@@ -161,7 +163,13 @@
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
             </DataTemplate>
-
+            <DataTemplate x:Key="MasrafTemplate">
+                <TextBlock>
+                    <Run Text="{Binding Açıklama}" />
+                    <LineBreak />
+                    <Run Text="{Binding Tutar, StringFormat=\{0:C\}}" />
+                </TextBlock>
+            </DataTemplate>
             <DataTemplate x:Key="AraçTemplate">
                 <Grid>
                     <Grid.ColumnDefinitions>

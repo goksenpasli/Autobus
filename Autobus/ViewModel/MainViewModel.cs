@@ -48,7 +48,11 @@ namespace Autobus.ViewModel
             YolcuDüzeniEkranı = new RelayCommand<object>(parameter => CurrentView = YolcuDüzenViewModel, parameter => CurrentView != YolcuDüzenViewModel);
             SeferGirişEkranı = new RelayCommand<object>(parameter => CurrentView = SeferGirişViewModel, parameter => CurrentView != SeferGirişViewModel);
             ŞoförGirişEkranı = new RelayCommand<object>(parameter => CurrentView = ŞoförGirişViewModel, parameter => CurrentView != ŞoförGirişViewModel);
-            AraçMasrafEkranı = new RelayCommand<object>(parameter => CurrentView = AraçMasrafGirişViewModel, parameter => CurrentView != AraçMasrafGirişViewModel);
+            AraçMasrafEkranı = new RelayCommand<object>(parameter =>
+            {
+                AraçMasrafGirişViewModel.SeçiliSefer = null;
+                CurrentView = AraçMasrafGirişViewModel;
+            }, parameter => CurrentView != AraçMasrafGirişViewModel);
             PropertyChanged += MainViewModel_PropertyChanged;
         }
 

@@ -22,7 +22,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel>
                     <TextBlock Text="PLAKA" />
-                    <Extensions:MaskedTextBox Mask="&gt;00 LLL 0000" Value="{Binding Araç.Plaka, UpdateSourceTrigger=PropertyChanged}" />
+                    <Extensions:MaskedTextBox Mask="&gt;00 LL? 0009" Value="{Binding Araç.Plaka, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Text="ARAÇ AKTİF Mİ" />
                     <CheckBox IsChecked="{Binding Araç.Aktif}" />
                     <TextBlock Text="TOPLAM KOLTUK SAYISI" />

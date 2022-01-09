@@ -9,7 +9,14 @@ namespace Extensions
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value == null ? Visibility.Collapsed : Visibility.Visible;
+            if (value == null)
+            {
+                return (parameter == null) ? Visibility.Collapsed : Visibility.Visible;
+            }
+            else
+            {
+                return (parameter == null) ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

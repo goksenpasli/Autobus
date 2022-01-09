@@ -70,6 +70,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter\CloneConverter.cs" />
     <Compile Include="Converter\FilePathMergeConverter.cs" />
     <Compile Include="Converter\KoltukNoDisabledConverter.cs" />
     <Compile Include="Converter\KoltukNoMüşteriConverter.cs" />

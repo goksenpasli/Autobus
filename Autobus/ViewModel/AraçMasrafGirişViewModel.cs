@@ -16,7 +16,7 @@ namespace Autobus.ViewModel
                 Masraf masraf = new();
                 masraf.Id = ExtensionMethods.RandomNumber();
                 masraf.Açıklama = Masraf.Açıklama;
-                masraf.SeferId = Masraf.SeferId;
+                masraf.SeferId = SeçiliSefer.Id;
                 masraf.Tutar = Math.Round(Masraf.Tutar, 2);
 
                 SeçiliAraç?.Masraf.Add(masraf);
