@@ -73,7 +73,6 @@
                     <TextBlock Text="KOLTUK SEÇ" />
                     <ComboBox ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
                         ItemsSource="{Binding SeçiliAraç.KoltukÖnizlemeListe}"
-                        SelectedIndex="{Binding Müşteri.KoltukNo}"
                         SelectedItem="{Binding Müşteri.KoltukNo}">
                         <ComboBox.ItemContainerStyle>
                             <Style TargetType="ComboBoxItem">

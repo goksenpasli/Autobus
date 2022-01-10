@@ -37,13 +37,13 @@ namespace Autobus.Model
 
         [XmlAttribute(AttributeName = "KoltukSayısı")]
         [DependsOn("BölmeSayısı")]
-        public int KoltukSayısı { get; set; }
+        public int KoltukSayısı { get; set; } = 1;
 
         [XmlAttribute(AttributeName = "MarkaId")]
         public int MarkaId { get; set; } = -1;
 
         [XmlElement(ElementName = "Masraf")]
-        public ObservableCollection<Masraf> Masraf { get; set; } = new();
+        public ObservableCollection<Masraf> Masraf { get; set; }
 
         [XmlAttribute(AttributeName = "Plaka")]
         public string Plaka { get; set; }
@@ -55,6 +55,8 @@ namespace Autobus.Model
         {
             "BölmeSayısı" when KoltukSayısı % BölmeSayısı != 0 => "Bölme İşlemi Tam Çıkmıyor.",
             "KoltukSayısı" when KoltukSayısı % BölmeSayısı != 0 => "Bölme İşlemi Tam Çıkmıyor.",
+            "BölmeSayısı" when KoltukSayısı < BölmeSayısı  => "Koltuk Sayısı Bölme Sayısından Küçük Olmaz.",
+            "KoltukSayısı" when KoltukSayısı < BölmeSayısı  => "Koltuk Sayısı Bölme Sayısından Küçük Olmaz.",
             _ => null
         };
 

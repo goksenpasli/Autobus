@@ -70,6 +70,11 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style x:Key="HyperLinkRed"
+                BasedOn="{StaticResource {x:Type Hyperlink}}"
+                TargetType="Hyperlink">
+                <Setter Property="Foreground" Value="Red" />
+            </Style>
             <Style x:Key="VirtualizingStackPanelItemsControl" TargetType="ItemsControl">
                 <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
                 <Setter Property="ItemsPanel">

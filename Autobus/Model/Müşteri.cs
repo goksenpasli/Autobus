@@ -25,7 +25,7 @@ namespace Autobus.Model
         public bool KoltukDolu { get; set; }
 
         [XmlAttribute(AttributeName = "KoltukNo")]
-        public int KoltukNo { get; set; } = -1;
+        public int KoltukNo { get; set; }
 
         [XmlElement(ElementName = "Sipariş")]
         public ObservableCollection<Sipariş> Sipariş { get; set; } = new();

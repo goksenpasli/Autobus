@@ -12,7 +12,7 @@ namespace Autobus.Converter
         {
             if (values[0] is int koltukno && values[1] is Sefer seçilisefer)
             {
-                return seçilisefer?.Müşteri.FirstOrDefault(z => z.KoltukNo == koltukno);
+                return seçilisefer?.Müşteri?.FirstOrDefault(z => z.KoltukNo == koltukno);
             }
             return null;
         }

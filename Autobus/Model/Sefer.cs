@@ -21,7 +21,7 @@ namespace Autobus.Model
         public int AraçId { get; set; } = -1;
 
         [XmlAttribute(AttributeName = "BiletTutarı")]
-        public double BiletTutarı { get; set; }
+        public double BiletTutarı { get; set; } = 1;
 
         [XmlAttribute(AttributeName = "Id")]
         public int Id { get; set; }

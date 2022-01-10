@@ -65,7 +65,7 @@
                 <TextBlock Text="TAHMİNİ SÜRE SAAT" />
                 <Extensions:NumericUpDownControl SmallChange="1" Value="{Binding Sefer.TahminiSüre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Text="BİLET TUTARI" />
-                <Extensions:NumericUpDownControl Minimum="0" ShowMode="CurrencyMode" SmallChange="1"
+                <Extensions:NumericUpDownControl Minimum="1" ShowMode="CurrencyMode" SmallChange="1"
                     Value="{Binding Sefer.BiletTutarı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Text="VARIŞ SAATİ" />
                 <TextBlock FontSize="16" Foreground="Red"
