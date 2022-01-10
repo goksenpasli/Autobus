@@ -40,6 +40,7 @@
                     ItemsSource="{StaticResource İller}"
                     SelectedValue="{Binding Sefer.VarışŞehirId}"
                     SelectedValuePath="Key" />
+                <TextBlock Text="{Binding Sefer.Mesafe, StringFormat={}{0} KM MESAFE VAR}" />
                 <TextBlock Text="ARAÇ" />
                 <ComboBox IsSynchronizedWithCurrentItem="False"
                     ItemTemplate="{StaticResource AraçTemplate}"

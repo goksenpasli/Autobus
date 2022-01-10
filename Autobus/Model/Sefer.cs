@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PropertyChanged;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Xml;
@@ -35,6 +36,14 @@ namespace Autobus.Model
         [XmlAttribute(AttributeName = "KalkışZamanı")]
         public DateTime KalkışZamanı { get; set; } = DateTime.Today;
 
+        [XmlIgnore]
+        [DependsOn("KalkışŞehirId", "VarışŞehirId")]
+        public int Mesafe
+        {
+            get => (KalkışŞehirId > 0 && VarışŞehirId > 0) ? ViewModel.Mesafe.Mesafeler[KalkışŞehirId - 1, VarışŞehirId - 1] : 0;
+            set => mesafe = value;
+        }
+
         [XmlElement(ElementName = "Müşteri")]
         public ObservableCollection<Müşteri> Müşteri { get; set; } = new();
 
@@ -52,6 +61,8 @@ namespace Autobus.Model
 
         [XmlAttribute(AttributeName = "VarışZamanı")]
         public DateTime VarışZamanı { get; set; }
+
+        private int mesafe;
 
         private void Sefer_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {

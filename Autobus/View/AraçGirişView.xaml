@@ -30,7 +30,7 @@
                     <TextBlock Text="ARAÇ AKTİF Mİ" />
                     <CheckBox IsChecked="{Binding Araç.Aktif}" />
                     <TextBlock Text="TOPLAM KOLTUK SAYISI" />
-                    <Extensions:NumericUpDownControl Minimum="1" SmallChange="1"
+                    <Extensions:NumericUpDownControl Maximum="1000" Minimum="1" SmallChange="1"
                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                         Value="{Binding Araç.KoltukSayısı, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
                     <TextBlock Text="BÖLME SAYISI" />

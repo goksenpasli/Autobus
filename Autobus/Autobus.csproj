@@ -76,6 +76,7 @@
     <Compile Include="Converter\KoltukNoMüşteriConverter.cs" />
     <Compile Include="Converter\NumberToSplitterVisibilityConverter.cs" />
     <Compile Include="Converter\SeferSüreGeçtiConverter.cs" />
+    <Compile Include="ViewModel\Mesafe.cs" />
     <Compile Include="Model\Sipariş.cs" />
     <Compile Include="Model\Ürün.cs" />
     <Compile Include="Model\Ürünler.cs" />
