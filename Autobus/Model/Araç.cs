@@ -43,7 +43,7 @@ namespace Autobus.Model
         public int MarkaId { get; set; } = -1;
 
         [XmlElement(ElementName = "Masraf")]
-        public ObservableCollection<Masraf> Masraf { get; set; }
+        public ObservableCollection<Masraf> Masraf { get; set; } = new();
 
         [XmlAttribute(AttributeName = "Plaka")]
         public string Plaka { get; set; }
