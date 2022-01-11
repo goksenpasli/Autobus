@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:viewmodel="clr-namespace:Autobus.ViewModel"
     d:DataContext="{d:DesignInstance Type=viewmodel:SeferGirişViewModel}"
-    d:DesignHeight="450" d:DesignWidth="800" UseLayoutRounding="True"
+    d:DesignHeight="600" d:DesignWidth="800" UseLayoutRounding="True"
     mc:Ignorable="d">
     <Grid>
         <GroupBox Header="SEFER GİRİŞİ">
@@ -28,19 +28,33 @@
                         </Style>
                     </ComboBox.ItemContainerStyle>
                 </ComboBox>
-                <TextBlock Text="KALKIŞ ŞEHİR" />
-                <ComboBox ItemTemplate="{StaticResource İlTemplate}"
-                    ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                    ItemsSource="{StaticResource İller}"
-                    SelectedValue="{Binding Sefer.KalkışŞehirId}"
-                    SelectedValuePath="Key" />
-                <TextBlock Text="VARIŞ ŞEHİR" />
-                <ComboBox ItemTemplate="{StaticResource İlTemplate}"
-                    ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                    ItemsSource="{StaticResource İller}"
-                    SelectedValue="{Binding Sefer.VarışŞehirId}"
-                    SelectedValuePath="Key" />
-                <TextBlock Text="{Binding Sefer.Mesafe, StringFormat={}{0} KM MESAFE VAR}" />
+                <UniformGrid Columns="2">
+                    <HeaderedContentControl Header="KALKIŞ ŞEHİR">
+                        <ListBox x:Name="LbKalkış"
+                            Height="150"
+                            IsTextSearchEnabled="True"
+                            ItemTemplate="{StaticResource İlTemplate}"
+                            ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                            ItemsSource="{StaticResource İller}"
+                            SelectedValue="{Binding Sefer.KalkışŞehirId}"
+                            SelectedValuePath="Key" SelectionMode="Single" TextSearch.TextPath="Key" />
+                    </HeaderedContentControl>
+                    <HeaderedContentControl Header="VARIŞ ŞEHİR">
+                        <ListBox x:Name="LbVarış"
+                            Height="150"
+                            IsTextSearchEnabled="True"
+                            ItemTemplate="{StaticResource İlTemplate}"
+                            ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                            ItemsSource="{StaticResource İller}"
+                            SelectedValue="{Binding Sefer.VarışŞehirId}"
+                            SelectedValuePath="Key" SelectionMode="Single" TextSearch.TextPath="Key" />
+                    </HeaderedContentControl>
+                </UniformGrid>
+                <TextBlock>
+                    <Run Text="{Binding ElementName=LbKalkış, Path=SelectedItem.Value}" />
+                    <Run Text="{Binding ElementName=LbVarış, Path=SelectedItem.Value}" />
+                    <Run Text="{Binding Sefer.Mesafe, StringFormat={}{0} KM MESAFE VAR}" />
+                </TextBlock>
                 <TextBlock Text="ARAÇ" />
                 <ComboBox IsSynchronizedWithCurrentItem="False"
                     ItemTemplate="{StaticResource AraçTemplate}"
@@ -68,7 +82,7 @@
                 <TextBlock Text="BİLET TUTARI" />
                 <Extensions:NumericUpDownControl Minimum="1" ShowMode="CurrencyMode" SmallChange="1"
                     Value="{Binding Sefer.BiletTutarı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBlock Text="VARIŞ SAATİ" />
+                <TextBlock Text="TAHMİNİ VARIŞ SAATİ" />
                 <TextBlock FontSize="16" Foreground="Red"
                     Text="{Binding Sefer.VarışZamanı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <Button Command="{Binding SeferEkle}" CommandParameter="{Binding Otobüs, Source={StaticResource MainViewModel}}">

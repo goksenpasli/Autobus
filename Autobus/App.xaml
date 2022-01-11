@@ -1,11 +1,14 @@
-﻿<Application x:Class="Autobus.App"
+﻿<Application
+    x:Class="Autobus.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Converter="clr-namespace:Autobus.Converter"
     xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
-    xmlns:View="clr-namespace:Autobus.View" xmlns:ViewModel="clr-namespace:Autobus.ViewModel"
+    xmlns:View="clr-namespace:Autobus.View"
+    xmlns:ViewModel="clr-namespace:Autobus.ViewModel"
     xmlns:local="clr-namespace:Autobus"
-    Startup="Application_Startup" StartupUri="MainWindow.xaml">
+    Startup="Application_Startup"
+    StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -52,17 +55,23 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <Border Grid.Row="0"
+                                <Border
+                                    Grid.Row="0"
                                     Background="{TemplateBinding Background}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="1" CornerRadius="3,3,0,0">
-                                    <ContentPresenter Margin="4"
-                                        ContentSource="Header" RecognizesAccessKey="True" />
+                                    BorderThickness="1"
+                                    CornerRadius="3,3,0,0">
+                                    <ContentPresenter
+                                        Margin="4"
+                                        ContentSource="Header"
+                                        RecognizesAccessKey="True" />
                                 </Border>
-                                <Border Grid.Row="1"
+                                <Border
+                                    Grid.Row="1"
                                     Background="{StaticResource BorderBackground}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="1,0,1,1" CornerRadius="0,0,1,1">
+                                    BorderThickness="1,0,1,1"
+                                    CornerRadius="0,0,1,1">
                                     <ContentPresenter Margin="1" />
                                 </Border>
                             </Grid>
@@ -70,7 +79,8 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <Style x:Key="HyperLinkRed"
+            <Style
+                x:Key="HyperLinkRed"
                 BasedOn="{StaticResource {x:Type Hyperlink}}"
                 TargetType="Hyperlink">
                 <Setter Property="Foreground" Value="Red" />
@@ -87,8 +97,10 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ItemsControl">
-                            <ScrollViewer Padding="{TemplateBinding Control.Padding}"
-                                Focusable="False" VerticalScrollBarVisibility="Auto">
+                            <ScrollViewer
+                                Padding="{TemplateBinding Control.Padding}"
+                                Focusable="False"
+                                VerticalScrollBarVisibility="Auto">
                                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
                             </ScrollViewer>
                         </ControlTemplate>
@@ -97,18 +109,26 @@
             </Style>
             <ControlTemplate x:Key="ValidationErrorTemplate">
                 <Grid Focusable="False">
-                    <Canvas x:Name="Cnv"
-                        Width="18" Height="18"
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                    <Canvas
+                        x:Name="Cnv"
+                        Width="18"
+                        Height="18"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Background="{StaticResource Dur}"
                         DataContext="{Binding ElementName=Adorner, Mode=OneWay}"
-                        RenderTransformOrigin="0.5,0.5" UseLayoutRounding="True">
+                        RenderTransformOrigin="0.5,0.5"
+                        UseLayoutRounding="True">
                         <Canvas.ToolTip>
-                            <ToolTip Background="{x:Null}"
+                            <ToolTip
+                                Background="{x:Null}"
                                 BorderBrush="{x:Null}"
                                 Foreground="{x:Null}">
-                                <Border Padding="4"
-                                    Background="Red" BorderBrush="White" BorderThickness="1">
+                                <Border
+                                    Padding="4"
+                                    Background="Red"
+                                    BorderBrush="White"
+                                    BorderThickness="1">
                                     <TextBlock Foreground="White" Text="{Binding AdornedElement.(Validation.Errors)/ErrorContent, Mode=OneWay}" />
                                 </Border>
                             </ToolTip>
@@ -128,7 +148,10 @@
                     <DataTrigger Binding="{Binding AdornedElement.(Validation.HasError), ElementName=Adorner}" Value="True">
                         <DataTrigger.EnterActions>
                             <BeginStoryboard>
-                                <Storyboard AutoReverse="True" RepeatBehavior="Forever" Timeline.DesiredFrameRate="2">
+                                <Storyboard
+                                    AutoReverse="True"
+                                    RepeatBehavior="Forever"
+                                    Timeline.DesiredFrameRate="2">
                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Cnv" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
                                         <EasingDoubleKeyFrame KeyTime="0" Value="45" />
                                         <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
@@ -140,7 +163,8 @@
                 </ControlTemplate.Triggers>
             </ControlTemplate>
             <ControlTemplate x:Key="ComboBoxSimpleTemplate" TargetType="{x:Type ComboBox}">
-                <ContentPresenter Content="{TemplateBinding SelectionBoxItem}"
+                <ContentPresenter
+                    Content="{TemplateBinding SelectionBoxItem}"
                     ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                     ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                     IsHitTestVisible="False" />
@@ -151,23 +175,30 @@
                 </TextBlock>
             </DataTemplate>
             <DataTemplate x:Key="KoltukÖnizlemeTemplate">
-                <Border Width="50" Height="50"
-                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                <Border
+                    Width="50"
+                    Height="50"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
                     Background="{StaticResource Koltuk}">
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                        FontSize="15" Foreground="White"
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="15"
+                        Foreground="White"
                         Text="{Binding Mode=OneWay}" />
                 </Border>
             </DataTemplate>
             <DataTemplate x:Key="AraçÖnizleme">
-                <ItemsControl Grid.Row="1"
+                <ItemsControl
+                    Grid.Row="1"
                     Margin="0,3,0,0"
                     ItemTemplate="{StaticResource KoltukÖnizlemeTemplate}"
                     ItemsSource="{Binding KoltukÖnizlemeListe}"
                     Style="{StaticResource VirtualizingStackPanelItemsControl}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid Columns="{Binding BölmeSayısı}" Rows="{Binding BoyKoltukSayısı}" />
+                            <Extensions:VirtualizingTilePanel Columns="{Binding BölmeSayısı}" Tile="False" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
@@ -185,14 +216,19 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0"
-                        Width="140" Height="50"
+                    <Grid
+                        Grid.Column="0"
+                        Width="140"
+                        Height="50"
                         Background="{DynamicResource Plaka}">
-                        <TextBlock Margin="20,0,0,0" VerticalAlignment="Center"
+                        <TextBlock
+                            Margin="20,0,0,0"
+                            VerticalAlignment="Center"
                             FontSize="20"
                             Text="{Binding Plaka}" />
                     </Grid>
-                    <TextBlock Grid.Column="1"
+                    <TextBlock
+                        Grid.Column="1"
                         VerticalAlignment="Center"
                         Foreground="Red"
                         Text="{Binding KoltukSayısı, StringFormat={}{0} KOLTUK}" />
@@ -229,19 +265,23 @@
             </DataTemplate>
             <DataTemplate x:Key="ListBoxŞoförTemplate">
                 <StackPanel Orientation="Horizontal">
-                    <Image MaxWidth="128" MaxHeight="128"
+                    <Image
+                        MaxWidth="128"
+                        MaxHeight="128"
                         Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
                     <StackPanel Grid.Column="1">
                         <TextBlock VerticalAlignment="Center">
                             <Run Text="{Binding Ad}" />
                             <Run Text="{Binding Soyad}" />
-                            <Hyperlink Command="{Binding ŞoförGirişViewModel.ŞöförSil, Mode=OneWay, Source={StaticResource MainViewModel}}"
+                            <Hyperlink
+                                Command="{Binding ŞoförGirişViewModel.ŞöförSil, Mode=OneWay, Source={StaticResource MainViewModel}}"
                                 CommandParameter="{Binding Otobüs.Şöförler, Source={StaticResource MainViewModel}}"
                                 IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}">
                                 <Run Text="X" />
                             </Hyperlink>
                         </TextBlock>
-                        <CheckBox VerticalAlignment="Center"
+                        <CheckBox
+                            VerticalAlignment="Center"
                             Command="{Binding Path=DatabaseSave, Source={StaticResource MainViewModel}}"
                             Content="AKTİF"
                             IsChecked="{Binding Etkin}" />
@@ -257,7 +297,8 @@
             <DataTemplate x:Key="ComboBoxItemSeferTemplate">
                 <UniformGrid Columns="2">
                     <StackPanel HorizontalAlignment="Left">
-                        <ComboBox ItemTemplate="{StaticResource ComboBoxItemŞoförTemplate}"
+                        <ComboBox
+                            ItemTemplate="{StaticResource ComboBoxItemŞoförTemplate}"
                             ItemsSource="{Binding Otobüs.Şöförler.Şöför, Source={StaticResource MainViewModel}}"
                             SelectedValue="{Binding ŞöförId}"
                             SelectedValuePath="Id"
@@ -269,13 +310,15 @@
                         </TextBlock>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                        <ComboBox DisplayMemberPath="Value"
+                        <ComboBox
+                            DisplayMemberPath="Value"
                             ItemsSource="{Binding Mode=OneWay, Source={StaticResource İller}}"
                             SelectedValue="{Binding KalkışŞehirId}"
                             SelectedValuePath="Key"
                             Template="{StaticResource ComboBoxSimpleTemplate}" />
                         <TextBlock Text=" İLİNDEN " />
-                        <ComboBox DisplayMemberPath="Value"
+                        <ComboBox
+                            DisplayMemberPath="Value"
                             ItemsSource="{Binding Mode=OneWay, Source={StaticResource İller}}"
                             SelectedValue="{Binding VarışŞehirId}"
                             SelectedValuePath="Key"

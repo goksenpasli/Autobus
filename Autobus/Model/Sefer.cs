@@ -51,7 +51,12 @@ namespace Autobus.Model
         public int ŞöförId { get; set; }
 
         [XmlIgnore]
-        public double TahminiSüre { get; set; }
+        [DependsOn("Mesafe")]
+        public double TahminiSüre
+        {
+            get => Mesafe > 0 ? Math.Round(Mesafe / Properties.Settings.Default.OrtalamaHız, 2) : 0;
+            set => tahminiSüre = value;
+        }
 
         [XmlAttribute(AttributeName = "Tamamlandı")]
         public bool Tamamlandı { get; set; }
@@ -63,6 +68,8 @@ namespace Autobus.Model
         public DateTime VarışZamanı { get; set; }
 
         private int mesafe;
+
+        private double tahminiSüre;
 
         private void Sefer_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {

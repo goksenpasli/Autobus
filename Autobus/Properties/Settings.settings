@@ -8,5 +8,8 @@
     <Setting Name="ResimBoy" Type="System.Double" Scope="User">
       <Value Profile="(Default)">160</Value>
     </Setting>
+    <Setting Name="OrtalamaHız" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">80</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

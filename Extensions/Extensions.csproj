@@ -60,6 +60,7 @@
     <Compile Include="Controls\ButtonedTextBox.cs" />
     <Compile Include="Controls\Chart.cs" />
     <Compile Include="Controls\HourControl.cs" />
+    <Compile Include="Controls\VirtualizingTilePanel.cs" />
     <Compile Include="Converters\TimespanToTickConverter.cs" />
     <Compile Include="Shader\ColorEffect.cs" />
     <Compile Include="Controls\ImageViewer.cs" />

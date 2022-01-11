@@ -38,6 +38,10 @@
                                     <Extension:NumericUpDownControl Maximum="1024" Minimum="160" SmallChange="1"
                                         Value="{Binding Path=ResimBoy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
                                 </HeaderedContentControl>
+                                <HeaderedContentControl Header="ORTALAMA HIZ">
+                                    <Extension:NumericUpDownControl Maximum="400" Minimum="1" SmallChange="1" ToolTip="Tahimini Varış Süresinde Ortalama Hız."
+                                        Value="{Binding Path=OrtalamaHız, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
+                                </HeaderedContentControl>
                             </StackPanel>
                         </GroupBox>
                     </RibbonApplicationMenu.AuxiliaryPaneContent>
@@ -57,6 +61,7 @@
                             </MultiBinding>
                         </RibbonApplicationMenuItem.ImageSource>
                     </RibbonApplicationMenuItem>
+                    <RibbonApplicationMenuItem IsEnabled="False" />
                     <RibbonApplicationMenuItem IsEnabled="False" />
                     <RibbonApplicationMenuItem IsEnabled="False" />
                     <RibbonApplicationMenuItem IsEnabled="False" />

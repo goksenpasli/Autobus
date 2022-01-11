@@ -46,5 +46,17 @@ namespace Autobus.Properties {
                 this["ResimBoy"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("80")]
+        public double OrtalamaHız {
+            get {
+                return ((double)(this["OrtalamaHız"]));
+            }
+            set {
+                this["OrtalamaHız"] = value;
+            }
+        }
     }
 }
