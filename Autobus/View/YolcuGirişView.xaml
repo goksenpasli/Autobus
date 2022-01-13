@@ -17,8 +17,8 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
                     <ColumnDefinition />
+                    <ColumnDefinition Width="381.953" />
                 </Grid.ColumnDefinitions>
                 <StackPanel>
                     <TextBlock Text="YOLCU ADI" />
@@ -114,7 +114,7 @@
                                 <TextBlock Text="ÜRÜN ADI" />
                                 <TextBox Text="{Binding ÜrünAçıklama, UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock Text="ÜRÜN FİYATI" />
-                                <Extensions:NumericUpDownControl Maximum="1000" Minimum="0"
+                                <Extensions:NumericUpDownControl Maximum="1000" Minimum="0" ShowMode="CurrencyMode"
                                     Value="{Binding ÜrünFiyat, UpdateSourceTrigger=PropertyChanged}" />
                                 <Button Command="{Binding YolcuGirişViewModel.ÜrünEkle, Mode=OneWay, Source={StaticResource MainViewModel}}"
                                     CommandParameter="{Binding Otobüs.Ürünler, Source={StaticResource MainViewModel}}"
@@ -165,9 +165,126 @@
                                 ItemsSource="{Binding ElementName=CbSefer, Path=SelectedItem.Müşteri}"
                                 SelectedItem="{Binding YolcuGirişViewModel.SeçiliMüşteri, Source={StaticResource MainViewModel}}" />
                         </Grid>
-                        <ContentControl Grid.Row="1"
-                            Content="{Binding}"
-                            ContentTemplate="{StaticResource AraçÖnizleme}" />
+                        <Grid Grid.Row="1"
+                            Width="10cm"
+                            HorizontalAlignment="Left">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <FlowDocumentScrollViewer x:Name="Fd" VerticalScrollBarVisibility="Disabled">
+                                <FlowDocument Block.LineHeight="1" FontFamily="Segoe UI" FontSize="15" Language="tr-tr"
+                                    PagePadding="0">
+                                    <FlowDocument.Resources>
+                                        <Style TargetType="Paragraph">
+                                            <Setter Property="Margin" Value="3,0,0,0" />
+                                        </Style>
+                                        <Style TargetType="{x:Type TableCell}">
+                                            <Setter Property="BorderBrush" Value="Black" />
+                                            <Setter Property="BorderThickness" Value="0.5pt" />
+                                        </Style>
+                                    </FlowDocument.Resources>
+                                    <Table CellSpacing="0">
+                                        <Table.Columns>
+                                            <TableColumn Width="100" />
+                                            <TableColumn Width="180" />
+                                            <TableColumn Width="97" />
+                                        </Table.Columns>
+                                        <TableRowGroup>
+                                            <TableRow>
+                                                <TableCell ColumnSpan="3">
+                                                    <Paragraph TextAlignment="Center">
+                                                        <Run FontWeight="Bold" Text="BİLET" />
+                                                    </Paragraph>
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Paragraph>
+                                                        <Run FontWeight="Bold" Text="AD" />
+                                                    </Paragraph>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Paragraph>
+                                                        <Run Text="{Binding YolcuGirişViewModel.SeçiliMüşteri.Ad, Source={StaticResource MainViewModel}}" />
+                                                    </Paragraph>
+                                                </TableCell>
+                                                <TableCell RowSpan="4">
+                                                    <BlockUIContainer>
+                                                        <Image Width="90" Height="110"
+                                                            Source="{Binding YolcuGirişViewModel.SeçiliMüşteri.Resim, Converter={StaticResource FilePathMergeConverter}, Source={StaticResource MainViewModel}}" />
+                                                    </BlockUIContainer>
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Paragraph>
+                                                        <Run FontWeight="Bold" Text="SOYAD" />
+                                                    </Paragraph>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Paragraph>
+                                                        <Run Text="{Binding YolcuGirişViewModel.SeçiliMüşteri.Soyad, Source={StaticResource MainViewModel}}" />
+                                                    </Paragraph>
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Paragraph>
+                                                        <Run FontWeight="Bold" Text="KOLTUK NO" />
+                                                    </Paragraph>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Paragraph>
+                                                        <Run Text="{Binding YolcuGirişViewModel.SeçiliMüşteri.KoltukNo, Source={StaticResource MainViewModel}}" />
+                                                    </Paragraph>
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Paragraph>
+                                                        <Run FontWeight="Bold" Text="KALKIŞ VARIŞ" />
+                                                    </Paragraph>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Paragraph TextAlignment="Left">
+                                                        <Run Text="{Binding ElementName=CbSefer, Path=SelectedItem.KalkışZamanı}" />
+                                                        <Run Text="{Binding ElementName=CbSefer, Path=SelectedItem.VarışZamanı}" />
+                                                    </Paragraph>
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Paragraph>
+                                                        <Run FontWeight="Bold" Text="FİYAT" />
+                                                    </Paragraph>
+                                                </TableCell>
+                                                <TableCell ColumnSpan="2">
+                                                    <Paragraph>
+                                                        <Run Text="{Binding SelectedItem.BiletTutarı, ElementName=CbSefer, StringFormat=\{0:C\}}" />
+                                                    </Paragraph>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableRowGroup>
+                                    </Table>
+                                </FlowDocument>
+                            </FlowDocumentScrollViewer>
+                            <Button Grid.Row="2"
+                                Command="{Binding YolcuGirişViewModel.BiletYazdır, Mode=OneWay, Source={StaticResource MainViewModel}}"
+                                CommandParameter="{Binding ElementName=Fd}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="32" Height="32">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="136" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock VerticalAlignment="Center" Text="YAZDIR" />
+                                </StackPanel>
+                            </Button>
+                        </Grid>
                     </Grid>
                 </GroupBox>
             </Grid>

@@ -95,6 +95,9 @@
     <Compile Include="View\AraçMasrafGirişView.xaml.cs">
       <DependentUpon>AraçMasrafGirişView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\BiletView.xaml.cs">
+      <DependentUpon>BiletView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SeferGirişView.xaml.cs">
       <DependentUpon>SeferGirişView.xaml</DependentUpon>
     </Compile>
@@ -128,6 +131,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AraçMasrafGirişView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BiletView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

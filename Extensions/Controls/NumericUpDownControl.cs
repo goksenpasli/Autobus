@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -15,16 +16,15 @@ namespace Extensions
 
         public static readonly DependencyProperty ShowModeProperty = DependencyProperty.Register("ShowMode", typeof(Mode), typeof(NumericUpDownControl), new PropertyMetadata(Mode.NumberMode, ModeChanged));
 
+        [Browsable(false)]
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(double), typeof(NumericUpDownControl), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Changed));
+
         static NumericUpDownControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericUpDownControl), new FrameworkPropertyMetadata(typeof(NumericUpDownControl)));
             MaximumProperty.OverrideMetadata(typeof(NumericUpDownControl), new FrameworkPropertyMetadata(double.MaxValue));
             MinimumProperty.OverrideMetadata(typeof(NumericUpDownControl), new FrameworkPropertyMetadata(double.MinValue));
-        }
-
-        public NumericUpDownControl()
-        {
-            ValueChanged += NumericUpDownControl_ValueChanged;
+            ValueProperty.OverrideMetadata(typeof(NumericUpDownControl), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Changed));
         }
 
         public enum Mode
@@ -60,6 +60,12 @@ namespace Extensions
             set => SetValue(ShowModeProperty, value);
         }
 
+        public double Text
+        {
+            get => (double)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
+        }
+
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
             if (!IsReadOnly)
@@ -75,13 +81,6 @@ namespace Extensions
                     {
                         DateValue = DateValue.Value.AddDays(1);
                     }
-                    else
-                    {
-                        if (Value < Maximum)
-                        {
-                            Value++;
-                        }
-                    }
                 }
                 else if (e.Key == Key.Down)
                 {
@@ -89,16 +88,39 @@ namespace Extensions
                     {
                         DateValue = DateValue.Value.AddDays(-1);
                     }
-                    else
-                    {
-                        if (Value > Minimum)
-                        {
-                            Value--;
-                        }
-                    }
                 }
             }
             base.OnKeyDown(e);
+        }
+
+        private static void Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is NumericUpDownControl numericUpDownControl)
+            {
+                numericUpDownControl.Text = numericUpDownControl.Value = (double)e.NewValue;
+
+                if (numericUpDownControl.Text > numericUpDownControl.Maximum)
+                {
+                    numericUpDownControl.Text = numericUpDownControl.Value = numericUpDownControl.Maximum;
+                }
+
+                if (numericUpDownControl.Text < numericUpDownControl.Minimum)
+                {
+                    numericUpDownControl.Text = numericUpDownControl.Value = numericUpDownControl.Minimum;
+                }
+
+                if (numericUpDownControl.ShowMode == Mode.DateTimeMode && numericUpDownControl.DateValue.HasValue)
+                {
+                    if ((double)e.NewValue > (double)e.OldValue && numericUpDownControl.DateValue < DateTime.MaxValue)
+                    {
+                        numericUpDownControl.DateValue = numericUpDownControl.DateValue.Value.AddDays(1);
+                    }
+                    else if ((double)e.NewValue < (double)e.OldValue && numericUpDownControl.DateValue > DateTime.MinValue)
+                    {
+                        numericUpDownControl.DateValue = numericUpDownControl.DateValue.Value.AddDays(-1);
+                    }
+                }
+            }
         }
 
         private static void ModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -107,23 +129,6 @@ namespace Extensions
             {
                 numericUpDownControl.SmallChange = 1;
                 numericUpDownControl.LargeChange = 1;
-                numericUpDownControl.Maximum = double.MaxValue;
-                numericUpDownControl.Minimum = double.MinValue;
-            }
-        }
-
-        private void NumericUpDownControl_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (ShowMode == Mode.DateTimeMode && DateValue.HasValue)
-            {
-                if (e.NewValue > e.OldValue && DateValue < DateTime.MaxValue)
-                {
-                    DateValue = DateValue.Value.AddDays(1);
-                }
-                else if (e.NewValue < e.OldValue && DateValue > DateTime.MinValue)
-                {
-                    DateValue = DateValue.Value.AddDays(-1);
-                }
             }
         }
     }

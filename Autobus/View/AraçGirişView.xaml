@@ -26,13 +26,13 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel>
                     <TextBlock Text="PLAKA" />
-                    <Extensions:MaskedTextBox Mask="&gt;00 LL? 0009" Value="{Binding Araç.Plaka, UpdateSourceTrigger=PropertyChanged}" />
+                    <Extensions:MaskedTextBox Mask="&gt;00 LL? 00000" Value="{Binding Araç.Plaka, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Text="ARAÇ AKTİF Mİ" />
                     <CheckBox IsChecked="{Binding Araç.Aktif}" />
                     <TextBlock Text="TOPLAM KOLTUK SAYISI" />
                     <Extensions:NumericUpDownControl Maximum="1000" Minimum="1" SmallChange="1"
                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                        Value="{Binding Araç.KoltukSayısı, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                        Value="{Binding Araç.KoltukSayısı, BindsDirectlyToSource=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
                     <TextBlock Text="BÖLME SAYISI" />
                     <Extensions:NumericUpDownControl Minimum="1" SmallChange="1"
                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"

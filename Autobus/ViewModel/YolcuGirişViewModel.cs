@@ -6,7 +6,9 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Autobus.ViewModel
@@ -80,6 +82,15 @@ namespace Autobus.ViewModel
                     Müşteri.Resim = filename;
                 }
             }, parameter => true);
+
+            BiletYazdır = new RelayCommand<object>(parameter =>
+            {
+                PrintDialog printDlg = new();
+                if (printDlg.ShowDialog() == true)
+                {
+                    printDlg.PrintVisual(parameter as Visual, "Bilet Yazdır.");
+                }
+            }, parameter => SeçiliSefer is not null && SeçiliMüşteri is not null);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -91,6 +102,8 @@ namespace Autobus.ViewModel
         public ICommand MüşteriResimYükle { get; }
 
         public ICommand MüşteriSil { get; }
+
+        public ICommand BiletYazdır { get; }
 
         public ICommand MüşteriSiparişEkle { get; }
 
