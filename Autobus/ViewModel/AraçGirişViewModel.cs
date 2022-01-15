@@ -1,5 +1,6 @@
 ﻿using Autobus.Model;
 using Extensions;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 
 namespace Autobus.ViewModel
@@ -18,7 +19,7 @@ namespace Autobus.ViewModel
                 araç.Aktif = Araç.Aktif;
                 araç.BölmeSayısı = Araç.BölmeSayısı;
                 araç.KoltukSayısı = Araç.KoltukSayısı;
-                araç.Plaka = Araç.Plaka;
+                araç.Plaka = Regex.Replace(Araç.Plaka, @"\s+", " ");
                 araç.MarkaId = Araç.MarkaId;
                 araç.BoyKoltukSayısı = Araç.BoyKoltukSayısı;
                 araç.Resim = Araç.Resim;
@@ -27,7 +28,7 @@ namespace Autobus.ViewModel
                 MainViewModel.DatabaseSave.Execute(null);
 
                 ResetAraç();
-            }, parameter => Araç.KoltukSayısı > 0 && Araç.KoltukSayısı>=Araç.BölmeSayısı && Araç?.MarkaId != -1 && Araç?.KoltukSayısı % Araç?.BölmeSayısı == 0 && !string.IsNullOrWhiteSpace(Araç?.Plaka));
+            }, parameter => Araç.KoltukSayısı > 0 && Araç.KoltukSayısı >= Araç.BölmeSayısı && Araç?.MarkaId != -1 && Araç?.KoltukSayısı % Araç?.BölmeSayısı == 0 && !string.IsNullOrWhiteSpace(Araç?.Plaka));
 
             MarkaEkle = new RelayCommand<object>(parameter =>
             {

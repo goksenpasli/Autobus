@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 namespace Autobus.Model
 {
     [XmlRoot(ElementName = "Müşteri")]
-    public class Müşteri : Ortak
+    public class Müşteri : Ortak,IDataErrorInfo
     {
         public new event PropertyChangedEventHandler PropertyChanged;
 
@@ -29,5 +29,13 @@ namespace Autobus.Model
 
         [XmlElement(ElementName = "Sipariş")]
         public ObservableCollection<Sipariş> Sipariş { get; set; } = new();
+
+        public string Error => string.Empty;
+
+        public string this[string columnName] => columnName switch
+        {
+            "KoltukNo" when KoltukNo == 0 => "Koltuk Seçimi Yapın.",
+            _ => null
+        };
     }
 }

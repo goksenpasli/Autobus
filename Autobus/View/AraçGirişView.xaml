@@ -24,33 +24,35 @@
                     <ColumnDefinition Width="2*" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <StackPanel>
-                    <TextBlock Text="PLAKA" />
-                    <Extensions:MaskedTextBox Mask="&gt;00 LL? 00000" Value="{Binding Araç.Plaka, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Text="ARAÇ AKTİF Mİ" />
-                    <CheckBox IsChecked="{Binding Araç.Aktif}" />
-                    <TextBlock Text="TOPLAM KOLTUK SAYISI" />
-                    <Extensions:NumericUpDownControl Maximum="1000" Minimum="1" SmallChange="1"
-                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                        Value="{Binding Araç.KoltukSayısı, BindsDirectlyToSource=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-                    <TextBlock Text="BÖLME SAYISI" />
-                    <Extensions:NumericUpDownControl Minimum="1" SmallChange="1"
-                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                        Value="{Binding Araç.BölmeSayısı, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-                    <TextBlock Text="ARAÇ MARKASI" />
-                    <ComboBox DisplayMemberPath="Açıklama"
-                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                        ItemsSource="{Binding Otobüs.Markalar.Marka, Source={StaticResource MainViewModel}}"
-                        SelectedValue="{Binding Araç.MarkaId}"
-                        SelectedValuePath="Id" />
-                    <Button Command="{Binding AraçEkle}" CommandParameter="{Binding Otobüs.Araçlar, Source={StaticResource MainViewModel}}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock VerticalAlignment="Center" Text="ARAÇ GİR" />
-                            <Image Width="32" Height="32"
-                                Source="/Resources/car.png" />
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="PLAKA" />
+                        <Extensions:MaskedTextBox Mask="&gt;00 LL? 00000" Value="{Binding Araç.Plaka, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Text="ARAÇ AKTİF Mİ" />
+                        <CheckBox IsChecked="{Binding Araç.Aktif}" />
+                        <TextBlock Text="TOPLAM KOLTUK SAYISI" />
+                        <Extensions:NumericUpDownControl Maximum="1000" Minimum="1" SmallChange="1"
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            Value="{Binding Araç.KoltukSayısı, BindsDirectlyToSource=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                        <TextBlock Text="BÖLME SAYISI" />
+                        <Extensions:NumericUpDownControl Minimum="1" SmallChange="1"
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            Value="{Binding Araç.BölmeSayısı, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                        <TextBlock Text="ARAÇ MARKASI" />
+                        <ComboBox DisplayMemberPath="Açıklama"
+                            ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                            ItemsSource="{Binding Otobüs.Markalar.Marka, Source={StaticResource MainViewModel}}"
+                            SelectedValue="{Binding Araç.MarkaId}"
+                            SelectedValuePath="Id" />
+                        <Button Command="{Binding AraçEkle}" CommandParameter="{Binding Otobüs.Araçlar, Source={StaticResource MainViewModel}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center" Text="ARAÇ GİR" />
+                                <Image Width="32" Height="32"
+                                    Source="/Resources/car.png" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
                 <GroupBox Grid.Row="1" Grid.Column="0"
                     Header="ARAÇ MARKA GİRİŞİ">
                     <StackPanel>

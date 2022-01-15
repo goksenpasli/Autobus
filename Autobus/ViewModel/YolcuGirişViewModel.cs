@@ -22,23 +22,26 @@ namespace Autobus.ViewModel
 
             MüşteriEkle = new RelayCommand<object>(parameter =>
             {
-                Müşteri müşteri = new();
-                müşteri.Id = ExtensionMethods.RandomNumber();
-                müşteri.Ad = Müşteri.Ad;
-                müşteri.Adres = Müşteri.Adres;
-                müşteri.Cinsiyet = Müşteri.Cinsiyet;
-                müşteri.Soyad = Müşteri.Soyad;
-                müşteri.Telefon = Müşteri.Telefon;
-                müşteri.BiletFiyat = SeçiliSefer.BiletTutarı;
-                müşteri.BiletÖdendi = Müşteri.BiletÖdendi;
-                müşteri.KoltukDolu = true;
-                müşteri.KoltukNo = Müşteri.KoltukNo;
-                müşteri.Resim = Müşteri.Resim;
+                if (Müşteri.BiletÖdendi || MessageBox.Show("Bilet Ödenmedi Devam Etmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.No)
+                {
+                    Müşteri müşteri = new();
+                    müşteri.Id = ExtensionMethods.RandomNumber();
+                    müşteri.Ad = Müşteri.Ad;
+                    müşteri.Adres = Müşteri.Adres;
+                    müşteri.Cinsiyet = Müşteri.Cinsiyet;
+                    müşteri.Soyad = Müşteri.Soyad;
+                    müşteri.Telefon = Müşteri.Telefon;
+                    müşteri.BiletFiyat = SeçiliSefer.BiletTutarı;
+                    müşteri.BiletÖdendi = Müşteri.BiletÖdendi;
+                    müşteri.KoltukDolu = Müşteri.BiletÖdendi;
+                    müşteri.KoltukNo = Müşteri.KoltukNo;
+                    müşteri.Resim = Müşteri.Resim;
 
-                SeçiliSefer.Müşteri.Add(müşteri);
-                MainViewModel.DatabaseSave.Execute(null);
-                ResetMüşteri();
-            }, parameter => SeçiliSefer is not null && SeçiliSefer.VarışZamanı > DateTime.Now && Müşteri.BiletÖdendi && !string.IsNullOrWhiteSpace(Müşteri?.Ad) && !string.IsNullOrWhiteSpace(Müşteri?.Soyad) && !string.IsNullOrWhiteSpace(Müşteri?.Adres) && !string.IsNullOrWhiteSpace(Müşteri?.Telefon) && Müşteri.Cinsiyet != -1);
+                    SeçiliSefer.Müşteri.Add(müşteri);
+                    MainViewModel.DatabaseSave.Execute(null);
+                    ResetMüşteri();
+                }
+            }, parameter => SeçiliSefer is not null && Müşteri.KoltukNo != 0 && SeçiliSefer.VarışZamanı > DateTime.Now && !string.IsNullOrWhiteSpace(Müşteri?.Ad) && !string.IsNullOrWhiteSpace(Müşteri?.Soyad) && !string.IsNullOrWhiteSpace(Müşteri?.Adres) && !string.IsNullOrWhiteSpace(Müşteri?.Telefon) && Müşteri.Cinsiyet != -1);
 
             MüşteriSil = new RelayCommand<object>(parameter =>
             {
@@ -95,6 +98,8 @@ namespace Autobus.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public ICommand BiletYazdır { get; }
+
         public Müşteri Müşteri { get; set; }
 
         public ICommand MüşteriEkle { get; }
@@ -102,8 +107,6 @@ namespace Autobus.ViewModel
         public ICommand MüşteriResimYükle { get; }
 
         public ICommand MüşteriSil { get; }
-
-        public ICommand BiletYazdır { get; }
 
         public ICommand MüşteriSiparişEkle { get; }
 
@@ -129,7 +132,7 @@ namespace Autobus.ViewModel
             Müşteri.Telefon = null;
             Müşteri.Resim = null;
             Müşteri.BiletÖdendi = false;
-            Müşteri.KoltukNo = -1;
+            Müşteri.KoltukNo = 0;
             Müşteri.Cinsiyet = -1;
             //SeçiliSefer = null;
         }
