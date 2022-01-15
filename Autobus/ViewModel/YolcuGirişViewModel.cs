@@ -22,7 +22,7 @@ namespace Autobus.ViewModel
 
             MüşteriEkle = new RelayCommand<object>(parameter =>
             {
-                if (Müşteri.BiletÖdendi || MessageBox.Show("Bilet Ödenmedi Devam Etmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.No)
+                if (Müşteri.BiletÖdendi || MessageBox.Show("Bilet Ödenmedi Devam Ederseniz Giriş Yapılır Ancak Yolculuktan Önce Biletin Ödenmesi Gerekir.\nDevam Etmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.No)
                 {
                     Müşteri müşteri = new();
                     müşteri.Id = ExtensionMethods.RandomNumber();

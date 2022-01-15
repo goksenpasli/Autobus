@@ -126,9 +126,27 @@
                                                                 Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
                                                         </StackPanel>
                                                     </TextBlock.ToolTip>
-                                                    <Run Text="{Binding Ad}" />
+                                                    <Run Text="{Binding Ad}"  />
                                                     <LineBreak />
                                                     <Run Text="{Binding Soyad}" />
+                                                </TextBlock>
+                                                <TextBlock HorizontalAlignment="Center"
+                                                    FontSize="13" FontWeight="Bold">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding DataContext.BiletÖdendi, ElementName=Tb}" Value="false">
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                    <Hyperlink Command="{Binding YolcuDüzenViewModel.MüşteriBorçTahsilEt, Source={StaticResource MainViewModel}}"
+                                                        CommandParameter="{Binding ElementName=Tb, Path=DataContext}"
+                                                        Style="{StaticResource HyperLinkRed}">
+                                                        <Run Text="Tahsilat" />
+                                                    </Hyperlink>
                                                 </TextBlock>
                                                 <StackPanel.Style>
                                                     <Style TargetType="StackPanel">

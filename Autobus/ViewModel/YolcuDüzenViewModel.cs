@@ -1,5 +1,6 @@
 ﻿using Autobus.Model;
 using Extensions;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Autobus.ViewModel
@@ -18,7 +19,19 @@ namespace Autobus.ViewModel
                     mainViewModel.CurrentView = mainViewModel.YolcuGirişViewModel;
                 }
             }, parameter => true);
+
+            MüşteriBorçTahsilEt = new RelayCommand<object>(parameter =>
+            {
+                if (parameter is Müşteri müşteri && MessageBox.Show($"{müşteri.BiletFiyat:C} Bilet Tahsilatını Onaylıyor musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    müşteri.BiletÖdendi = true;
+                    müşteri.KoltukDolu = true;
+                    MainViewModel.DatabaseSave.Execute(null);
+                }
+            }, parameter => true);
         }
+
+        public ICommand MüşteriBorçTahsilEt { get; }
 
         public ICommand MüşteriEkleEkranı { get; }
     }
