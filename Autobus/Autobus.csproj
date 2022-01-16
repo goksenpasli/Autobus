@@ -72,7 +72,7 @@
     </ApplicationDefinition>
     <Compile Include="Converter\CloneConverter.cs" />
     <Compile Include="Converter\FilePathMergeConverter.cs" />
-    <Compile Include="Converter\KoltukNoDisabledConverter.cs" />
+    <Compile Include="Converter\KoltukNoVisibilityConverter.cs" />
     <Compile Include="Converter\KoltukNoMüşteriConverter.cs" />
     <Compile Include="Converter\NumberToSplitterVisibilityConverter.cs" />
     <Compile Include="Converter\SeferSüreGeçtiConverter.cs" />

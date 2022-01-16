@@ -22,7 +22,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
-                    <RowDefinition Height="181.72" />
+                    <RowDefinition Height="150" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -80,15 +80,31 @@
                             SelectedValue="{Binding ElementName=CbSefer, Path=SelectedItem.AraçId}"
                             SelectedValuePath="Id" />
                         <TextBlock Text="KOLTUK SEÇ" />
-                        <ComboBox ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                        <ListBox Height="100"
+                            HorizontalContentAlignment="Center"
+                            d:ItemsSource="{d:SampleData ItemCount=5}"
+                            IsTextSearchEnabled="False"
                             ItemsSource="{Binding SeçiliAraç.KoltukÖnizlemeListe}"
                             SelectedItem="{Binding Müşteri.KoltukNo, ValidatesOnDataErrors=True}"
+                            SelectionMode="Single"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
-                            <ComboBox.ItemContainerStyle>
-                                <Style TargetType="ComboBoxItem">
-                                    <Setter Property="IsEnabled">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Extensions:VirtualizingTilePanel ChildHeight="20"
+                                        Columns="{Binding SeçiliAraç.BölmeSayısı}"
+                                        Tile="False" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Visibility">
                                         <Setter.Value>
-                                            <MultiBinding Converter="{StaticResource KoltukNoDisabledConverter}">
+                                            <MultiBinding Converter="{StaticResource KoltukNoVisibilityConverter}">
                                                 <Binding Mode="OneWay" />
                                                 <Binding ElementName="CbSefer" Path="SelectedItem" />
                                                 <Binding Path="DataContext.Müşteri.KoltukNo" RelativeSource="{RelativeSource AncestorType=UserControl}" />
@@ -96,8 +112,8 @@
                                         </Setter.Value>
                                     </Setter>
                                 </Style>
-                            </ComboBox.ItemContainerStyle>
-                        </ComboBox>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
                         <CheckBox VerticalContentAlignment="Center" IsChecked="{Binding Müşteri.BiletÖdendi}">
                             <CheckBox.Content>
                                 <TextBlock FontSize="16" Foreground="Red">

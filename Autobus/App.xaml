@@ -14,7 +14,7 @@
             </ResourceDictionary.MergedDictionaries>
             <ViewModel:MainViewModel x:Key="MainViewModel" />
             <Extensions:ReverseBooleanConverter x:Key="ReverseBooleanConverter" />
-            <Converter:KoltukNoDisabledConverter x:Key="KoltukNoDisabledConverter" />
+            <Converter:KoltukNoVisibilityConverter x:Key="KoltukNoVisibilityConverter" />
             <Converter:KoltukNoMüşteriConverter x:Key="KoltukNoMüşteriConverter" />
             <Converter:SeferSüreGeçtiConverter x:Key="SeferSüreGeçtiConverter" />
             <Converter:FilePathMergeConverter x:Key="FilePathMergeConverter" />

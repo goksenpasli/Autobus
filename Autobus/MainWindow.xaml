@@ -16,7 +16,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition Height="22.4" />
         </Grid.RowDefinitions>
         <Ribbon Margin="0,-22,0,0">
             <Ribbon.ApplicationMenu>
