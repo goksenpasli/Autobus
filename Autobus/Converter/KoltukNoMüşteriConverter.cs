@@ -10,11 +10,7 @@ namespace Autobus.Converter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] is int koltukno && values[1] is Sefer seçilisefer)
-            {
-                return seçilisefer?.Müşteri?.FirstOrDefault(z => z.KoltukNo == koltukno);
-            }
-            return null;
+            return (values[0] is int koltukno && values[1] is Sefer seçilisefer) ? seçilisefer?.Müşteri?.FirstOrDefault(z => z.KoltukNo == koltukno) : null;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

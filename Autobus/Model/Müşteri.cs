@@ -1,13 +1,14 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Xml.Serialization;
 
 namespace Autobus.Model
 {
     [XmlRoot(ElementName = "Müşteri")]
-    public class Müşteri : Ortak,IDataErrorInfo
+    public class Müşteri : Ortak, IDataErrorInfo
     {
-        public new event PropertyChangedEventHandler PropertyChanged;
+        public new event EventHandler<PropertyChangedEventArgs> PropertyChanged;
 
         [XmlAttribute(AttributeName = "BiletFiyat")]
         public double BiletFiyat { get; set; }
@@ -17,6 +18,8 @@ namespace Autobus.Model
 
         [XmlAttribute(AttributeName = "Cinsiyet")]
         public int Cinsiyet { get; set; } = -1;
+
+        public string Error => string.Empty;
 
         [XmlAttribute(AttributeName = "Id")]
         public int Id { get; set; }
@@ -29,8 +32,6 @@ namespace Autobus.Model
 
         [XmlElement(ElementName = "Sipariş")]
         public ObservableCollection<Sipariş> Sipariş { get; set; } = new();
-
-        public string Error => string.Empty;
 
         public string this[string columnName] => columnName switch
         {

@@ -49,6 +49,7 @@ namespace Autobus.ViewModel
                 {
                     SeçiliSefer.Müşteri.Remove(parameter as Müşteri);
                     MainViewModel.DatabaseSave.Execute(null);
+                    OnPropertyChanged(nameof(Müşteri));
                 }
             }, parameter => true);
 
@@ -122,6 +123,11 @@ namespace Autobus.ViewModel
 
         public ICommand ÜrünEkle { get; }
 
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public override string ToString()
         {
             return "YOLCU GİRİŞ";
@@ -139,7 +145,9 @@ namespace Autobus.ViewModel
             Müşteri.BiletÖdendi = false;
             Müşteri.KoltukNo = 0;
             Müşteri.Cinsiyet = -1;
-            //SeçiliSefer = null;
+            Sefer temp = SeçiliSefer;
+            SeçiliSefer = null;
+            SeçiliSefer = temp;
         }
     }
 }
