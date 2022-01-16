@@ -1,6 +1,8 @@
 ﻿using Autobus.Model;
+using Autobus.Properties;
 using Extensions;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
@@ -34,9 +36,8 @@ namespace Autobus.ViewModel
                 },
                 Ürünler = new Ürünler
                 {
-                    Ürün=ExtensionMethods.ÜrünleriYükle()
+                    Ürün = ExtensionMethods.ÜrünleriYükle()
                 }
-                
             };
 
             AraçGirişViewModel = new AraçGirişViewModel();
@@ -77,12 +78,28 @@ namespace Autobus.ViewModel
                 }
             });
 
+            DefaultScreen = new Dictionary<int, object>
+            {
+                [0] = AraçGirişViewModel,
+                [1] = YolcuGirişViewModel,
+            };
+
+            if (Settings.Default.EkranSeç)
+            {
+                Fold = 0;
+                CurrentView = DefaultScreen[Settings.Default.VarsayılanEkran];
+            }
+
+            Settings.Default.PropertyChanged += (s, e) => Settings.Default.Save();
+
             PropertyChanged += MainViewModel_PropertyChanged;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public static ICommand DatabaseSave { get; set; }
+
+        public static Dictionary<int, object> DefaultScreen { get; set; }
 
         public ICommand AraçGirişEkranı { get; }
 

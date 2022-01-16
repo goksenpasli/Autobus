@@ -49,6 +49,11 @@ namespace Autobus.ViewModel
 
         public ICommand MarkaEkle { get; }
 
+        public override string ToString()
+        {
+            return "ARAÇ GİRİŞ";
+        }
+
         private void ResetAraç()
         {
             Araç.KoltukSayısı = 0;

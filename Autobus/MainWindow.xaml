@@ -42,6 +42,15 @@
                                     <Extension:NumericUpDownControl Maximum="400" Minimum="1" SmallChange="1" ToolTip="Tahimini Varış Süresinde Ortalama Hız."
                                         Value="{Binding Path=OrtalamaHız, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
                                 </HeaderedContentControl>
+                                <HeaderedContentControl>
+                                    <HeaderedContentControl.Header>
+                                        <CheckBox Content="VARSAYILAN GİRİŞ EKRANI" IsChecked="{Binding Path=EkranSeç, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
+                                    </HeaderedContentControl.Header>
+                                    <ComboBox DisplayMemberPath="Value"
+                                        IsEnabled="{Binding Path=EkranSeç, Mode=OneWay, Source={x:Static properties:Settings.Default}}"
+                                        ItemsSource="{Binding DefaultScreen, Source={StaticResource MainViewModel}}"
+                                        SelectedIndex="{Binding VarsayılanEkran, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
+                                </HeaderedContentControl>
                             </StackPanel>
                         </GroupBox>
                     </RibbonApplicationMenu.AuxiliaryPaneContent>

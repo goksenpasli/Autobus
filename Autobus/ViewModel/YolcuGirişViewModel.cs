@@ -122,6 +122,11 @@ namespace Autobus.ViewModel
 
         public ICommand ÜrünEkle { get; }
 
+        public override string ToString()
+        {
+            return "YOLCU GİRİŞ";
+        }
+
         private BitmapImage image;
 
         private void ResetMüşteri()

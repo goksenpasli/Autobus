@@ -18,11 +18,20 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="YOLCU DÜZENİ " />
                     <Rectangle Width="16" Fill="Orange" />
-                    <TextBlock Text="ÖDEMESİ YAPILMAMIŞ KOLTUK " />
+                    <TextBlock>
+                        <Run Text="ÖDEMESİ YAPILMAMIŞ KOLTUK" />
+                        <Run Text="{Binding ÖdemeYapılmamışSayısı}" />
+                    </TextBlock>
                     <Rectangle Width="16" Fill="Blue" />
-                    <TextBlock Text="ERKEK " />
+                    <TextBlock>
+                        <Run Text="ERKEK" />
+                        <Run Text="{Binding ErkekSayısı}" />
+                    </TextBlock>
                     <Rectangle Width="16" Fill="Magenta" />
-                    <TextBlock Text="BAYAN" />
+                    <TextBlock>
+                        <Run Text="BAYAN" />
+                        <Run Text="{Binding KadınSayısı}" />
+                    </TextBlock>
                 </StackPanel>
             </GroupBox.Header>
             <Grid>
@@ -35,7 +44,8 @@
                         HorizontalContentAlignment="Stretch"
                         ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
                         ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                        ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}">
+                        ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
+                        SelectedItem="{Binding SeçiliSefer}">
                         <ComboBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ComboBoxItem}">
                                 <Style.Triggers>
@@ -126,7 +136,7 @@
                                                                 Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
                                                         </StackPanel>
                                                     </TextBlock.ToolTip>
-                                                    <Run Text="{Binding Ad}"  />
+                                                    <Run Text="{Binding Ad}" />
                                                     <LineBreak />
                                                     <Run Text="{Binding Soyad}" />
                                                 </TextBlock>

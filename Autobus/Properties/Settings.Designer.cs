@@ -58,5 +58,29 @@ namespace Autobus.Properties {
                 this["OrtalamaHız"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EkranSeç {
+            get {
+                return ((bool)(this["EkranSeç"]));
+            }
+            set {
+                this["EkranSeç"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int VarsayılanEkran {
+            get {
+                return ((int)(this["VarsayılanEkran"]));
+            }
+            set {
+                this["VarsayılanEkran"] = value;
+            }
+        }
     }
 }
