@@ -1,12 +1,14 @@
 ﻿using Autobus.Model;
 using Autobus.Properties;
 using Extensions;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -53,7 +55,11 @@ namespace Autobus.ViewModel
                 YolcuGirişViewModel.SeçiliSefer = null;
                 CurrentView = YolcuGirişViewModel;
             }, parameter => CurrentView != YolcuGirişViewModel);
-            YolcuDüzeniEkranı = new RelayCommand<object>(parameter => CurrentView = YolcuDüzenViewModel, parameter => CurrentView != YolcuDüzenViewModel);
+            YolcuDüzeniEkranı = new RelayCommand<object>(parameter =>
+            {
+                YolcuDüzenViewModel.SeçiliSefer = null;
+                CurrentView = YolcuDüzenViewModel;
+            }, parameter => CurrentView != YolcuDüzenViewModel);
             SeferGirişEkranı = new RelayCommand<object>(parameter => CurrentView = SeferGirişViewModel, parameter => CurrentView != SeferGirişViewModel);
             ŞoförGirişEkranı = new RelayCommand<object>(parameter => CurrentView = ŞoförGirişViewModel, parameter => CurrentView != ŞoförGirişViewModel);
             AraçMasrafEkranı = new RelayCommand<object>(parameter =>
@@ -77,6 +83,41 @@ namespace Autobus.ViewModel
                     _ = Process.Start(xmldatapath);
                 }
             });
+
+            WebAdreseGit = new RelayCommand<object>(parameter => Process.Start(parameter as string), parameter => true);
+
+            ArşivAç = new RelayCommand<object>(parameter =>
+            {
+                OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Zip Dosyaları (*.zip)|*.zip" };
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    ArşivYolu = openFileDialog.FileName;
+                }
+            });
+
+            Yedekle = new RelayCommand<object>(parameter =>
+            {
+                SaveFileDialog saveFileDialog = new()
+                {
+                    Title = "SAKLA",
+                    Filter = "Zip Dosyası (*.zip)|*.zip",
+                };
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    if (File.Exists(saveFileDialog.FileName))
+                    {
+                        File.Delete(saveFileDialog.FileName);
+                    }
+                    if (Compress)
+                    {
+                        ZipFile.CreateFromDirectory(Path.GetDirectoryName(xmldatapath), saveFileDialog.FileName, CompressionLevel.Fastest, false);
+                    }
+                    else
+                    {
+                        ZipFile.CreateFromDirectory(Path.GetDirectoryName(xmldatapath), saveFileDialog.FileName, CompressionLevel.NoCompression, false);
+                    }
+                }
+            }, parameter => File.Exists(xmldatapath));
 
             DefaultScreen = new Dictionary<int, object>
             {
@@ -109,6 +150,12 @@ namespace Autobus.ViewModel
 
         public AraçMasrafGirişViewModel AraçMasrafGirişViewModel { get; set; }
 
+        public RelayCommand<object> ArşivAç { get; }
+
+        public string ArşivYolu { get; set; }
+
+        public bool Compress { get; set; }
+
         public object CurrentView { get; set; }
 
         public double Fold { get; set; } = 0.5;
@@ -126,6 +173,10 @@ namespace Autobus.ViewModel
         public ICommand UygulamadanÇık { get; }
 
         public ICommand VeritabanınıAç { get; }
+
+        public RelayCommand<object> WebAdreseGit { get; }
+
+        public RelayCommand<object> Yedekle { get; }
 
         public ICommand YolcuDüzeniEkranı { get; }
 

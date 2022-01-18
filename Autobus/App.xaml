@@ -56,8 +56,7 @@
                                     Background="{TemplateBinding Background}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="1" CornerRadius="3,3,0,0">
-                                    <ContentPresenter Margin="4"
-                                        ContentSource="Header" RecognizesAccessKey="True" />
+                                    <ContentPresenter Margin="4" ContentSource="Header" RecognizesAccessKey="True" />
                                 </Border>
                                 <Border Grid.Row="1"
                                     Background="{StaticResource BorderBackground}"
@@ -70,9 +69,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <Style x:Key="HyperLinkRed"
-                BasedOn="{StaticResource {x:Type Hyperlink}}"
-                TargetType="Hyperlink">
+            <Style x:Key="HyperLinkRed" BasedOn="{StaticResource {x:Type Hyperlink}}" TargetType="Hyperlink">
                 <Setter Property="Foreground" Value="Red" />
             </Style>
             <Style x:Key="VirtualizingStackPanelItemsControl" TargetType="ItemsControl">
@@ -87,8 +84,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ItemsControl">
-                            <ScrollViewer Padding="{TemplateBinding Control.Padding}"
-                                Focusable="False" VerticalScrollBarVisibility="Auto">
+                            <ScrollViewer Padding="{TemplateBinding Control.Padding}" Focusable="False" VerticalScrollBarVisibility="Auto">
                                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
                             </ScrollViewer>
                         </ControlTemplate>
@@ -98,18 +94,16 @@
             <ControlTemplate x:Key="ValidationErrorTemplate">
                 <Grid Focusable="False">
                     <Canvas x:Name="Cnv"
+                        DataContext="{Binding ElementName=Adorner, Mode=OneWay}"
                         Width="18" Height="18"
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         Background="{StaticResource Dur}"
-                        DataContext="{Binding ElementName=Adorner, Mode=OneWay}"
                         RenderTransformOrigin="0.5,0.5" UseLayoutRounding="True">
                         <Canvas.ToolTip>
-                            <ToolTip Background="{x:Null}"
-                                BorderBrush="{x:Null}"
-                                Foreground="{x:Null}">
+                            <ToolTip Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}">
                                 <Border Padding="4"
                                     Background="Red" BorderBrush="White" BorderThickness="1">
-                                    <TextBlock Foreground="White" Text="{Binding AdornedElement.(Validation.Errors)/ErrorContent, Mode=OneWay}" />
+                                    <TextBlock Text="{Binding AdornedElement.(Validation.Errors)/ErrorContent, Mode=OneWay}" Foreground="White" />
                                 </Border>
                             </ToolTip>
                         </Canvas.ToolTip>
@@ -147,16 +141,16 @@
             </ControlTemplate>
             <DataTemplate x:Key="ComboBoxItemSiparişTemplate">
                 <TextBlock><Run Text="{Binding ÜrünAçıklama}" />
-                    <Run Language="tr-tr" Text="{Binding ÜrünFiyat, StringFormat=\{0:C\}}" />
+                    <Run Text="{Binding ÜrünFiyat, StringFormat=\{0:C\}}" Language="tr-tr" />
                 </TextBlock>
             </DataTemplate>
             <DataTemplate x:Key="KoltukÖnizlemeTemplate">
                 <Border Width="50" Height="50"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
                     Background="{StaticResource Koltuk}">
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                        FontSize="15" Foreground="White"
-                        Text="{Binding Mode=OneWay}" />
+                    <TextBlock Text="{Binding Mode=OneWay}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        FontSize="15" Foreground="White" />
                 </Border>
             </DataTemplate>
             <DataTemplate x:Key="AraçÖnizleme">
@@ -188,20 +182,19 @@
                     <Grid Grid.Column="0"
                         Width="140" Height="50"
                         Background="{DynamicResource Plaka}">
-                        <TextBlock Margin="20,0,0,0" VerticalAlignment="Center"
-                            FontSize="20"
-                            Text="{Binding Plaka}" />
+                        <TextBlock Text="{Binding Plaka}"
+                            Margin="20,0,0,0" VerticalAlignment="Center"
+                            FontSize="20" />
                     </Grid>
-                    <TextBlock Grid.Column="1"
+                    <TextBlock Text="{Binding KoltukSayısı, StringFormat={}{0} KOLTUK}"
+                        Grid.Column="1"
                         VerticalAlignment="Center"
-                        Foreground="Red"
-                        Text="{Binding KoltukSayısı, StringFormat={}{0} KOLTUK}" />
+                        Foreground="Red" />
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="ComboBoxItemŞoförTemplate">
                 <StackPanel Orientation="Horizontal">
-                    <Image MaxWidth="64" MaxHeight="64"
-                        Source="{Binding Resim, Mode=OneWay, Converter={StaticResource FilePathMergeConverter}}" />
+                    <Image MaxWidth="64" MaxHeight="64" Source="{Binding Resim, Mode=OneWay, Converter={StaticResource FilePathMergeConverter}}" />
                     <TextBlock>
                         <Run Text="{Binding Ad}" />
                         <LineBreak />
@@ -234,21 +227,18 @@
             </DataTemplate>
             <DataTemplate x:Key="ListBoxŞoförTemplate">
                 <StackPanel Orientation="Horizontal">
-                    <Image MaxWidth="128" MaxHeight="128"
-                        Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
+                    <Image MaxWidth="128" MaxHeight="128" Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
                     <StackPanel Grid.Column="1">
                         <TextBlock VerticalAlignment="Center">
                             <Run Text="{Binding Ad}" />
                             <Run Text="{Binding Soyad}" />
-                            <Hyperlink Command="{Binding ŞoförGirişViewModel.ŞöförSil, Mode=OneWay, Source={StaticResource MainViewModel}}"
-                                CommandParameter="{Binding Otobüs.Şöförler, Source={StaticResource MainViewModel}}"
-                                IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}">
+                            <Hyperlink Command="{Binding ŞoförGirişViewModel.ŞöförSil, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding Otobüs.Şöförler, Source={StaticResource MainViewModel}}" IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}">
                                 <Run Text="X" />
                             </Hyperlink>
                         </TextBlock>
-                        <CheckBox VerticalAlignment="Center"
+                        <CheckBox Content="AKTİF"
+                            VerticalAlignment="Center"
                             Command="{Binding Path=DatabaseSave, Source={StaticResource MainViewModel}}"
-                            Content="AKTİF"
                             IsChecked="{Binding Etkin}" />
                     </StackPanel>
                 </StackPanel>
@@ -261,32 +251,39 @@
             </DataTemplate>
             <DataTemplate x:Key="ComboBoxItemSeferTemplate">
                 <UniformGrid Columns="2">
-                    <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left">
-                        <ComboBox ItemTemplate="{StaticResource ComboBoxItemŞoförTemplate}"
-                            ItemsSource="{Binding Otobüs.Şöförler.Şöför, Source={StaticResource MainViewModel}}"
-                            SelectedValue="{Binding ŞöförId}"
-                            SelectedValuePath="Id"
-                            Template="{StaticResource ComboBoxSimpleTemplate}" />
-                        <TextBlock Foreground="Red">
-                            <Run Language="tr-tr" Text="{Binding KalkışZamanı, StringFormat=KALKIŞ: \{0:g\}}" />
-                            <LineBreak />
-                            <Run Language="tr-tr" Text="{Binding VarışZamanı, StringFormat=VARIŞ: \{0:g\}}" />
-                        </TextBlock>
-                    </StackPanel>
-                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                        <ComboBox DisplayMemberPath="Value"
-                            ItemsSource="{Binding Mode=OneWay, Source={StaticResource İller}}"
-                            SelectedValue="{Binding KalkışŞehirId}"
-                            SelectedValuePath="Key"
-                            Template="{StaticResource ComboBoxSimpleTemplate}" />
-                        <TextBlock Text=" İLİNDEN " />
-                        <ComboBox DisplayMemberPath="Value"
-                            ItemsSource="{Binding Mode=OneWay, Source={StaticResource İller}}"
-                            SelectedValue="{Binding VarışŞehirId}"
-                            SelectedValuePath="Key"
-                            Template="{StaticResource ComboBoxSimpleTemplate}" />
-                        <TextBlock Text=" İLİNE YAPILAN YOLCULUK" />
-                    </StackPanel>
+                    <Border BorderBrush="Black" BorderThickness="1">
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                            <ComboBox ItemTemplate="{StaticResource ComboBoxItemŞoförTemplate}"
+                                ItemsSource="{Binding Otobüs.Şöförler.Şöför, Source={StaticResource MainViewModel}}"
+                                SelectedValue="{Binding ŞöförId}"
+                                SelectedValuePath="Id"
+                                Template="{StaticResource ComboBoxSimpleTemplate}" />
+                            <TextBlock Foreground="Red">
+                                <Run Text="{Binding KalkışZamanı, StringFormat=KALKIŞ: \{0:g\}}" Language="tr-tr" />
+                                <LineBreak />
+                                <Run Text="{Binding VarışZamanı, StringFormat=VARIŞ: \{0:g\}}" Language="tr-tr" />
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="1">
+                        <StackPanel HorizontalAlignment="Right">
+                            <ComboBox HorizontalAlignment="Center"
+                                DisplayMemberPath="Value"
+                                ItemsSource="{Binding Mode=OneWay, Source={StaticResource İller}}"
+                                SelectedValue="{Binding KalkışŞehirId}"
+                                SelectedValuePath="Key"
+                                Template="{StaticResource ComboBoxSimpleTemplate}" />
+                            <TextBlock Text="ÞÞÞ"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                FontFamily="Wingdings" FontSize="16" FontWeight="Bold" />
+                            <ComboBox HorizontalAlignment="Center"
+                                DisplayMemberPath="Value"
+                                ItemsSource="{Binding Mode=OneWay, Source={StaticResource İller}}"
+                                SelectedValue="{Binding VarışŞehirId}"
+                                SelectedValuePath="Key"
+                                Template="{StaticResource ComboBoxSimpleTemplate}" />
+                        </StackPanel>
+                    </Border>
                 </UniformGrid>
             </DataTemplate>
         </ResourceDictionary>

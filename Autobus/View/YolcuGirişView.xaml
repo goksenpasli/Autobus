@@ -26,6 +26,7 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="381.953" />
                 </Grid.ColumnDefinitions>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -44,8 +45,7 @@
                         </ComboBox>
                         <TextBlock Text="YOLCU ADRES" />
                         <TextBox Text="{Binding Müşteri.Adres, UpdateSourceTrigger=PropertyChanged}" />
-                        <Button Command="{Binding MüşteriResimYükle}"
-                            Content="YOLCU RESİM EKLE" IsTabStop="False" />
+                        <Button Content="YOLCU RESİM EKLE" Command="{Binding MüşteriResimYükle}" IsTabStop="False" />
                         <TextBlock Text="SEFER" />
                         <ComboBox x:Name="CbSefer"
                             HorizontalContentAlignment="Stretch"
@@ -73,68 +73,74 @@
                                 </Style>
                             </ComboBox.ItemContainerStyle>
                         </ComboBox>
-                        <ComboBox IsEnabled="False"
-                            ItemTemplate="{StaticResource AraçTemplate}"
-                            ItemsSource="{Binding Otobüs.Araçlar.Araç, Source={StaticResource MainViewModel}}"
-                            SelectedItem="{Binding SeçiliAraç}"
-                            SelectedValue="{Binding ElementName=CbSefer, Path=SelectedItem.AraçId}"
-                            SelectedValuePath="Id" />
-                        <TextBlock Text="KOLTUK SEÇ" />
-                        <ListBox Height="100"
-                            HorizontalContentAlignment="Center"
-                            d:ItemsSource="{d:SampleData ItemCount=5}"
-                            IsTextSearchEnabled="False"
-                            ItemsSource="{Binding SeçiliAraç.KoltukÖnizlemeListe}"
-                            SelectedItem="{Binding Müşteri.KoltukNo, ValidatesOnDataErrors=True}"
-                            SelectionMode="Single"
-                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding}" />
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <Extensions:VirtualizingTilePanel ChildHeight="20"
-                                        Columns="{Binding SeçiliAraç.BölmeSayısı}"
-                                        Tile="False" />
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="Visibility">
-                                        <Setter.Value>
-                                            <MultiBinding Converter="{StaticResource KoltukNoVisibilityConverter}">
-                                                <Binding Mode="OneWay" />
-                                                <Binding ElementName="CbSefer" Path="SelectedItem" />
-                                                <Binding Path="DataContext.Müşteri.KoltukNo" RelativeSource="{RelativeSource AncestorType=UserControl}" />
-                                            </MultiBinding>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                        </ListBox>
                         <CheckBox VerticalContentAlignment="Center" IsChecked="{Binding Müşteri.BiletÖdendi}">
                             <CheckBox.Content>
                                 <TextBlock FontSize="16" Foreground="Red">
                                     <Run Text="BİLET PARASI ÖDENDİ" />
                                     <Separator />
-                                    <Run Language="tr-tr" Text="{Binding SeçiliSefer.BiletTutarı, StringFormat=\{0:C\}}" />
+                                    <Run Text="{Binding SeçiliSefer.BiletTutarı, StringFormat=\{0:C\}}" Language="tr-tr" />
                                 </TextBlock>
                             </CheckBox.Content>
                         </CheckBox>
                         <Button Command="{Binding MüşteriEkle}">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock VerticalAlignment="Center" Text="YOLCU EKLE" />
-                                    <Image Width="32" Height="32"
-                                        Source="/Resources/car-sharing.png" />
+                                    <TextBlock Text="YOLCU EKLE" VerticalAlignment="Center" />
+                                    <Image Width="32" Height="32" Source="/Resources/car-sharing.png" />
                                 </StackPanel>
                             </Button.Content>
                         </Button>
                     </StackPanel>
                 </ScrollViewer>
-                <GroupBox Grid.Row="2" Header="SİPARİŞ">
+                <GroupBox Grid.Column="1" Width="400">
+                    <GroupBox.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Canvas Width="96" Height="96"
+                                HorizontalAlignment="Left"
+                                Background="{StaticResource Direksiyon}" />
+                            <ComboBox VerticalContentAlignment="Center"
+                                IsEnabled="False"
+                                ItemTemplate="{StaticResource AraçTemplate}"
+                                ItemsSource="{Binding Otobüs.Araçlar.Araç, Source={StaticResource MainViewModel}}"
+                                SelectedItem="{Binding SeçiliAraç}"
+                                SelectedValue="{Binding ElementName=CbSefer, Path=SelectedItem.AraçId}"
+                                SelectedValuePath="Id"
+                                Template="{StaticResource ComboBoxSimpleTemplate}" />
+                        </StackPanel>
+                    </GroupBox.Header>
+                    <ListBox HorizontalContentAlignment="Center"
+                        d:ItemsSource="{d:SampleData ItemCount=5}"
+                        IsTextSearchEnabled="False"
+                        ItemsSource="{Binding SeçiliAraç.KoltukÖnizlemeListe}"
+                        SelectedItem="{Binding Müşteri.KoltukNo, ValidatesOnDataErrors=True}"
+                        SelectionMode="Single"
+                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Extensions:VirtualizingTilePanel ChildHeight="20" Columns="{Binding SeçiliAraç.BölmeSayısı}" Tile="False" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Visibility">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource KoltukNoVisibilityConverter}">
+                                            <Binding Mode="OneWay" />
+                                            <Binding ElementName="CbSefer" Path="SelectedItem" />
+                                            <Binding Path="DataContext.Müşteri.KoltukNo" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}" />
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </GroupBox>
+                <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="SİPARİŞ">
                     <UniformGrid Columns="2">
                         <GroupBox Header="ÜRÜN GİRİŞİ">
                             <StackPanel DataContext="{Binding Ürün}">
@@ -143,9 +149,7 @@
                                 <TextBlock Text="ÜRÜN FİYATI" />
                                 <Extensions:NumericUpDownControl Maximum="1000" Minimum="0" ShowMode="CurrencyMode"
                                     Value="{Binding ÜrünFiyat, UpdateSourceTrigger=PropertyChanged}" />
-                                <Button Command="{Binding YolcuGirişViewModel.ÜrünEkle, Mode=OneWay, Source={StaticResource MainViewModel}}"
-                                    CommandParameter="{Binding Otobüs.Ürünler, Source={StaticResource MainViewModel}}"
-                                    Content="EKLE" />
+                                <Button Content="EKLE" Command="{Binding YolcuGirişViewModel.ÜrünEkle, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding Otobüs.Ürünler, Source={StaticResource MainViewModel}}" />
                             </StackPanel>
                         </GroupBox>
                         <GroupBox Header="ÜRÜN SAT">
@@ -158,11 +162,9 @@
                                         <Grid>
                                             <TextBlock VerticalAlignment="Center">
                                                 <Run Text="{Binding ÜrünAçıklama}" />
-                                                <Run Language="tr-tr" Text="{Binding ÜrünFiyat, StringFormat=\{0:C\}}" />
+                                                <Run Text="{Binding ÜrünFiyat, StringFormat=\{0:C\}}" Language="tr-tr" />
                                             </TextBlock>
-                                            <Button HorizontalAlignment="Right"
-                                                Command="{Binding YolcuGirişViewModel.MüşteriSiparişEkle, Mode=OneWay, Source={StaticResource MainViewModel}}"
-                                                Content="ÜRÜN SAT" />
+                                            <Button Content="ÜRÜN SAT" HorizontalAlignment="Right" Command="{Binding YolcuGirişViewModel.MüşteriSiparişEkle, Mode=OneWay, Source={StaticResource MainViewModel}}" />
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -170,31 +172,21 @@
                         </GroupBox>
                     </UniformGrid>
                 </GroupBox>
-                <GroupBox Grid.RowSpan="2" Grid.Column="1"
-                    DataContext="{Binding SeçiliAraç}"
-                    Header="ÖNİZLEME">
+                <GroupBox DataContext="{Binding SeçiliAraç}"
+                    Grid.RowSpan="2" Grid.Column="2"
+                    Header="OTURAN LİSTESİ">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="120.6" />
                             <RowDefinition />
+                            <RowDefinition Height="189.9" />
                         </Grid.RowDefinitions>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Canvas Width="96" Height="96"
-                                HorizontalAlignment="Left"
-                                Background="{StaticResource Direksiyon}" />
-                            <ListBox Grid.Column="1"
-                                d:ItemsSource="{d:SampleData ItemCount=5}"
-                                ItemTemplate="{StaticResource ListBoxMüşteriTemplate}"
-                                ItemsSource="{Binding Source={StaticResource Müşteriler}}"
-                                SelectedItem="{Binding YolcuGirişViewModel.SeçiliMüşteri, Source={StaticResource MainViewModel}}" />
-                        </Grid>
-                        <Grid Grid.Row="1"
-                            Width="10cm"
-                            HorizontalAlignment="Left">
+                        <ListBox Grid.Column="1"
+                            d:ItemsSource="{d:SampleData ItemCount=5}"
+                            IsSynchronizedWithCurrentItem="False"
+                            ItemTemplate="{StaticResource ListBoxMüşteriTemplate}"
+                            ItemsSource="{Binding Source={StaticResource Müşteriler}}"
+                            SelectedItem="{Binding YolcuGirişViewModel.SeçiliMüşteri, Source={StaticResource MainViewModel}}" />
+                        <Grid Grid.Row="1" Width="10cm" HorizontalAlignment="Left">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -221,14 +213,14 @@
                                             <TableRow>
                                                 <TableCell ColumnSpan="3">
                                                     <Paragraph TextAlignment="Center">
-                                                        <Run FontWeight="Bold" Text="BİLET" />
+                                                        <Run Text="BİLET" FontWeight="Bold" />
                                                     </Paragraph>
                                                 </TableCell>
                                             </TableRow>
                                             <TableRow>
                                                 <TableCell>
                                                     <Paragraph>
-                                                        <Run FontWeight="Bold" Text="AD" />
+                                                        <Run Text="AD" FontWeight="Bold" />
                                                     </Paragraph>
                                                 </TableCell>
                                                 <TableCell>
@@ -238,15 +230,14 @@
                                                 </TableCell>
                                                 <TableCell RowSpan="4">
                                                     <BlockUIContainer>
-                                                        <Image Width="90" Height="110"
-                                                            Source="{Binding YolcuGirişViewModel.SeçiliMüşteri.Resim, Converter={StaticResource FilePathMergeConverter}, Source={StaticResource MainViewModel}}" />
+                                                        <Image Width="90" Height="110" Source="{Binding YolcuGirişViewModel.SeçiliMüşteri.Resim, Converter={StaticResource FilePathMergeConverter}, Source={StaticResource MainViewModel}}" />
                                                     </BlockUIContainer>
                                                 </TableCell>
                                             </TableRow>
                                             <TableRow>
                                                 <TableCell>
                                                     <Paragraph>
-                                                        <Run FontWeight="Bold" Text="SOYAD" />
+                                                        <Run Text="SOYAD" FontWeight="Bold" />
                                                     </Paragraph>
                                                 </TableCell>
                                                 <TableCell>
@@ -258,7 +249,7 @@
                                             <TableRow>
                                                 <TableCell>
                                                     <Paragraph>
-                                                        <Run FontWeight="Bold" Text="KOLTUK NO" />
+                                                        <Run Text="KOLTUK NO" FontWeight="Bold" />
                                                     </Paragraph>
                                                 </TableCell>
                                                 <TableCell>
@@ -270,7 +261,7 @@
                                             <TableRow>
                                                 <TableCell>
                                                     <Paragraph>
-                                                        <Run FontWeight="Bold" Text="KALKIŞ VARIŞ" />
+                                                        <Run Text="KALKIŞ VARIŞ" FontWeight="Bold" />
                                                     </Paragraph>
                                                 </TableCell>
                                                 <TableCell>
@@ -283,7 +274,7 @@
                                             <TableRow>
                                                 <TableCell>
                                                     <Paragraph>
-                                                        <Run FontWeight="Bold" Text="FİYAT" />
+                                                        <Run Text="FİYAT" FontWeight="Bold" />
                                                     </Paragraph>
                                                 </TableCell>
                                                 <TableCell ColumnSpan="2">
@@ -296,9 +287,7 @@
                                     </Table>
                                 </FlowDocument>
                             </FlowDocumentScrollViewer>
-                            <Button Grid.Row="2"
-                                Command="{Binding YolcuGirişViewModel.BiletYazdır, Mode=OneWay, Source={StaticResource MainViewModel}}"
-                                CommandParameter="{Binding ElementName=Fd}">
+                            <Button Grid.Row="2" Command="{Binding YolcuGirişViewModel.BiletYazdır, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding ElementName=Fd}">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Width="32" Height="32">
                                         <Image.Source>
@@ -308,7 +297,7 @@
                                             </MultiBinding>
                                         </Image.Source>
                                     </Image>
-                                    <TextBlock VerticalAlignment="Center" Text="YAZDIR" />
+                                    <TextBlock Text="YAZDIR" VerticalAlignment="Center" />
                                 </StackPanel>
                             </Button>
                         </Grid>

@@ -21,8 +21,8 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
                     <ColumnDefinition Width="2*" />
-                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
@@ -46,39 +46,31 @@
                             SelectedValuePath="Id" />
                         <Button Command="{Binding AraçEkle}" CommandParameter="{Binding Otobüs.Araçlar, Source={StaticResource MainViewModel}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock VerticalAlignment="Center" Text="ARAÇ GİR" />
-                                <Image Width="32" Height="32"
-                                    Source="/Resources/car.png" />
+                                <TextBlock Text="ARAÇ GİR" VerticalAlignment="Center" />
+                                <Image Width="32" Height="32" Source="/Resources/car.png" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
                 </ScrollViewer>
-                <GroupBox Grid.Row="1" Grid.Column="0"
-                    Header="ARAÇ MARKA GİRİŞİ">
+                <GroupBox Grid.Row="1" Grid.Column="0" Header="ARAÇ MARKA GİRİŞİ">
                     <StackPanel>
                         <TextBlock Text="MARKA AÇIKLAMA" />
-                        <TextBox CharacterCasing="Upper" Text="{Binding Marka.Açıklama, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Text="{Binding Marka.Açıklama, UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" />
                         <Button Command="{Binding MarkaEkle}" CommandParameter="{Binding Otobüs.Markalar, Source={StaticResource MainViewModel}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock VerticalAlignment="Center" Text="MARKA GİR" />
-                                <Image Width="32" Height="32"
-                                    Source="/Resources/car.png" />
+                                <TextBlock Text="MARKA GİR" VerticalAlignment="Center" />
+                                <Image Width="32" Height="32" Source="/Resources/car.png" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
                 </GroupBox>
-                <GroupBox Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
-                    DataContext="{Binding Araç}"
-                    Header="ARAÇ KOLTUK ÖNİZLEME">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="96" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
+                <GroupBox DataContext="{Binding Araç}"
+                    Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
+                    <GroupBox.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Canvas Width="96" Height="96"
                                 HorizontalAlignment="Left"
@@ -87,19 +79,17 @@
                                 Width="166"
                                 Margin="1,0,0,0"
                                 Background="{DynamicResource Plaka}">
-                                <TextBlock Margin="30,0,5,0" VerticalAlignment="Center"
-                                    FontSize="20"
-                                    Text="{Binding Plaka}" />
+                                <TextBlock Text="{Binding Plaka}"
+                                    Margin="30,0,5,0" VerticalAlignment="Center"
+                                    FontSize="20" />
                             </Grid>
                         </Grid>
-                        <Grid Grid.Row="1">
-                            <ContentControl Content="{Binding}" ContentTemplate="{StaticResource AraçÖnizleme}" />
-                            <StackPanel HorizontalAlignment="Center"
-                                Orientation="Horizontal"
-                                Visibility="{Binding BölmeSayısı, Converter={StaticResource NumberToSplitterVisibilityConverter}}">
-                                <Separator Background="Black" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                            </StackPanel>
-                        </Grid>
+                    </GroupBox.Header>
+                    <Grid>
+                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource AraçÖnizleme}" />
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Visibility="{Binding BölmeSayısı, Converter={StaticResource NumberToSplitterVisibilityConverter}}">
+                            <Separator Background="Black" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                        </StackPanel>
                     </Grid>
                 </GroupBox>
             </Grid>

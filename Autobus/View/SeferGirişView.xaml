@@ -15,10 +15,10 @@
                 <StackPanel>
                     <TextBlock Text="ŞOFÖR SEÇ" />
                     <ComboBox ItemTemplate="{StaticResource ComboBoxItemŞoförTemplate}"
-                    ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                    ItemsSource="{Binding Otobüs.Şöförler.Şöför, Source={StaticResource MainViewModel}}"
-                    SelectedValue="{Binding Sefer.ŞöförId}"
-                    SelectedValuePath="Id">
+                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                        ItemsSource="{Binding Otobüs.Şöförler.Şöför, Source={StaticResource MainViewModel}}"
+                        SelectedValue="{Binding Sefer.ŞöförId}"
+                        SelectedValuePath="Id">
                         <ComboBox.ItemContainerStyle>
                             <Style TargetType="ComboBoxItem">
                                 <Style.Triggers>
@@ -32,37 +32,37 @@
                     <UniformGrid Columns="2">
                         <HeaderedContentControl Header="KALKIŞ ŞEHİR">
                             <ListBox x:Name="LbKalkış"
-                            Height="150"
-                            IsTextSearchEnabled="True"
-                            ItemTemplate="{StaticResource İlTemplate}"
-                            ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                            ItemsSource="{StaticResource İller}"
-                            SelectedValue="{Binding Sefer.KalkışŞehirId}"
-                            SelectedValuePath="Key" SelectionMode="Single" TextSearch.TextPath="Key" />
+                                Height="150"
+                                IsTextSearchEnabled="True"
+                                ItemTemplate="{StaticResource İlTemplate}"
+                                ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                                ItemsSource="{StaticResource İller}"
+                                SelectedValue="{Binding Sefer.KalkışŞehirId}"
+                                SelectedValuePath="Key" SelectionMode="Single" TextSearch.TextPath="Key" />
                         </HeaderedContentControl>
                         <HeaderedContentControl Header="VARIŞ ŞEHİR">
                             <ListBox x:Name="LbVarış"
-                            Height="150"
-                            IsTextSearchEnabled="True"
-                            ItemTemplate="{StaticResource İlTemplate}"
-                            ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                            ItemsSource="{StaticResource İller}"
-                            SelectedValue="{Binding Sefer.VarışŞehirId}"
-                            SelectedValuePath="Key" SelectionMode="Single" TextSearch.TextPath="Key" />
+                                Height="150"
+                                IsTextSearchEnabled="True"
+                                ItemTemplate="{StaticResource İlTemplate}"
+                                ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                                ItemsSource="{StaticResource İller}"
+                                SelectedValue="{Binding Sefer.VarışŞehirId}"
+                                SelectedValuePath="Key" SelectionMode="Single" TextSearch.TextPath="Key" />
                         </HeaderedContentControl>
                     </UniformGrid>
                     <TextBlock>
-                    <Run Text="{Binding ElementName=LbKalkış, Path=SelectedItem.Value}" />
-                    <Run Text="{Binding ElementName=LbVarış, Path=SelectedItem.Value}" />
-                    <Run Text="{Binding Sefer.Mesafe, StringFormat={}{0} KM MESAFE VAR}" />
+                        <Run Text="{Binding ElementName=LbKalkış, Path=SelectedItem.Value}" />
+                        <Run Text="{Binding ElementName=LbVarış, Path=SelectedItem.Value}" />
+                        <Run Text="{Binding Sefer.Mesafe, StringFormat={}{0} KM MESAFE VAR}" />
                     </TextBlock>
                     <TextBlock Text="ARAÇ" />
                     <ComboBox IsSynchronizedWithCurrentItem="False"
-                    ItemTemplate="{StaticResource AraçTemplate}"
-                    ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                    ItemsSource="{Binding Otobüs.Araçlar.Araç, Source={StaticResource MainViewModel}}"
-                    SelectedValue="{Binding Sefer.AraçId}"
-                    SelectedValuePath="Id">
+                        ItemTemplate="{StaticResource AraçTemplate}"
+                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                        ItemsSource="{Binding Otobüs.Araçlar.Araç, Source={StaticResource MainViewModel}}"
+                        SelectedValue="{Binding Sefer.AraçId}"
+                        SelectedValuePath="Id">
                         <ComboBox.ItemContainerStyle>
                             <Style TargetType="ComboBoxItem">
                                 <Style.Triggers>
@@ -79,19 +79,17 @@
                         <Extensions:HourControl HourValue="{Binding Sefer.KalkışSaat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </UniformGrid>
                     <TextBlock Text="TAHMİNİ SÜRE SAAT" />
-                    <Extensions:NumericUpDownControl SmallChange="1" Value="{Binding Sefer.TahminiSüre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <Extensions:NumericUpDownControl Minimum="0" SmallChange="1" Value="{Binding Sefer.TahminiSüre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Text="BİLET TUTARI" />
-                    <Extensions:NumericUpDownControl Minimum="1" ShowMode="CurrencyMode" SmallChange="1"
-                    Value="{Binding Sefer.BiletTutarı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <Extensions:NumericUpDownControl Minimum="0" ShowMode="CurrencyMode" SmallChange="1"
+                        Value="{Binding Sefer.BiletTutarı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Text="TAHMİNİ VARIŞ SAATİ" />
-                    <TextBlock FontSize="16" Foreground="Red"
-                    Text="{Binding Sefer.VarışZamanı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Text="{Binding Sefer.VarışZamanı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="16" Foreground="Red" />
                     <Button Command="{Binding SeferEkle}" CommandParameter="{Binding Otobüs, Source={StaticResource MainViewModel}}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock VerticalAlignment="Center" Text="SEFER EKLE" />
-                                <Image Width="32" Height="32"
-                                Source="/Resources/route.png" />
+                                <TextBlock Text="SEFER EKLE" VerticalAlignment="Center" />
+                                <Image Width="32" Height="32" Source="/Resources/route.png" />
                             </StackPanel>
                         </Button.Content>
                     </Button>

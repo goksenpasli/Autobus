@@ -39,53 +39,50 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <StackPanel>
-                    <ComboBox x:Name="CbSefer"
-                        HorizontalContentAlignment="Stretch"
-                        ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
-                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                        ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
-                        SelectedItem="{Binding SeçiliSefer}">
-                        <ComboBox.ItemContainerStyle>
-                            <Style TargetType="{x:Type ComboBoxItem}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ComboBox.ItemContainerStyle>
-                    </ComboBox>
-                    <ComboBox x:Name="CbAraç"
-                        IsEnabled="False"
-                        ItemTemplate="{StaticResource AraçTemplate}"
-                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                        ItemsSource="{Binding Otobüs.Araçlar.Araç, Source={StaticResource MainViewModel}}"
-                        SelectedValue="{Binding SelectedItem.AraçId, ElementName=CbSefer}"
-                        SelectedValuePath="Id" />
-                </StackPanel>
-                <Grid Grid.Row="1" DataContext="{Binding SelectedItem, ElementName=CbAraç}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Canvas Width="96" Height="96"
-                        HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                        Background="{StaticResource Direksiyon}"
-                        RenderTransformOrigin="0.5,0.5">
-                        <Canvas.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform />
-                                <SkewTransform />
-                                <RotateTransform Angle="-90" />
-                                <TranslateTransform />
-                            </TransformGroup>
-                        </Canvas.RenderTransform>
-                    </Canvas>
-                    <ContentControl Grid.Column="1"
-                        Content="{Binding}"
-                        RenderTransformOrigin="0.5,0.5">
+                <ComboBox x:Name="CbSefer"
+                    HorizontalContentAlignment="Stretch"
+                    ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
+                    ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                    ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
+                    SelectedItem="{Binding SeçiliSefer}">
+                    <ComboBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ComboBoxItem}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.ItemContainerStyle>
+                </ComboBox>
+                <GroupBox DataContext="{Binding SelectedItem, ElementName=CbAraç}" Grid.Row="1">
+                    <GroupBox.LayoutTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform />
+                            <RotateTransform Angle="-90" />
+                            <TranslateTransform />
+                        </TransformGroup>
+                    </GroupBox.LayoutTransform>
+                    <GroupBox.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Canvas Width="96" Height="96"
+                                HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                                Background="{StaticResource Direksiyon}"
+                                RenderTransformOrigin="0.5,0.5" />
+                            <ComboBox x:Name="CbAraç"
+                                VerticalContentAlignment="Center"
+                                IsEnabled="False"
+                                ItemTemplate="{StaticResource AraçTemplate}"
+                                ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                                ItemsSource="{Binding Otobüs.Araçlar.Araç, Source={StaticResource MainViewModel}}"
+                                SelectedValue="{Binding SelectedItem.AraçId, ElementName=CbSefer}"
+                                SelectedValuePath="Id"
+                                Template="{StaticResource ComboBoxSimpleTemplate}" />
+                        </StackPanel>
+                    </GroupBox.Header>
+                    <ContentControl Content="{Binding}" Grid.Column="1" RenderTransformOrigin="0.5,0.5">
                         <ContentControl.ContentTemplate>
                             <DataTemplate>
                                 <ItemsControl Grid.Row="1"
@@ -132,16 +129,14 @@
                                                                     </DataTemplate>
                                                                 </ListBox.ItemTemplate>
                                                             </ListBox>
-                                                            <Image MaxWidth="128" MaxHeight="128"
-                                                                Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
+                                                            <Image MaxWidth="128" MaxHeight="128" Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
                                                         </StackPanel>
                                                     </TextBlock.ToolTip>
                                                     <Run Text="{Binding Ad}" />
                                                     <LineBreak />
                                                     <Run Text="{Binding Soyad}" />
                                                 </TextBlock>
-                                                <TextBlock HorizontalAlignment="Center"
-                                                    FontSize="13" FontWeight="Bold">
+                                                <TextBlock HorizontalAlignment="Center" FontSize="13" FontWeight="Bold">
                                                     <TextBlock.Style>
                                                         <Style TargetType="TextBlock">
                                                             <Setter Property="Visibility" Value="Collapsed" />
@@ -152,9 +147,7 @@
                                                             </Style.Triggers>
                                                         </Style>
                                                     </TextBlock.Style>
-                                                    <Hyperlink Command="{Binding YolcuDüzenViewModel.MüşteriBorçTahsilEt, Source={StaticResource MainViewModel}}"
-                                                        CommandParameter="{Binding ElementName=Tb, Path=DataContext}"
-                                                        Style="{StaticResource HyperLinkRed}">
+                                                    <Hyperlink Command="{Binding YolcuDüzenViewModel.MüşteriBorçTahsilEt, Source={StaticResource MainViewModel}}" CommandParameter="{Binding ElementName=Tb, Path=DataContext}" Style="{StaticResource HyperLinkRed}">
                                                         <Run Text="Tahsilat" />
                                                     </Hyperlink>
                                                 </TextBlock>
@@ -185,16 +178,8 @@
                                 </ItemsControl>
                             </DataTemplate>
                         </ContentControl.ContentTemplate>
-                        <ContentControl.LayoutTransform>
-                            <TransformGroup>
-                                <ScaleTransform />
-                                <SkewTransform />
-                                <RotateTransform Angle="-90" />
-                                <TranslateTransform />
-                            </TransformGroup>
-                        </ContentControl.LayoutTransform>
                     </ContentControl>
-                </Grid>
+                </GroupBox>
             </Grid>
         </GroupBox>
     </Grid>

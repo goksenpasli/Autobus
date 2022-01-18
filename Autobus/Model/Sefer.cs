@@ -22,7 +22,7 @@ namespace Autobus.Model
         public int AraçId { get; set; } = -1;
 
         [XmlAttribute(AttributeName = "BiletTutarı")]
-        public double BiletTutarı { get; set; } = 1;
+        public double BiletTutarı { get; set; } = 0;
 
         [XmlAttribute(AttributeName = "Id")]
         public int Id { get; set; }
@@ -54,12 +54,9 @@ namespace Autobus.Model
         [DependsOn("Mesafe")]
         public double TahminiSüre
         {
-            get => Mesafe > 0 ? Math.Round(Mesafe / Properties.Settings.Default.OrtalamaHız, 2) : 0;
+            get => Mesafe > 0 ? Math.Round(Mesafe / Properties.Settings.Default.OrtalamaHız, 2) : tahminiSüre;
             set => tahminiSüre = value;
         }
-
-        [XmlAttribute(AttributeName = "Tamamlandı")]
-        public bool Tamamlandı { get; set; }
 
         [XmlAttribute(AttributeName = "VarışŞehirId")]
         public int VarışŞehirId { get; set; } = -1;
