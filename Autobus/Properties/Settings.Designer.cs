@@ -82,5 +82,29 @@ namespace Autobus.Properties {
                 this["VarsayılanEkran"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SüresiGeçenSeferleriGizle {
+            get {
+                return ((bool)(this["SüresiGeçenSeferleriGizle"]));
+            }
+            set {
+                this["SüresiGeçenSeferleriGizle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int AnimasyonTipi {
+            get {
+                return ((int)(this["AnimasyonTipi"]));
+            }
+            set {
+                this["AnimasyonTipi"] = value;
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Autobus.Model;
 using Extensions;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 
@@ -11,7 +12,7 @@ namespace Autobus.ViewModel
         {
             Araç = new Araç();
             Marka = new Marka();
-
+            Araç.GizlenenKoltuklar = new();
             AraçEkle = new RelayCommand<object>(parameter =>
             {
                 Araç araç = new();
@@ -23,7 +24,7 @@ namespace Autobus.ViewModel
                 araç.MarkaId = Araç.MarkaId;
                 araç.BoyKoltukSayısı = Araç.BoyKoltukSayısı;
                 araç.Resim = Araç.Resim;
-
+                Araç.GizlenenKoltuklar.ToList().ForEach(z => araç.GizlenenKoltuklar?.Add(z));
                 (parameter as Araçlar)?.Araç.Add(araç);
                 MainViewModel.DatabaseSave.Execute(null);
 
@@ -39,11 +40,31 @@ namespace Autobus.ViewModel
                 (parameter as Markalar)?.Marka.Add(marka);
                 MainViewModel.DatabaseSave.Execute(null);
             }, parameter => !string.IsNullOrWhiteSpace(Marka?.Açıklama));
+
+            GizlenenKoltuklaraEkle = new RelayCommand<object>(parameter =>
+            {
+                if (parameter is int koltukno)
+                {
+                    Araç.GizlenenKoltuklar?.Add(koltukno);
+                }
+            }, parameter => true);
+
+            GizlenenKoltuklardanSil = new RelayCommand<object>(parameter =>
+            {
+                if (parameter is int koltukno)
+                {
+                    Araç.GizlenenKoltuklar?.Remove(koltukno);
+                }
+            }, parameter => true);
         }
 
         public Araç Araç { get; set; }
 
         public ICommand AraçEkle { get; }
+
+        public ICommand GizlenenKoltuklaraEkle { get; }
+
+        public ICommand GizlenenKoltuklardanSil { get; }
 
         public Marka Marka { get; set; }
 
@@ -62,6 +83,7 @@ namespace Autobus.ViewModel
             Araç.Plaka = null;
             Araç.Resim = null;
             Araç.Aktif = true;
+            Araç.GizlenenKoltuklar?.Clear();
         }
     }
 }

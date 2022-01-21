@@ -42,6 +42,13 @@
                                     <Extension:NumericUpDownControl Maximum="400" Minimum="1" SmallChange="1" ToolTip="Tahimini Varış Süresinde Ortalama Hız."
                                         Value="{Binding Path=OrtalamaHız, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
                                 </HeaderedContentControl>
+                                <CheckBox Content="SÜRESİ GEÇEN SEFERLERİ GİZLE" IsChecked="{Binding Path=SüresiGeçenSeferleriGizle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
+                                <HeaderedContentControl Header="ANİMASYON TİPİ">
+                                    <ComboBox SelectedValue="{Binding Path=AnimasyonTipi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" SelectedValuePath="Tag">
+                                        <ComboBoxItem Content="FOLD" Tag="0" />
+                                        <ComboBoxItem Content="RIPPLE" Tag="1" />
+                                    </ComboBox>
+                                </HeaderedContentControl>
                                 <HeaderedContentControl>
                                     <HeaderedContentControl.Header>
                                         <CheckBox Content="VARSAYILAN GİRİŞ EKRANI" IsChecked="{Binding Path=EkranSeç, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
@@ -98,7 +105,8 @@
                         KeyTip="YD" Label="YOLCU DÜZENİ" LargeImageSource="/Resources/car-sharing.png" />
                 </RibbonGroup>
                 <RibbonGroup Header="Veriler">
-                    <RibbonSplitButton Command="{Binding Yedekle, Mode=OneWay}" KeyTip="Y" Label="Verileri Yedekle">
+                    <RibbonSplitButton Command="{Binding Yedekle, Mode=OneWay}"
+                        KeyTip="Y" Label="Verileri Yedekle">
                         <RibbonSplitButton.LargeImageSource>
                             <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
                                 <Binding Source="Shell32.dll" />
@@ -111,7 +119,8 @@
                                 <Binding Source="192" />
                             </MultiBinding>
                         </RibbonSplitButton.SmallImageSource>
-                        <RibbonSplitMenuItem Header="SIKIŞTIRMA UYGULA" IsCheckable="True" IsChecked="{Binding Compress}" />
+                        <RibbonSplitMenuItem Header="SIKIŞTIRMA UYGULA" IsCheckable="True"
+                            IsChecked="{Binding Compress}" />
                     </RibbonSplitButton>
                     <RibbonToggleButton KeyTip="GY" Label="Yedekten Dosya Aç">
                         <RibbonToggleButton.LargeImageSource>
@@ -130,7 +139,8 @@
                             IsOpen="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=RibbonToggleButton}}"
                             Placement="Bottom"
                             PlacementTarget="{Binding Mode=OneWay, RelativeSource={RelativeSource AncestorType=RibbonToggleButton}}">
-                            <GroupBox Width="480" Height="360" Header="ARŞİV GÖSTERİCİ">
+                            <GroupBox Width="480" Height="360"
+                                Header="ARŞİV GÖSTERİCİ">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
@@ -163,9 +173,26 @@
             </RibbonTab>
         </Ribbon>
         <Grid Grid.Row="1">
-            <Grid.Effect>
-                <viewmodel:FoldEffect FoldAmount="{Binding Fold}" />
-            </Grid.Effect>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=AnimasyonTipi, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" Value="0">
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <viewmodel:FoldEffect FoldAmount="{Binding Fold, Source={StaticResource MainViewModel}}" />
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=AnimasyonTipi, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" Value="1">
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <viewmodel:RippleEffect Progress="{Binding Ripple, Source={StaticResource MainViewModel}}" />
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
             <ContentPresenter Content="{Binding CurrentView}" />
         </Grid>
     </Grid>

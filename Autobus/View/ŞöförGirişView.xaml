@@ -26,14 +26,26 @@
                     <TextBlock Text="ŞOFÖR TELEFON" />
                     <Extensions:MaskedTextBox IncludeLiterals="False" IncludePrompt="False" Mask="(000) 000 00 00"
                         Value="{Binding Şöför.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <Button Command="{Binding ŞöförResimYükle}"
-                        Content="ŞOFÖR RESİM EKLE" IsTabStop="False" />
+                    <Button Command="{Binding ŞöförResimYükle}" IsTabStop="False">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="32" Height="32">
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                            <Binding Source="Shell32.dll" />
+                                            <Binding Source="117" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
+                                <TextBlock Text="ŞOFÖR RESİM EKLE" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
                     <Button Command="{Binding ŞöförEkle}" CommandParameter="{Binding Otobüs.Şöförler, Source={StaticResource MainViewModel}}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock VerticalAlignment="Center" Text="ŞOFÖR EKLE" />
-                                <Image Width="32" Height="32"
-                                    Source="/Resources/driver.png" />
+                                <TextBlock Text="ŞOFÖR EKLE" VerticalAlignment="Center" />
+                                <Image Width="32" Height="32" Source="/Resources/driver.png" />
                             </StackPanel>
                         </Button.Content>
                     </Button>

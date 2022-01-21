@@ -127,11 +127,15 @@ namespace Autobus.ViewModel
 
             if (Settings.Default.EkranSeç)
             {
-                Fold = 0;
                 CurrentView = DefaultScreen[Settings.Default.VarsayılanEkran];
             }
 
-            Settings.Default.PropertyChanged += (s, e) => Settings.Default.Save();
+            Settings.Default.PropertyChanged += (s, e) =>
+            {
+                Fold = 0;
+                Ripple = 0;
+                Settings.Default.Save();
+            };
 
             PropertyChanged += MainViewModel_PropertyChanged;
         }
@@ -161,6 +165,8 @@ namespace Autobus.ViewModel
         public double Fold { get; set; } = 0.5;
 
         public Otobüs Otobüs { get; set; }
+
+        public double Ripple { get; set; }
 
         public ICommand SeferGirişEkranı { get; }
 
@@ -194,18 +200,39 @@ namespace Autobus.ViewModel
             {
                 timer = new(DispatcherPriority.Normal) { Interval = TimeSpan.FromMilliseconds(15) };
                 Fold = 0.5;
+                Ripple = 0;
                 timer.Tick += OnTick;
                 timer.Start();
             }
 
             void OnTick(object sender, EventArgs e)
             {
-                Fold -= 0.01;
-                if (Fold <= 0)
+                switch (Settings.Default.AnimasyonTipi)
                 {
-                    Fold = 0;
-                    timer.Stop();
-                    timer.Tick -= OnTick;
+                    case (int)AnimationType.Fold:
+                        {
+                            Fold -= 0.01;
+                            if (Fold <= 0)
+                            {
+                                Fold = 0;
+                                timer.Stop();
+                                timer.Tick -= OnTick;
+                            }
+
+                            break;
+                        }
+                    case (int)AnimationType.Ripple:
+                        {
+                            Ripple++;
+                            if (Ripple > 100)
+                            {
+                                Ripple = 0;
+                                timer.Stop();
+                                timer.Tick -= OnTick;
+                            }
+
+                            break;
+                        }
                 }
             }
         }

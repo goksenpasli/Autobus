@@ -73,10 +73,13 @@
     </ApplicationDefinition>
     <Compile Include="Converter\CloneConverter.cs" />
     <Compile Include="Converter\FilePathMergeConverter.cs" />
+    <Compile Include="Converter\KoltukNoGizlenenKoltuklarConverter.cs" />
     <Compile Include="Converter\KoltukNoVisibilityConverter.cs" />
     <Compile Include="Converter\KoltukNoMüşteriConverter.cs" />
     <Compile Include="Converter\NumberToSplitterVisibilityConverter.cs" />
     <Compile Include="Converter\SeferSüreGeçtiConverter.cs" />
+    <Compile Include="Converter\StringToBrushConverter.cs" />
+    <Compile Include="ViewModel\AnimationType.cs" />
     <Compile Include="ViewModel\Mesafe.cs" />
     <Compile Include="Model\Sipariş.cs" />
     <Compile Include="Model\Ürün.cs" />
@@ -86,6 +89,7 @@
     <Compile Include="ViewModel\ExtensionMethods.cs" />
     <Compile Include="ViewModel\FoldEffect.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\RippleEffect.cs" />
     <Compile Include="ViewModel\SeferGirişViewModel.cs" />
     <Compile Include="ViewModel\YolcuDüzenViewModel.cs" />
     <Compile Include="ViewModel\YolcuGirişViewModel.cs" />
@@ -193,6 +197,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\RippleEffect.ps" />
     <Resource Include="Resources\FoldEffect.ps" />
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@
     xmlns:Converter="clr-namespace:Autobus.Converter"
     xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
     xmlns:View="clr-namespace:Autobus.View" xmlns:ViewModel="clr-namespace:Autobus.ViewModel"
-    xmlns:local="clr-namespace:Autobus"
+    xmlns:local="clr-namespace:Autobus" xmlns:properties="clr-namespace:Autobus.Properties"
     Startup="Application_Startup" StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -18,7 +18,9 @@
             <Converter:KoltukNoMüşteriConverter x:Key="KoltukNoMüşteriConverter" />
             <Converter:SeferSüreGeçtiConverter x:Key="SeferSüreGeçtiConverter" />
             <Converter:FilePathMergeConverter x:Key="FilePathMergeConverter" />
+            <Converter:KoltukNoGizlenenKoltuklarConverter x:Key="KoltukNoGizlenenKoltuklarConverter" />
             <Converter:NumberToSplitterVisibilityConverter x:Key="NumberToSplitterVisibilityConverter" />
+            <Converter:StringToBrushConverter x:Key="StringToBrushConverter" />
             <Converter:CloneConverter x:Key="CloneConverter" />
             <DataTemplate DataType="{x:Type ViewModel:AraçGirişViewModel}">
                 <View:AraçGirişView />
@@ -38,9 +40,15 @@
             <DataTemplate DataType="{x:Type ViewModel:YolcuDüzenViewModel}">
                 <View:YolcuDüzenView />
             </DataTemplate>
+            <ObjectDataProvider x:Key="ColorList"
+                MethodName="GetProperties"
+                ObjectInstance="{x:Type Colors}" />
             <ItemsPanelTemplate x:Key="ComboBoxItemsVirtualizedPanel">
                 <VirtualizingStackPanel />
             </ItemsPanelTemplate>
+            <Style TargetType="ComboBox">
+                <Setter Property="IsTextSearchEnabled" Value="False" />
+            </Style>
             <Style TargetType="{x:Type GroupBox}">
                 <Setter Property="Background" Value="{StaticResource GroupBoxBackGround}" />
                 <Setter Property="BorderBrush" Value="Black" />
@@ -56,7 +64,8 @@
                                     Background="{TemplateBinding Background}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="1" CornerRadius="3,3,0,0">
-                                    <ContentPresenter Margin="4" ContentSource="Header" RecognizesAccessKey="True" />
+                                    <ContentPresenter Margin="4"
+                                        ContentSource="Header" RecognizesAccessKey="True" />
                                 </Border>
                                 <Border Grid.Row="1"
                                     Background="{StaticResource BorderBackground}"
@@ -69,8 +78,28 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <Style x:Key="HyperLinkRed" BasedOn="{StaticResource {x:Type Hyperlink}}" TargetType="Hyperlink">
+            <Style x:Key="HyperLinkRed"
+                BasedOn="{StaticResource {x:Type Hyperlink}}"
+                TargetType="Hyperlink">
                 <Setter Property="Foreground" Value="Red" />
+            </Style>
+            <Style x:Key="ComboBoxSüresiGeçenSeferItemContainerStyle" TargetType="{x:Type ComboBoxItem}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
+                        <Setter Property="Background" Value="{StaticResource Dur}" />
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                        <Setter Property="ToolTip" Value="Bu Seferin Süresi Geçmiştir." />
+                    </DataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true" />
+                            <Condition Binding="{Binding Path=SüresiGeçenSeferleriGizle, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" Value="true" />
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </MultiDataTrigger>
+                </Style.Triggers>
             </Style>
             <Style x:Key="VirtualizingStackPanelItemsControl" TargetType="ItemsControl">
                 <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
@@ -84,12 +113,24 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ItemsControl">
-                            <ScrollViewer Padding="{TemplateBinding Control.Padding}" Focusable="False" VerticalScrollBarVisibility="Auto">
+                            <ScrollViewer Padding="{TemplateBinding Control.Padding}"
+                                Focusable="False" VerticalScrollBarVisibility="Auto">
                                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
                             </ScrollViewer>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+            </Style>
+            <Style x:Key="CinsiyetRenkStyle" TargetType="FrameworkElement">
+                <Setter Property="Control.Foreground" Value="Black" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Cinsiyet}" Value="0">
+                        <Setter Property="Control.Foreground" Value="Blue" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Cinsiyet}" Value="1">
+                        <Setter Property="Control.Foreground" Value="Magenta" />
+                    </DataTrigger>
+                </Style.Triggers>
             </Style>
             <ControlTemplate x:Key="ValidationErrorTemplate">
                 <Grid Focusable="False">
@@ -100,7 +141,9 @@
                         Background="{StaticResource Dur}"
                         RenderTransformOrigin="0.5,0.5" UseLayoutRounding="True">
                         <Canvas.ToolTip>
-                            <ToolTip Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}">
+                            <ToolTip Background="{x:Null}"
+                                BorderBrush="{x:Null}"
+                                Foreground="{x:Null}">
                                 <Border Padding="4"
                                     Background="Red" BorderBrush="White" BorderThickness="1">
                                     <TextBlock Text="{Binding AdornedElement.(Validation.Errors)/ErrorContent, Mode=OneWay}" Foreground="White" />
@@ -153,6 +196,19 @@
                         FontSize="15" Foreground="White" />
                 </Border>
             </DataTemplate>
+            <DataTemplate x:Key="ColorItemTemplate">
+                <Canvas Width="32" Height="32">
+                    <Rectangle Width="32" Height="32"
+                        Fill="{Binding Name}" />
+                    <TextBlock Text="{Binding Name}"
+                        Width="32" Height="32"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        FontSize="8" TextWrapping="Wrap" />
+                </Canvas>
+            </DataTemplate>
+            <ItemsPanelTemplate x:Key="ColorPanelTemplate">
+                <UniformGrid Columns="8" />
+            </ItemsPanelTemplate>
             <DataTemplate x:Key="AraçÖnizleme">
                 <ItemsControl Grid.Row="1"
                     Margin="0,3,0,0"
@@ -166,12 +222,31 @@
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
             </DataTemplate>
-            <DataTemplate x:Key="MasrafTemplate">
-                <TextBlock>
-                    <Run Text="{Binding Açıklama}" />
-                    <LineBreak />
-                    <Run Text="{Binding Tutar, StringFormat=\{0:C\}}" />
-                </TextBlock>
+            <DataTemplate x:Key="GizlenebilirAraçÖnizleme">
+                <ItemsControl Grid.Row="1"
+                    Margin="0,3,0,0"
+                    ItemsSource="{Binding KoltukÖnizlemeListe}"
+                    Style="{StaticResource VirtualizingStackPanelItemsControl}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="50" Height="50"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Background="{StaticResource Koltuk}">
+                                <TextBlock ToolTip="Koltuk Gizlemek İçin Tıklayın." HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    FontSize="15" Foreground="White">
+                                    <Hyperlink Command="{Binding AraçGirişViewModel.GizlenenKoltuklaraEkle, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding Mode=OneWay}">
+                                        <Run Text="{Binding Mode=OneWay}" />
+                                    </Hyperlink>
+                                </TextBlock>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Extensions:VirtualizingTilePanel Columns="{Binding BölmeSayısı}" Tile="False" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
             </DataTemplate>
             <DataTemplate x:Key="AraçTemplate">
                 <Grid>
@@ -180,7 +255,7 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0"
-                        Width="140" Height="50"
+                        Width="160" Height="50"
                         Background="{DynamicResource Plaka}">
                         <TextBlock Text="{Binding Plaka}"
                             Margin="20,0,0,0" VerticalAlignment="Center"
@@ -194,7 +269,8 @@
             </DataTemplate>
             <DataTemplate x:Key="ComboBoxItemŞoförTemplate">
                 <StackPanel Orientation="Horizontal">
-                    <Image MaxWidth="64" MaxHeight="64" Source="{Binding Resim, Mode=OneWay, Converter={StaticResource FilePathMergeConverter}}" />
+                    <Image MaxWidth="64" MaxHeight="64"
+                        Source="{Binding Resim, Mode=OneWay, Converter={StaticResource FilePathMergeConverter}}" />
                     <TextBlock>
                         <Run Text="{Binding Ad}" />
                         <LineBreak />
@@ -211,28 +287,21 @@
                         <Run Text="X" />
                     </Hyperlink>
                     <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="Black" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Cinsiyet}" Value="0">
-                                    <Setter Property="Foreground" Value="Blue" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Cinsiyet}" Value="1">
-                                    <Setter Property="Foreground" Value="Magenta" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
+                        <Style BasedOn="{StaticResource CinsiyetRenkStyle}" TargetType="TextBlock" />
                     </TextBlock.Style>
                 </TextBlock>
             </DataTemplate>
             <DataTemplate x:Key="ListBoxŞoförTemplate">
                 <StackPanel Orientation="Horizontal">
-                    <Image MaxWidth="128" MaxHeight="128" Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
+                    <Image MaxWidth="128" MaxHeight="128"
+                        Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
                     <StackPanel Grid.Column="1">
                         <TextBlock VerticalAlignment="Center">
                             <Run Text="{Binding Ad}" />
                             <Run Text="{Binding Soyad}" />
-                            <Hyperlink Command="{Binding ŞoförGirişViewModel.ŞöförSil, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding Otobüs.Şöförler, Source={StaticResource MainViewModel}}" IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}">
+                            <Hyperlink Command="{Binding ŞoförGirişViewModel.ŞöförSil, Mode=OneWay, Source={StaticResource MainViewModel}}"
+                                CommandParameter="{Binding Otobüs.Şöförler, Source={StaticResource MainViewModel}}"
+                                IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}">
                                 <Run Text="X" />
                             </Hyperlink>
                         </TextBlock>
@@ -285,6 +354,22 @@
                         </StackPanel>
                     </Border>
                 </UniformGrid>
+            </DataTemplate>
+            <DataTemplate x:Key="MasrafTemplate">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>
+                        <Run Text="{Binding Açıklama}" />
+                        <LineBreak />
+                        <Run Text="{Binding Tutar, StringFormat=\{0:C\}}" Language="tr-tr" />
+                    </TextBlock>
+                    <ComboBox HorizontalContentAlignment="Stretch"
+                        ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
+                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                        ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
+                        SelectedValue="{Binding SeferId}"
+                        SelectedValuePath="Id"
+                        Template="{StaticResource ComboBoxSimpleTemplate}" />
+                </StackPanel>
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

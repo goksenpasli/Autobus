@@ -45,10 +45,23 @@
                         </ComboBox>
                         <TextBlock Text="YOLCU ADRES" />
                         <TextBox Text="{Binding Müşteri.Adres, UpdateSourceTrigger=PropertyChanged}" />
-                        <Button Content="YOLCU RESİM EKLE" Command="{Binding MüşteriResimYükle}" IsTabStop="False" />
+                        <Button Command="{Binding MüşteriResimYükle}" IsTabStop="False">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="32" Height="32">
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                            <Binding Source="Shell32.dll" />
+                                            <Binding Source="117" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
+                                <TextBlock Text="YOLCU RESİM EKLE" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
                         <TextBlock Text="SEFER" />
                         <ComboBox x:Name="CbSefer"
                             HorizontalContentAlignment="Stretch"
+                            ItemContainerStyle="{StaticResource ComboBoxSüresiGeçenSeferItemContainerStyle}"
                             ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
                             ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
                             ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
@@ -62,16 +75,6 @@
                                 CbSefer.IsDropDownOpen = false;
                             }]]>
                             </x:Code>
-                            <ComboBox.ItemContainerStyle>
-                                <Style TargetType="ComboBoxItem">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ComboBox.ItemContainerStyle>
                         </ComboBox>
                         <CheckBox VerticalContentAlignment="Center" IsChecked="{Binding Müşteri.BiletÖdendi}">
                             <CheckBox.Content>
@@ -86,7 +89,8 @@
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="YOLCU EKLE" VerticalAlignment="Center" />
-                                    <Image Width="32" Height="32" Source="/Resources/car-sharing.png" />
+                                    <Image Width="32" Height="32"
+                                        Source="/Resources/car-sharing.png" />
                                 </StackPanel>
                             </Button.Content>
                         </Button>
@@ -98,7 +102,8 @@
                             <Canvas Width="96" Height="96"
                                 HorizontalAlignment="Left"
                                 Background="{StaticResource Direksiyon}" />
-                            <ComboBox VerticalContentAlignment="Center"
+                            <ComboBox x:Name="CbAraç"
+                                VerticalContentAlignment="Center"
                                 IsEnabled="False"
                                 ItemTemplate="{StaticResource AraçTemplate}"
                                 ItemsSource="{Binding Otobüs.Araçlar.Araç, Source={StaticResource MainViewModel}}"
@@ -122,25 +127,40 @@
                         </ListBox.ItemTemplate>
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <Extensions:VirtualizingTilePanel ChildHeight="20" Columns="{Binding SeçiliAraç.BölmeSayısı}" Tile="False" />
+                                <Extensions:VirtualizingTilePanel ChildHeight="20"
+                                    Columns="{Binding SeçiliAraç.BölmeSayısı}"
+                                    Tile="False" />
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}">
-                                <Setter Property="Visibility">
-                                    <Setter.Value>
-                                        <MultiBinding Converter="{StaticResource KoltukNoVisibilityConverter}">
-                                            <Binding Mode="OneWay" />
-                                            <Binding ElementName="CbSefer" Path="SelectedItem" />
-                                            <Binding Path="DataContext.Müşteri.KoltukNo" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}" />
-                                        </MultiBinding>
-                                    </Setter.Value>
-                                </Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Value="Collapsed">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <DataTrigger.Binding>
+                                            <MultiBinding Converter="{StaticResource KoltukNoGizlenenKoltuklarConverter}">
+                                                <Binding Mode="OneWay" />
+                                                <Binding ElementName="CbAraç" Path="SelectedItem.GizlenenKoltuklar" />
+                                            </MultiBinding>
+                                        </DataTrigger.Binding>
+                                    </DataTrigger>
+                                    <DataTrigger Value="Collapsed">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <DataTrigger.Binding>
+                                            <MultiBinding Converter="{StaticResource KoltukNoVisibilityConverter}">
+                                                <Binding Mode="OneWay" />
+                                                <Binding ElementName="CbSefer" Path="SelectedItem" />
+                                                <Binding Path="DataContext.Müşteri.KoltukNo" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}" />
+                                            </MultiBinding>
+                                        </DataTrigger.Binding>
+                                    </DataTrigger>
+                                </Style.Triggers>
                             </Style>
                         </ListBox.ItemContainerStyle>
                     </ListBox>
                 </GroupBox>
-                <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="SİPARİŞ">
+                <GroupBox Grid.Row="2" Grid.ColumnSpan="2"
+                    Header="SİPARİŞ">
                     <UniformGrid Columns="2">
                         <GroupBox Header="ÜRÜN GİRİŞİ">
                             <StackPanel DataContext="{Binding Ürün}">
@@ -149,7 +169,19 @@
                                 <TextBlock Text="ÜRÜN FİYATI" />
                                 <Extensions:NumericUpDownControl Maximum="1000" Minimum="0" ShowMode="CurrencyMode"
                                     Value="{Binding ÜrünFiyat, UpdateSourceTrigger=PropertyChanged}" />
-                                <Button Content="EKLE" Command="{Binding YolcuGirişViewModel.ÜrünEkle, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding Otobüs.Ürünler, Source={StaticResource MainViewModel}}" />
+                                <Button Command="{Binding YolcuGirişViewModel.ÜrünEkle, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding Otobüs.Ürünler, Source={StaticResource MainViewModel}}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="16" Height="16">
+                                            <Image.Source>
+                                                <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                    <Binding Source="Shell32.dll" />
+                                                    <Binding Source="144" />
+                                                </MultiBinding>
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock Text="EKLE" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
                             </StackPanel>
                         </GroupBox>
                         <GroupBox Header="ÜRÜN SAT">
@@ -164,7 +196,9 @@
                                                 <Run Text="{Binding ÜrünAçıklama}" />
                                                 <Run Text="{Binding ÜrünFiyat, StringFormat=\{0:C\}}" Language="tr-tr" />
                                             </TextBlock>
-                                            <Button Content="ÜRÜN SAT" HorizontalAlignment="Right" Command="{Binding YolcuGirişViewModel.MüşteriSiparişEkle, Mode=OneWay, Source={StaticResource MainViewModel}}" />
+                                            <Button Content="ÜRÜN SAT"
+                                                HorizontalAlignment="Right"
+                                                Command="{Binding YolcuGirişViewModel.MüşteriSiparişEkle, Mode=OneWay, Source={StaticResource MainViewModel}}" />
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -186,13 +220,16 @@
                             ItemTemplate="{StaticResource ListBoxMüşteriTemplate}"
                             ItemsSource="{Binding Source={StaticResource Müşteriler}}"
                             SelectedItem="{Binding YolcuGirişViewModel.SeçiliMüşteri, Source={StaticResource MainViewModel}}" />
-                        <Grid Grid.Row="1" Width="10cm" HorizontalAlignment="Left">
+                        <Grid Grid.Row="1"
+                            Width="10cm"
+                            HorizontalAlignment="Left">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <FlowDocumentScrollViewer x:Name="Fd" VerticalScrollBarVisibility="Disabled">
-                                <FlowDocument Block.LineHeight="1" FontFamily="Segoe UI" FontSize="15" Language="tr-tr"
+                                <FlowDocument Background="{Binding BiletRenk, Mode=TwoWay, Converter={StaticResource StringToBrushConverter}}"
+                                    Block.LineHeight="1" FontFamily="Segoe UI" FontSize="15" Language="tr-tr"
                                     PagePadding="0">
                                     <FlowDocument.Resources>
                                         <Style TargetType="Paragraph">
@@ -230,7 +267,8 @@
                                                 </TableCell>
                                                 <TableCell RowSpan="4">
                                                     <BlockUIContainer>
-                                                        <Image Width="90" Height="110" Source="{Binding YolcuGirişViewModel.SeçiliMüşteri.Resim, Converter={StaticResource FilePathMergeConverter}, Source={StaticResource MainViewModel}}" />
+                                                        <Image Width="90" Height="110"
+                                                            Source="{Binding YolcuGirişViewModel.SeçiliMüşteri.Resim, Converter={StaticResource FilePathMergeConverter}, Source={StaticResource MainViewModel}}" />
                                                     </BlockUIContainer>
                                                 </TableCell>
                                             </TableRow>
@@ -287,7 +325,10 @@
                                     </Table>
                                 </FlowDocument>
                             </FlowDocumentScrollViewer>
-                            <Button Grid.Row="2" Command="{Binding YolcuGirişViewModel.BiletYazdır, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding ElementName=Fd}">
+                            <Extensions:SplitButton Grid.Row="2"
+                                Command="{Binding YolcuGirişViewModel.BiletYazdır, Mode=OneWay, Source={StaticResource MainViewModel}}"
+                                CommandParameter="{Binding ElementName=Fd}"
+                                PlacementMode="Top">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Width="32" Height="32">
                                         <Image.Source>
@@ -299,7 +340,19 @@
                                     </Image>
                                     <TextBlock Text="YAZDIR" VerticalAlignment="Center" />
                                 </StackPanel>
-                            </Button>
+                                <Extensions:SplitButton.InternalContent>
+                                    <GroupBox Header="RENK SEÇİMİ">
+                                        <StackPanel>
+                                            <ComboBox VerticalContentAlignment="Center"
+                                                ItemTemplate="{StaticResource ColorItemTemplate}"
+                                                ItemsPanel="{StaticResource ColorPanelTemplate}"
+                                                ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}"
+                                                SelectedValue="{Binding BiletRenk}"
+                                                SelectedValuePath="Name" />
+                                        </StackPanel>
+                                    </GroupBox>
+                                </Extensions:SplitButton.InternalContent>
+                            </Extensions:SplitButton>
                         </Grid>
                     </Grid>
                 </GroupBox>

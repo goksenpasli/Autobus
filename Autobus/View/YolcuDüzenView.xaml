@@ -41,21 +41,11 @@
                 </Grid.RowDefinitions>
                 <ComboBox x:Name="CbSefer"
                     HorizontalContentAlignment="Stretch"
+                    ItemContainerStyle="{StaticResource ComboBoxSüresiGeçenSeferItemContainerStyle}"
                     ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
                     ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
                     ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
-                    SelectedItem="{Binding SeçiliSefer}">
-                    <ComboBox.ItemContainerStyle>
-                        <Style TargetType="{x:Type ComboBoxItem}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
-                                    <Setter Property="IsEnabled" Value="False" />
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ComboBox.ItemContainerStyle>
-                </ComboBox>
+                    SelectedItem="{Binding SeçiliSefer}" />
                 <GroupBox DataContext="{Binding SelectedItem, ElementName=CbAraç}" Grid.Row="1">
                     <GroupBox.LayoutTransform>
                         <TransformGroup>
@@ -82,7 +72,9 @@
                                 Template="{StaticResource ComboBoxSimpleTemplate}" />
                         </StackPanel>
                     </GroupBox.Header>
-                    <ContentControl Content="{Binding}" Grid.Column="1" RenderTransformOrigin="0.5,0.5">
+                    <ContentControl Content="{Binding}"
+                        Grid.Column="1"
+                        RenderTransformOrigin="0.5,0.5">
                         <ContentControl.ContentTemplate>
                             <DataTemplate>
                                 <ItemsControl Grid.Row="1"
@@ -92,6 +84,12 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Width="75" Height="75">
+                                                <StackPanel.Visibility>
+                                                    <MultiBinding Converter="{StaticResource KoltukNoGizlenenKoltuklarConverter}">
+                                                        <Binding Mode="OneWay" />
+                                                        <Binding ElementName="CbAraç" Path="SelectedItem.GizlenenKoltuklar" />
+                                                    </MultiBinding>
+                                                </StackPanel.Visibility>
                                                 <TextBlock HorizontalAlignment="Center"
                                                     FontSize="16" FontWeight="Bold"
                                                     Visibility="{Binding DataContext.KoltukDolu, ConverterParameter=reverse, Converter={StaticResource NullToVisibilityConverter}, ElementName=Tb}">
@@ -129,14 +127,16 @@
                                                                     </DataTemplate>
                                                                 </ListBox.ItemTemplate>
                                                             </ListBox>
-                                                            <Image MaxWidth="128" MaxHeight="128" Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
+                                                            <Image MaxWidth="128" MaxHeight="128"
+                                                                Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
                                                         </StackPanel>
                                                     </TextBlock.ToolTip>
                                                     <Run Text="{Binding Ad}" />
                                                     <LineBreak />
                                                     <Run Text="{Binding Soyad}" />
                                                 </TextBlock>
-                                                <TextBlock HorizontalAlignment="Center" FontSize="13" FontWeight="Bold">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                    FontSize="13" FontWeight="Bold">
                                                     <TextBlock.Style>
                                                         <Style TargetType="TextBlock">
                                                             <Setter Property="Visibility" Value="Collapsed" />
@@ -147,7 +147,9 @@
                                                             </Style.Triggers>
                                                         </Style>
                                                     </TextBlock.Style>
-                                                    <Hyperlink Command="{Binding YolcuDüzenViewModel.MüşteriBorçTahsilEt, Source={StaticResource MainViewModel}}" CommandParameter="{Binding ElementName=Tb, Path=DataContext}" Style="{StaticResource HyperLinkRed}">
+                                                    <Hyperlink Command="{Binding YolcuDüzenViewModel.MüşteriBorçTahsilEt, Source={StaticResource MainViewModel}}"
+                                                        CommandParameter="{Binding ElementName=Tb, Path=DataContext}"
+                                                        Style="{StaticResource HyperLinkRed}">
                                                         <Run Text="Tahsilat" />
                                                     </Hyperlink>
                                                 </TextBlock>

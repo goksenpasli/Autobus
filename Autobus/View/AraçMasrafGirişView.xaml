@@ -11,8 +11,8 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
         <GroupBox Header="MASRAF GİRİŞİ">
             <Grid>
@@ -36,7 +36,8 @@
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="MASRAF EKLE" VerticalAlignment="Center" />
-                                <Image Width="32" Height="32" Source="/Resources/car-repair.png" />
+                                <Image Width="32" Height="32"
+                                    Source="/Resources/car-repair.png" />
                             </StackPanel>
                         </Button.Content>
                     </Button>
@@ -45,9 +46,11 @@
                     <UniformGrid Columns="2">
                         <ListBox x:Name="LbAraç"
                             d:ItemsSource="{d:SampleData ItemCount=5}"
-                            ItemTemplate="{DynamicResource AraçTemplate}"
+                            ItemTemplate="{StaticResource AraçTemplate}"
                             ItemsSource="{Binding Otobüs.Araçlar.Araç, Source={StaticResource MainViewModel}}" />
-                        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" ItemTemplate="{DynamicResource MasrafTemplate}" ItemsSource="{Binding ElementName=LbAraç, Path=SelectedItem.Masraf}" />
+                        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}"
+                            ItemTemplate="{StaticResource MasrafTemplate}"
+                            ItemsSource="{Binding ElementName=LbAraç, Path=SelectedItem.Masraf}" />
                     </UniformGrid>
                 </GroupBox>
             </Grid>

@@ -38,6 +38,25 @@
                         <Extensions:NumericUpDownControl Minimum="1" SmallChange="1"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                             Value="{Binding Araç.BölmeSayısı, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                        <ListBox Height="32"
+                            d:ItemsSource="{d:SampleData ItemCount=5}"
+                            ItemsSource="{Binding Araç.GizlenenKoltuklar}"
+                            ToolTip="Sağdaki Önizleme Ekranında Seçilen Koltuklar Araç Oluşturma Sonrasında Gizlenecektir.">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <Hyperlink Command="{Binding AraçGirişViewModel.GizlenenKoltuklardanSil, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding Mode=OneWay}">
+                                            <Run Text="{Binding Mode=OneWay}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
                         <TextBlock Text="ARAÇ MARKASI" />
                         <ComboBox DisplayMemberPath="Açıklama"
                             ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
@@ -47,19 +66,22 @@
                         <Button Command="{Binding AraçEkle}" CommandParameter="{Binding Otobüs.Araçlar, Source={StaticResource MainViewModel}}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="ARAÇ GİR" VerticalAlignment="Center" />
-                                <Image Width="32" Height="32" Source="/Resources/car.png" />
+                                <Image Width="32" Height="32"
+                                    Source="/Resources/car.png" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
                 </ScrollViewer>
-                <GroupBox Grid.Row="1" Grid.Column="0" Header="ARAÇ MARKA GİRİŞİ">
+                <GroupBox Grid.Row="1" Grid.Column="0"
+                    Header="ARAÇ MARKA GİRİŞİ">
                     <StackPanel>
                         <TextBlock Text="MARKA AÇIKLAMA" />
                         <TextBox Text="{Binding Marka.Açıklama, UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" />
                         <Button Command="{Binding MarkaEkle}" CommandParameter="{Binding Otobüs.Markalar, Source={StaticResource MainViewModel}}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="MARKA GİR" VerticalAlignment="Center" />
-                                <Image Width="32" Height="32" Source="/Resources/car.png" />
+                                <Image Width="32" Height="32"
+                                    Source="/Resources/car.png" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -86,8 +108,10 @@
                         </Grid>
                     </GroupBox.Header>
                     <Grid>
-                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource AraçÖnizleme}" />
-                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Visibility="{Binding BölmeSayısı, Converter={StaticResource NumberToSplitterVisibilityConverter}}">
+                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource GizlenebilirAraçÖnizleme}" />
+                        <StackPanel HorizontalAlignment="Center"
+                            Orientation="Horizontal"
+                            Visibility="{Binding BölmeSayısı, Converter={StaticResource NumberToSplitterVisibilityConverter}}">
                             <Separator Background="Black" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                         </StackPanel>
                     </Grid>
