@@ -37,6 +37,8 @@ namespace Autobus.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public double DolulukOranı { get; set; }
+
         public int ErkekSayısı { get; set; }
 
         public int KadınSayısı { get; set; }
@@ -47,6 +49,8 @@ namespace Autobus.ViewModel
 
         public int ÖdemeYapılmamışSayısı { get; set; }
 
+        public Araç SeçiliAraç { get; set; }
+
         public Sefer SeçiliSefer { get; set; }
 
         private void SayıAyarla()
@@ -54,11 +58,12 @@ namespace Autobus.ViewModel
             ErkekSayısı = SeçiliSefer?.Müşteri.Count(z => z.Cinsiyet == 0) ?? 0;
             KadınSayısı = SeçiliSefer?.Müşteri.Count(z => z.Cinsiyet == 1) ?? 0;
             ÖdemeYapılmamışSayısı = SeçiliSefer?.Müşteri.Count(z => !z.BiletÖdendi) ?? 0;
+            DolulukOranı = SeçiliAraç != null ? (double)((ErkekSayısı + KadınSayısı) / (double)(SeçiliAraç.KoltukSayısı - SeçiliAraç.GizlenenKoltuklar.Count)) : 0;
         }
 
         private void YolcuDüzenViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName is "SeçiliSefer")
+            if (e.PropertyName is "SeçiliAraç")
             {
                 SayıAyarla();
             }

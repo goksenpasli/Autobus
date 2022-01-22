@@ -22,6 +22,11 @@
     <SolidColorBrush x:Key="ScrollBar.MouseOver.Thumb" Color="#A6A6A6" />
     <SolidColorBrush x:Key="ScrollBar.Pressed.Thumb" Color="#606060" />
     <SolidColorBrush x:Key="ScrollBar.Static.Thumb" Color="#CDCDCD" />
+    <LinearGradientBrush x:Key="ProgressBarPinkForeground" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="0" Color="#FFD82E83" />
+        <GradientStop Offset="1" Color="#FFD82E83" />
+        <GradientStop Offset="0.5" Color="#FFE83A92" />
+    </LinearGradientBrush>
     <StreamGeometry x:Key="ArrowGeometry">M0,0L4,4 8,0z</StreamGeometry>
     <local:SystemFileIconConverter x:Key="SystemFileIconConverter" />
     <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
@@ -398,6 +403,7 @@
                             <ColumnDefinition Width="14" />
                         </Grid.ColumnDefinitions>
                         <Button x:Name="btn"
+                            Content="{TemplateBinding Content}"
                             Grid.Column="0"
                             Padding="{TemplateBinding Padding}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -407,7 +413,6 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Command="{TemplateBinding Command}"
                             CommandParameter="{TemplateBinding CommandParameter}"
-                            Content="{TemplateBinding Content}"
                             IsTabStop="{TemplateBinding IsTabStop}" />
                         <ToggleButton x:Name="Tb"
                             Grid.Column="1"
@@ -436,9 +441,9 @@
                             Placement="{TemplateBinding PlacementMode}"
                             PopupAnimation="Slide"
                             StaysOpen="{TemplateBinding StayOpen}">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Content="{TemplateBinding InternalContent}" />
+                            <ContentPresenter Content="{TemplateBinding InternalContent}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Popup>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -492,7 +497,7 @@
                             BorderThickness="0,1,1,1" SnapsToDevicePixels="True">
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Hyperlink Command="{Binding Reset, RelativeSource={RelativeSource TemplatedParent}}" TextDecorations="None">
-                                    <Run FontWeight="Bold" Text="X" />
+                                    <Run Text="X" FontWeight="Bold" />
                                 </Hyperlink>
                             </TextBlock>
                         </Border>
@@ -524,9 +529,9 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
                         <Grid>
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            <ContentPresenter Content="{TemplateBinding OverContent}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Content="{TemplateBinding OverContent}"
                                 Focusable="False" RecognizesAccessKey="True" />
                             <Popup AllowsTransparency="True"
                                 IsOpen="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
@@ -721,11 +726,11 @@
                 Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
                 Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
             <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
+                Content="{TemplateBinding Content}"
                 Grid.Row="0" Grid.RowSpan="2"
                 Margin="25,0"
                 CanContentScroll="{TemplateBinding CanContentScroll}"
                 CanHorizontallyScroll="False" CanVerticallyScroll="False"
-                Content="{TemplateBinding Content}"
                 ContentTemplate="{TemplateBinding ContentTemplate}" />
         </Grid>
     </ControlTemplate>
@@ -876,7 +881,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ResizablePanel">
-                    <Grid Background="{TemplateBinding Background}" DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}" Background="{TemplateBinding Background}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3" />
                             <ColumnDefinition Width="*" />
@@ -911,9 +916,9 @@
                         <local:Resizer Grid.Row="0" Grid.Column="1"
                             Height="2"
                             Cursor="SizeNS" ThumbDirection="Top" />
-                        <ContentPresenter Grid.Row="1" Grid.Column="1"
-                            Margin="{TemplateBinding Padding}"
-                            Content="{TemplateBinding Content}" />
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                            Grid.Row="1" Grid.Column="1"
+                            Margin="{TemplateBinding Padding}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -929,7 +934,7 @@
                             Background="{x:Null}"
                             Visibility="{Binding SeriesListVisibility, RelativeSource={RelativeSource TemplatedParent}}">
                             <local:ContentToggleButton.OverContent>
-                                <TextBlock FontFamily="Webdings" Text="N" />
+                                <TextBlock Text="N" FontFamily="Webdings" />
                             </local:ContentToggleButton.OverContent>
                             <local:ContentToggleButton.Content>
                                 <ItemsControl Width="250" Height="250"
@@ -939,8 +944,8 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Background="Black">
-                                                <Run Foreground="{Binding ChartBrush, Mode=OneWay}" Text="{Binding Description, Mode=OneWay}" />
-                                                <Run Foreground="White" Text="{Binding ChartValue, Mode=OneWay}" />
+                                                <Run Text="{Binding Description, Mode=OneWay}" Foreground="{Binding ChartBrush, Mode=OneWay}" />
+                                                <Run Text="{Binding ChartValue, Mode=OneWay}" Foreground="White" />
                                             </TextBlock>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>

@@ -32,6 +32,9 @@ namespace Autobus.Model
 
         public string Error => string.Empty;
 
+        [XmlElement(ElementName = "GizlenenKoltuklar")]
+        public ObservableCollection<int> GizlenenKoltuklar { get; set; } = new();
+
         [XmlAttribute(AttributeName = "Id")]
         public int Id { get; set; }
 
@@ -54,16 +57,10 @@ namespace Autobus.Model
         [XmlAttribute(AttributeName = "Resim")]
         public string Resim { get; set; }
 
-        [XmlElement(ElementName = "GizlenenKoltuklar")]
-        public ObservableCollection<int> GizlenenKoltuklar { get; set; } = new();
-
-
         public string this[string columnName] => columnName switch
         {
             "BölmeSayısı" when KoltukSayısı % BölmeSayısı != 0 => "Bölme İşlemi Tam Çıkmıyor.",
             "KoltukSayısı" when KoltukSayısı % BölmeSayısı != 0 => "Bölme İşlemi Tam Çıkmıyor.",
-            "BölmeSayısı" when KoltukSayısı < BölmeSayısı => "Koltuk Sayısı Bölme Sayısından Küçük Olmaz.",
-            "KoltukSayısı" when KoltukSayısı < BölmeSayısı => "Koltuk Sayısı Bölme Sayısından Küçük Olmaz.",
             _ => null
         };
 

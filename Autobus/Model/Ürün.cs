@@ -11,10 +11,10 @@ namespace Autobus.Model
         [XmlAttribute(AttributeName = "Id")]
         public int Id { get; set; }
 
-        [XmlAttribute(AttributeName = "ÜrünFiyat")]
-        public double ÜrünFiyat { get; set; }
-
         [XmlAttribute(AttributeName = "ÜrünAçıklama")]
         public string ÜrünAçıklama { get; set; }
+
+        [XmlAttribute(AttributeName = "ÜrünFiyat")]
+        public double ÜrünFiyat { get; set; }
     }
 }

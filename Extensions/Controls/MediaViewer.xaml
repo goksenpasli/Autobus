@@ -49,40 +49,40 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Button x:Name="Play"
+                Content="4"
                 Grid.Column="0"
                 Width="24" Height="24"
-                Click="Play_Click" Content="4" FontFamily="Webdings" FontSize="18"
-                Foreground="Blue" />
+                Click="Play_Click" FontFamily="Webdings" FontSize="18" Foreground="Blue" />
             <Button x:Name="Pause"
+                Content=";"
                 Grid.Column="1"
                 Width="24" Height="24"
-                Click="Pause_Click" Content=";" FontFamily="Webdings" FontSize="18"
-                Foreground="Blue" />
+                Click="Pause_Click" FontFamily="Webdings" FontSize="18" Foreground="Blue" />
             <Button x:Name="Stop"
+                Content="&lt;"
                 Grid.Column="2"
                 Width="24" Height="24"
-                Click="Stop_Click" Content="&lt;" FontFamily="Webdings" FontSize="18"
-                Foreground="Blue" />
+                Click="Stop_Click" FontFamily="Webdings" FontSize="18" Foreground="Blue" />
             <Button x:Name="Back"
+                Content="7"
                 Grid.Column="3"
                 Width="24" Height="24"
-                Click="Back_Click" Content="7" FontFamily="Webdings" FontSize="18"
-                Foreground="Blue" />
+                Click="Back_Click" FontFamily="Webdings" FontSize="18" Foreground="Blue" />
             <Button x:Name="Forward"
+                Content="8"
                 Grid.Column="4"
                 Width="24" Height="24"
-                Click="Forward_Click" Content="8" FontFamily="Webdings" FontSize="18"
-                Foreground="Blue" />
+                Click="Forward_Click" FontFamily="Webdings" FontSize="18" Foreground="Blue" />
             <Button x:Name="SlowBackward"
+                Content="9"
                 Grid.Column="5"
                 Width="24" Height="24"
-                Click="SlowBackward_Click" Content="9" FontFamily="Webdings" FontSize="18"
-                Foreground="Blue" />
+                Click="SlowBackward_Click" FontFamily="Webdings" FontSize="18" Foreground="Blue" />
             <Button x:Name="SlowForward"
+                Content=":"
                 Grid.Column="6"
                 Width="24" Height="24"
-                Click="SlowForward_Click" Content=":" FontFamily="Webdings" FontSize="18"
-                Foreground="Blue" />
+                Click="SlowForward_Click" FontFamily="Webdings" FontSize="18" Foreground="Blue" />
             <ToggleButton x:Name="Mute"
                 Grid.Column="7"
                 Width="24" Height="24"
@@ -95,14 +95,14 @@
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <TextBlock FontFamily="Webdings" Text="V" />
+                                        <TextBlock Text="V" FontFamily="Webdings" />
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>
                             <Trigger Property="IsChecked" Value="False">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <TextBlock FontFamily="Webdings" Text="U" />
+                                        <TextBlock Text="U" FontFamily="Webdings" />
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>
@@ -124,11 +124,12 @@
                 <Run Text="{Binding EndTimeSpan, Mode=OneWay, Converter={StaticResource TimeSpanToStringConverter}}" />
             </TextBlock>
             <Button x:Name="Capture"
+                Content="N"
                 Grid.Column="10"
                 Width="24" Height="24"
                 VerticalContentAlignment="Center"
-                Click="Capture_Click" Content="N" FontFamily="Webdings" FontSize="20"
-                Foreground="Blue" ToolTip="Ekran Yakala Resimlerim Klasörüne Kaydedilir." />
+                Click="Capture_Click" FontFamily="Webdings" FontSize="20" Foreground="Blue"
+                ToolTip="Ekran Yakala Resimlerim Klasörüne Kaydedilir." />
             <local:ContentToggleButton Grid.Column="11"
                 FontFamily="Webdings" FontSize="20" Foreground="Blue" OverContent="·"
                 PlacementMode="Top">

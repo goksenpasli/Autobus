@@ -43,7 +43,7 @@ namespace Autobus.ViewModel
 
             GizlenenKoltuklaraEkle = new RelayCommand<object>(parameter =>
             {
-                if (parameter is int koltukno)
+                if (parameter is int koltukno && Araç.GizlenenKoltuklar?.Contains(koltukno) == false)
                 {
                     Araç.GizlenenKoltuklar?.Add(koltukno);
                 }

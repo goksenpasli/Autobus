@@ -37,7 +37,8 @@
                         <TextBox Text="{Binding Müşteri.Soyad, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock Text="YOLCU TELEFON" />
                         <Extensions:MaskedTextBox IncludeLiterals="False" IncludePrompt="False" Mask="(000) 000 00 00"
-                            Value="{Binding Müşteri.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            Value="{Binding Müşteri.Telefon, ValidatesOnDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock Text="YOLCU CİNSİYET" />
                         <ComboBox SelectedValue="{Binding Müşteri.Cinsiyet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Tag">
                             <ComboBoxItem Content="ERKEK" Tag="0" />
@@ -137,6 +138,7 @@
                                 <Style.Triggers>
                                     <DataTrigger Value="Collapsed">
                                         <Setter Property="Visibility" Value="Collapsed" />
+                                        <d:Setter Property="Visibility" Value="Visible" />
                                         <DataTrigger.Binding>
                                             <MultiBinding Converter="{StaticResource KoltukNoGizlenenKoltuklarConverter}">
                                                 <Binding Mode="OneWay" />

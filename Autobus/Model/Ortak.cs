@@ -13,13 +13,13 @@ namespace Autobus.Model
         [XmlAttribute(AttributeName = "Adres")]
         public string Adres { get; set; }
 
+        [XmlAttribute(AttributeName = "Resim")]
+        public string Resim { get; set; }
+
         [XmlAttribute(AttributeName = "Soyad")]
         public string Soyad { get; set; }
 
         [XmlAttribute(AttributeName = "Telefon")]
-        public string Telefon { get; set; }       
-        
-        [XmlAttribute(AttributeName = "Resim")]
-        public string Resim { get; set; }
+        public string Telefon { get; set; }
     }
 }

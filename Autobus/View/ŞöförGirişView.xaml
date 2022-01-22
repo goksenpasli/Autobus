@@ -45,7 +45,8 @@
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="ŞOFÖR EKLE" VerticalAlignment="Center" />
-                                <Image Width="32" Height="32" Source="/Resources/driver.png" />
+                                <Image Width="32" Height="32"
+                                    Source="/Resources/driver.png" />
                             </StackPanel>
                         </Button.Content>
                     </Button>

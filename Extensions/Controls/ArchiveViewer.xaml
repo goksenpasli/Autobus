@@ -37,9 +37,9 @@
                                             CommandParameter="{Binding TamYol}"
                                             MouseAction="LeftDoubleClick" />
                                     </Border.InputBindings>
-                                    <GridViewRowPresenter Margin="0" HorizontalAlignment="Stretch"
-                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                        Content="{TemplateBinding Content}" />
+                                    <GridViewRowPresenter Content="{TemplateBinding Content}"
+                                        Margin="0" HorizontalAlignment="Stretch"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
@@ -107,19 +107,12 @@
                 </Style>
             </Grid.Style>
             <ProgressBar Width="20"
+                Foreground="{StaticResource ProgressBarPinkForeground}"
                 Maximum="100" Orientation="Vertical"
-                Value="{Binding ToplamOran}">
-                <ProgressBar.Foreground>
-                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStop Offset="0" Color="#FFD82E83" />
-                        <GradientStop Offset="1" Color="#FFD82E83" />
-                        <GradientStop Offset="0.5" Color="#FFE83A92" />
-                    </LinearGradientBrush>
-                </ProgressBar.Foreground>
-            </ProgressBar>
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                FontSize="11" FontWeight="Bold"
-                Text="{Binding ToplamOran, StringFormat=\{0:F0\}}" />
+                Value="{Binding ToplamOran}" />
+            <TextBlock Text="{Binding ToplamOran, StringFormat=\{0:F0\}}"
+                HorizontalAlignment="Center" VerticalAlignment="Center"
+                FontSize="11" FontWeight="Bold" />
         </Grid>
         <StatusBar Grid.Row="1" Grid.ColumnSpan="2">
             <StatusBar.ItemsPanel>

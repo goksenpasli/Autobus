@@ -22,6 +22,7 @@
             <Converter:NumberToSplitterVisibilityConverter x:Key="NumberToSplitterVisibilityConverter" />
             <Converter:StringToBrushConverter x:Key="StringToBrushConverter" />
             <Converter:CloneConverter x:Key="CloneConverter" />
+            <Extensions:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <DataTemplate DataType="{x:Type ViewModel:AraçGirişViewModel}">
                 <View:AraçGirişView />
             </DataTemplate>
@@ -232,8 +233,8 @@
                             <Border Width="50" Height="50"
                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                 Background="{StaticResource Koltuk}">
-                                <TextBlock ToolTip="Koltuk Gizlemek İçin Tıklayın." HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    FontSize="15" Foreground="White">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    FontSize="15" Foreground="White" ToolTip="Koltuk Gizlemek İçin Tıklayın.">
                                     <Hyperlink Command="{Binding AraçGirişViewModel.GizlenenKoltuklaraEkle, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding Mode=OneWay}">
                                         <Run Text="{Binding Mode=OneWay}" />
                                     </Hyperlink>
@@ -249,22 +250,11 @@
                 </ItemsControl>
             </DataTemplate>
             <DataTemplate x:Key="AraçTemplate">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0"
-                        Width="160" Height="50"
-                        Background="{DynamicResource Plaka}">
-                        <TextBlock Text="{Binding Plaka}"
-                            Margin="20,0,0,0" VerticalAlignment="Center"
-                            FontSize="20" />
-                    </Grid>
-                    <TextBlock Text="{Binding KoltukSayısı, StringFormat={}{0} KOLTUK}"
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Foreground="Red" />
+                <Grid Width="160" Height="50"
+                    Background="{DynamicResource Plaka}">
+                    <TextBlock Text="{Binding Plaka}"
+                        Margin="20,0,0,0" VerticalAlignment="Center"
+                        FontSize="20" />
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="ComboBoxItemŞoförTemplate">

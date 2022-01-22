@@ -1,14 +1,11 @@
-﻿using Autobus.Model;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 
 namespace Autobus.Converter
 {
-    
     public sealed class KoltukNoGizlenenKoltuklarConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

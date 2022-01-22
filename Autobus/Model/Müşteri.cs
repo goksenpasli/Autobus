@@ -35,6 +35,7 @@ namespace Autobus.Model
 
         public string this[string columnName] => columnName switch
         {
+            "Telefon" when Telefon is null || Telefon.Length < 10 => "Telefon Numarasını Eksiksiz Girin.",
             "KoltukNo" when KoltukNo == 0 => "Koltuk Seçimi Yapın.",
             _ => null
         };

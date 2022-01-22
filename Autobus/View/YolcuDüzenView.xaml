@@ -9,9 +9,6 @@
     d:DataContext="{d:DesignInstance Type={x:Type viewmodel:YolcuDüzenViewModel}}"
     d:DesignHeight="450" d:DesignWidth="800" UseLayoutRounding="True"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <Extensions:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-    </UserControl.Resources>
     <Grid>
         <GroupBox>
             <GroupBox.Header>
@@ -57,6 +54,11 @@
                     </GroupBox.LayoutTransform>
                     <GroupBox.Header>
                         <StackPanel Orientation="Horizontal">
+                            <ProgressBar Width="16"
+                                Foreground="{StaticResource ProgressBarPinkForeground}"
+                                Maximum="1" Orientation="Vertical"
+                                Style="{StaticResource ProgressBarStyle}"
+                                Value="{Binding YolcuDüzenViewModel.DolulukOranı, Source={StaticResource MainViewModel}}" />
                             <Canvas Width="96" Height="96"
                                 HorizontalAlignment="Left" VerticalAlignment="Bottom"
                                 Background="{StaticResource Direksiyon}"
@@ -67,6 +69,7 @@
                                 ItemTemplate="{StaticResource AraçTemplate}"
                                 ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
                                 ItemsSource="{Binding Otobüs.Araçlar.Araç, Source={StaticResource MainViewModel}}"
+                                SelectedItem="{Binding YolcuDüzenViewModel.SeçiliAraç, Source={StaticResource MainViewModel}}"
                                 SelectedValue="{Binding SelectedItem.AraçId, ElementName=CbSefer}"
                                 SelectedValuePath="Id"
                                 Template="{StaticResource ComboBoxSimpleTemplate}" />
@@ -116,6 +119,7 @@
                                                     </TextBlock.DataContext>
                                                     <TextBlock.ToolTip>
                                                         <StackPanel>
+                                                            <Extensions:MaskedTextBlock Mask="(000) 000 00 00" UnmaskedText="{Binding Telefon}" />
                                                             <ListBox ItemsSource="{Binding Sipariş}">
                                                                 <ListBox.ItemTemplate>
                                                                     <DataTemplate>

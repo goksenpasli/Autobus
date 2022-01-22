@@ -33,19 +33,19 @@
                         <TableRow>
                             <TableCell ColumnSpan="3">
                                 <Paragraph TextAlignment="Center">
-                                    <Run FontWeight="Bold" Text="BİLET" />
+                                    <Run Text="BİLET" FontWeight="Bold" />
                                 </Paragraph>
                             </TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>
                                 <Paragraph>
-                                    <Run FontWeight="Bold" Text="AD" />
+                                    <Run Text="AD" FontWeight="Bold" />
                                 </Paragraph>
                             </TableCell>
                             <TableCell>
                                 <Paragraph>
-                                    <Run d:Text="Gökşen" Text="{Binding Ad}" />
+                                    <Run Text="{Binding Ad}" d:Text="Gökşen" />
                                 </Paragraph>
                             </TableCell>
                             <TableCell RowSpan="4">
@@ -57,19 +57,19 @@
                         <TableRow>
                             <TableCell>
                                 <Paragraph>
-                                    <Run FontWeight="Bold" Text="SOYAD" />
+                                    <Run Text="SOYAD" FontWeight="Bold" />
                                 </Paragraph>
                             </TableCell>
                             <TableCell>
                                 <Paragraph>
-                                    <Run d:Text="Paslı" Text="{Binding Soyad}" />
+                                    <Run Text="{Binding Soyad}" d:Text="Paslı" />
                                 </Paragraph>
                             </TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>
                                 <Paragraph>
-                                    <Run FontWeight="Bold" Text="KOLTUK NO" />
+                                    <Run Text="KOLTUK NO" FontWeight="Bold" />
                                 </Paragraph>
                             </TableCell>
                             <TableCell>
@@ -81,7 +81,7 @@
                         <TableRow>
                             <TableCell>
                                 <Paragraph>
-                                    <Run FontWeight="Bold" Text="KALKIŞ-VARIŞ" />
+                                    <Run Text="KALKIŞ-VARIŞ" FontWeight="Bold" />
                                 </Paragraph>
                             </TableCell>
                             <TableCell>
@@ -96,12 +96,12 @@
                         <TableRow>
                             <TableCell>
                                 <Paragraph>
-                                    <Run FontWeight="Bold" Text="FİYAT" />
+                                    <Run Text="FİYAT" FontWeight="Bold" />
                                 </Paragraph>
                             </TableCell>
                             <TableCell ColumnSpan="2">
                                 <Paragraph>
-                                    <Run FontWeight="Bold" Text="FİYAT" />
+                                    <Run Text="FİYAT" FontWeight="Bold" />
                                 </Paragraph>
                             </TableCell>
                         </TableRow>
@@ -121,7 +121,7 @@
                         </MultiBinding>
                     </Image.Source>
                 </Image>
-                <TextBlock VerticalAlignment="Center" Text="YAZDIR" />
+                <TextBlock Text="YAZDIR" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
     </Grid>

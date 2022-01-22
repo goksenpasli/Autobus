@@ -41,7 +41,7 @@ namespace Autobus.ViewModel
                     MainViewModel.DatabaseSave.Execute(null);
                     ResetMüşteri();
                 }
-            }, parameter => SeçiliSefer is not null && Müşteri.KoltukNo != 0 && SeçiliSefer.VarışZamanı > DateTime.Now && !string.IsNullOrWhiteSpace(Müşteri?.Ad) && !string.IsNullOrWhiteSpace(Müşteri?.Soyad) && !string.IsNullOrWhiteSpace(Müşteri?.Adres) && !string.IsNullOrWhiteSpace(Müşteri?.Telefon) && Müşteri.Cinsiyet != -1);
+            }, parameter => SeçiliSefer is not null && Müşteri.KoltukNo > 0 && SeçiliSefer.VarışZamanı > DateTime.Now && !string.IsNullOrWhiteSpace(Müşteri.Ad) && !string.IsNullOrWhiteSpace(Müşteri.Soyad) && !string.IsNullOrWhiteSpace(Müşteri.Adres) && Müşteri.Telefon?.Length == 10 && Müşteri.Cinsiyet > -1);
 
             MüşteriSil = new RelayCommand<object>(parameter =>
             {
