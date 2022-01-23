@@ -4,11 +4,13 @@ using Extensions;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -47,8 +49,9 @@ namespace Autobus.ViewModel
             ŞoförGirişViewModel = new ŞoförGirişViewModel();
             YolcuGirişViewModel = new YolcuGirişViewModel();
             YolcuDüzenViewModel = new YolcuDüzenViewModel();
+            TümSeferlerViewModel = new TümSeferlerViewModel();
             AraçMasrafGirişViewModel = new AraçMasrafGirişViewModel();
-            DatabaseSave = new RelayCommand<object>(parameter => Otobüs.Serialize());
+
             AraçGirişEkranı = new RelayCommand<object>(parameter => CurrentView = AraçGirişViewModel, parameter => CurrentView != AraçGirişViewModel);
             YolcuGirişEkranı = new RelayCommand<object>(parameter =>
             {
@@ -62,6 +65,11 @@ namespace Autobus.ViewModel
             }, parameter => CurrentView != YolcuDüzenViewModel);
             SeferGirişEkranı = new RelayCommand<object>(parameter => CurrentView = SeferGirişViewModel, parameter => CurrentView != SeferGirişViewModel);
             ŞoförGirişEkranı = new RelayCommand<object>(parameter => CurrentView = ŞoförGirişViewModel, parameter => CurrentView != ŞoförGirişViewModel);
+            TümSeferlerEkranı = new RelayCommand<object>(parameter =>
+            {
+                TümSeferlerViewModel.Müşteriler = new ObservableCollection<Müşteri>(ExtensionMethods.SeferleriYükle().SelectMany(z => z.Müşteri));
+                CurrentView = TümSeferlerViewModel;
+            }, parameter => CurrentView != TümSeferlerViewModel);
             AraçMasrafEkranı = new RelayCommand<object>(parameter =>
             {
                 AraçMasrafGirişViewModel.SeçiliSefer = null;
@@ -75,6 +83,8 @@ namespace Autobus.ViewModel
                     Application.Current.MainWindow.Close();
                 }
             });
+
+            DatabaseSave = new RelayCommand<object>(parameter => Otobüs.Serialize());
 
             VeritabanınıAç = new RelayCommand<object>(parameter =>
             {
@@ -175,6 +185,10 @@ namespace Autobus.ViewModel
         public ICommand ŞoförGirişEkranı { get; }
 
         public ŞoförGirişViewModel ŞoförGirişViewModel { get; set; }
+
+        public ICommand TümSeferlerEkranı { get; }
+
+        public TümSeferlerViewModel TümSeferlerViewModel { get; set; }
 
         public ICommand UygulamadanÇık { get; }
 

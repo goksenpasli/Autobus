@@ -28,8 +28,7 @@
                     <StackPanel>
                         <TextBlock Text="PLAKA" />
                         <Extensions:MaskedTextBox Mask="&gt;00 LL? 00000" Value="{Binding Araç.Plaka, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock Text="ARAÇ AKTİF Mİ" />
-                        <CheckBox IsChecked="{Binding Araç.Aktif}" />
+                        <CheckBox Content="ARAÇ AKTİF Mİ" IsChecked="{Binding Araç.Aktif}" />
                         <TextBlock Text="TOPLAM KOLTUK SAYISI" />
                         <Extensions:NumericUpDownControl Maximum="1000" Minimum="1" SmallChange="1"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
@@ -38,6 +37,7 @@
                         <Extensions:NumericUpDownControl Minimum="1" SmallChange="1"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                             Value="{Binding Araç.BölmeSayısı, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                        <TextBlock Text="GİZLENECEK KOLTUKLAR" />
                         <ListBox Height="32"
                             d:ItemsSource="{d:SampleData ItemCount=5}"
                             ItemsSource="{Binding Araç.GizlenenKoltuklar}"

@@ -41,6 +41,9 @@
             <DataTemplate DataType="{x:Type ViewModel:YolcuDüzenViewModel}">
                 <View:YolcuDüzenView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModel:TümSeferlerViewModel}">
+                <View:TümSeferlerView />
+            </DataTemplate>
             <ObjectDataProvider x:Key="ColorList"
                 MethodName="GetProperties"
                 ObjectInstance="{x:Type Colors}" />
@@ -234,7 +237,8 @@
                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                 Background="{StaticResource Koltuk}">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    FontSize="15" Foreground="White" ToolTip="Koltuk Gizlemek İçin Tıklayın.">
+                                    FontSize="15" Foreground="White"
+                                    ToolTip="Koltuk Gizlemek İçin Tıklayın. Toplam Koltuk Sayısının Bir Eksiği Kadar Koltuk Gizlenebilir.">
                                     <Hyperlink Command="{Binding AraçGirişViewModel.GizlenenKoltuklaraEkle, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding Mode=OneWay}">
                                         <Run Text="{Binding Mode=OneWay}" />
                                     </Hyperlink>
@@ -277,12 +281,12 @@
             </DataTemplate>
             <DataTemplate x:Key="ListBoxMüşteriTemplate">
                 <TextBlock>
-                    <Run Text="{Binding Ad}" />
-                    <Run Text="{Binding Soyad}" />
-                    <Run Text="{Binding KoltukNo, StringFormat={}{0} NOLU KOLTUK}" />
                     <Hyperlink Command="{Binding YolcuGirişViewModel.MüşteriSil, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding Mode=OneWay}">
                         <Run Text="X" />
                     </Hyperlink>
+                    <Run Text="{Binding KoltukNo, StringFormat={}{0} NOLU KOLTUK\&#x09;\&#x09;\&#x09;}" />
+                    <Run Text="{Binding Ad}" />
+                    <Run Text="{Binding Soyad}" />
                     <TextBlock.Style>
                         <Style BasedOn="{StaticResource CinsiyetRenkStyle}" TargetType="TextBlock" />
                     </TextBlock.Style>
@@ -317,7 +321,8 @@
             </DataTemplate>
             <DataTemplate x:Key="ComboBoxItemSeferTemplate">
                 <UniformGrid Columns="2">
-                    <Border BorderBrush="Black" BorderThickness="1">
+                    <Border Margin="3"
+                        BorderBrush="Black" BorderThickness="1">
                         <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                             <ComboBox ItemTemplate="{StaticResource ComboBoxItemŞoförTemplate}"
                                 ItemsSource="{Binding Otobüs.Şöförler.Şöför, Source={StaticResource MainViewModel}}"
@@ -331,19 +336,20 @@
                             </TextBlock>
                         </StackPanel>
                     </Border>
-                    <Border BorderBrush="Black" BorderThickness="1">
+                    <Border Margin="3"
+                        Background="Blue" BorderBrush="Black" BorderThickness="1">
                         <StackPanel HorizontalAlignment="Right">
                             <ComboBox HorizontalAlignment="Center"
-                                DisplayMemberPath="Value"
+                                DisplayMemberPath="Value" Foreground="White"
                                 ItemsSource="{Binding Mode=OneWay, Source={StaticResource İller}}"
                                 SelectedValue="{Binding KalkışŞehirId}"
                                 SelectedValuePath="Key"
                                 Template="{StaticResource ComboBoxSimpleTemplate}" />
                             <TextBlock Text="ÞÞÞ"
                                 HorizontalAlignment="Center" VerticalAlignment="Center"
-                                FontFamily="Wingdings" FontSize="16" FontWeight="Bold" />
+                                FontFamily="Wingdings" FontSize="16" FontWeight="Bold" Foreground="White" />
                             <ComboBox HorizontalAlignment="Center"
-                                DisplayMemberPath="Value"
+                                DisplayMemberPath="Value" Foreground="White"
                                 ItemsSource="{Binding Mode=OneWay, Source={StaticResource İller}}"
                                 SelectedValue="{Binding VarışŞehirId}"
                                 SelectedValuePath="Key"

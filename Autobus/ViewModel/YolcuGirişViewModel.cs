@@ -36,6 +36,7 @@ namespace Autobus.ViewModel
                     müşteri.KoltukDolu = Müşteri.BiletÖdendi;
                     müşteri.KoltukNo = Müşteri.KoltukNo;
                     müşteri.Resim = Müşteri.Resim;
+                    müşteri.SeferId = SeçiliSefer.Id;
 
                     SeçiliSefer.Müşteri.Add(müşteri);
                     MainViewModel.DatabaseSave.Execute(null);

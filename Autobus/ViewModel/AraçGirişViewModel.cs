@@ -47,7 +47,7 @@ namespace Autobus.ViewModel
                 {
                     Araç.GizlenenKoltuklar?.Add(koltukno);
                 }
-            }, parameter => true);
+            }, parameter => Araç.GizlenenKoltuklar?.Count + 1 < Araç.KoltukSayısı);
 
             GizlenenKoltuklardanSil = new RelayCommand<object>(parameter =>
             {

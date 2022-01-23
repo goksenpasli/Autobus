@@ -91,6 +91,7 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\RippleEffect.cs" />
     <Compile Include="ViewModel\SeferGirişViewModel.cs" />
+    <Compile Include="ViewModel\TümSeferlerViewModel.cs" />
     <Compile Include="ViewModel\YolcuDüzenViewModel.cs" />
     <Compile Include="ViewModel\YolcuGirişViewModel.cs" />
     <Compile Include="ViewModel\ŞoförGirişViewModel.cs" />
@@ -100,11 +101,11 @@
     <Compile Include="View\AraçMasrafGirişView.xaml.cs">
       <DependentUpon>AraçMasrafGirişView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\BiletView.xaml.cs">
-      <DependentUpon>BiletView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\SeferGirişView.xaml.cs">
       <DependentUpon>SeferGirişView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TümSeferlerView.xaml.cs">
+      <DependentUpon>TümSeferlerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\YolcuDüzenView.xaml.cs">
       <DependentUpon>YolcuDüzenView.xaml</DependentUpon>
@@ -139,11 +140,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\BiletView.xaml">
+    <Page Include="View\SeferGirişView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\SeferGirişView.xaml">
+    <Page Include="View\TümSeferlerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

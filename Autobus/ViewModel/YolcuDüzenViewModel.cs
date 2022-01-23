@@ -24,12 +24,12 @@ namespace Autobus.ViewModel
 
             MüşteriBorçTahsilEt = new RelayCommand<object>(parameter =>
             {
-                if (parameter is Müşteri müşteri && MessageBox.Show($"{müşteri.BiletFiyat:C} Bilet Tahsilatını Onaylıyor musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                if (parameter is Müşteri müşteri && MessageBox.Show($"{müşteri.Ad} {müşteri.Soyad} adlı kişiden {müşteri.BiletFiyat:C} bilet tahsilatını onaylıyor musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
                     müşteri.BiletÖdendi = true;
                     müşteri.KoltukDolu = true;
                     MainViewModel.DatabaseSave.Execute(null);
-                    SayıAyarla();
+                    SayılarıGüncelle();
                 }
             }, parameter => true);
             PropertyChanged += YolcuDüzenViewModel_PropertyChanged;
@@ -53,7 +53,7 @@ namespace Autobus.ViewModel
 
         public Sefer SeçiliSefer { get; set; }
 
-        private void SayıAyarla()
+        private void SayılarıGüncelle()
         {
             ErkekSayısı = SeçiliSefer?.Müşteri.Count(z => z.Cinsiyet == 0) ?? 0;
             KadınSayısı = SeçiliSefer?.Müşteri.Count(z => z.Cinsiyet == 1) ?? 0;
@@ -65,7 +65,7 @@ namespace Autobus.ViewModel
         {
             if (e.PropertyName is "SeçiliAraç")
             {
-                SayıAyarla();
+                SayılarıGüncelle();
             }
         }
     }

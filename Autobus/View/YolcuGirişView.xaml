@@ -66,11 +66,11 @@
                             ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
                             ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
                             ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
-                            Loaded="Loaded"
+                            Loaded="CbSeferLoaded"
                             SelectedItem="{Binding SeçiliSefer}">
                             <x:Code>
                                 <![CDATA[
-                            void Loaded(object sender, RoutedEventArgs e)
+                            void CbSeferLoaded(object sender, RoutedEventArgs e)
                             {
                                 CbSefer.IsDropDownOpen = true;
                                 CbSefer.IsDropDownOpen = false;

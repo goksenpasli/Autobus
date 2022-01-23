@@ -92,7 +92,9 @@
                 </RibbonGroup>
                 <RibbonGroup Header="Sefer İşlemleri">
                     <RibbonButton Command="{Binding SeferGirişEkranı}"
-                        KeyTip="S" Label="SEFER GİRİŞİ YAP" LargeImageSource="/Resources/route.png" />
+                        KeyTip="S" Label="SEFER GİRİŞİ YAP" LargeImageSource="/Resources/route.png" />  
+                    <RibbonButton Command="{Binding TümSeferlerEkranı}"
+                        KeyTip="TS" Label="TÜM SEFERLER" LargeImageSource="/Resources/route.png" />
                 </RibbonGroup>
                 <RibbonGroup Header="Şoför İşlemleri">
                     <RibbonButton Command="{Binding ŞoförGirişEkranı}"
