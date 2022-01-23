@@ -250,12 +250,19 @@
                 </ItemsControl>
             </DataTemplate>
             <DataTemplate x:Key="AraçTemplate">
-                <Grid Width="160" Height="50"
-                    Background="{DynamicResource Plaka}">
-                    <TextBlock Text="{Binding Plaka}"
-                        Margin="20,0,0,0" VerticalAlignment="Center"
-                        FontSize="20" />
-                </Grid>
+                <StackPanel>
+                    <Grid Width="160" Height="50"
+                        Background="{DynamicResource Plaka}">
+                        <TextBlock Text="{Binding Plaka}"
+                            Margin="20,0,0,0" VerticalAlignment="Center"
+                            FontSize="20" />
+                    </Grid>
+                    <ComboBox DisplayMemberPath="Açıklama" FontSize="20"
+                        ItemsSource="{Binding Otobüs.Markalar.Marka, Source={StaticResource MainViewModel}}"
+                        SelectedValue="{Binding MarkaId}"
+                        SelectedValuePath="Id"
+                        Template="{StaticResource ComboBoxSimpleTemplate}" />
+                </StackPanel>
             </DataTemplate>
             <DataTemplate x:Key="ComboBoxItemŞoförTemplate">
                 <StackPanel Orientation="Horizontal">

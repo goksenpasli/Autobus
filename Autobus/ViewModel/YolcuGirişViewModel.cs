@@ -95,6 +95,8 @@ namespace Autobus.ViewModel
                     printDlg.PrintVisual(parameter as Visual, "Bilet Yazdır.");
                 }
             }, parameter => SeçiliSefer is not null && SeçiliMüşteri is not null);
+
+            PropertyChanged += YolcuGirişViewModel_PropertyChanged;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -143,11 +145,16 @@ namespace Autobus.ViewModel
             Müşteri.Telefon = null;
             Müşteri.Resim = null;
             Müşteri.BiletÖdendi = false;
-            Müşteri.KoltukNo = 0;
             Müşteri.Cinsiyet = -1;
-            Sefer temp = SeçiliSefer;
-            SeçiliSefer = null;
-            SeçiliSefer = temp;
+            OnPropertyChanged(nameof(SeçiliSefer));
+        }
+
+        private void YolcuGirişViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName is "SeçiliSefer")
+            {
+                Müşteri.KoltukNo = 0;
+            }
         }
     }
 }

@@ -86,94 +86,96 @@
                                     Style="{StaticResource VirtualizingStackPanelItemsControl}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <StackPanel Width="75" Height="75">
-                                                <StackPanel.Visibility>
-                                                    <MultiBinding Converter="{StaticResource KoltukNoGizlenenKoltuklarConverter}">
-                                                        <Binding Mode="OneWay" />
-                                                        <Binding ElementName="CbAraç" Path="SelectedItem.GizlenenKoltuklar" />
-                                                    </MultiBinding>
-                                                </StackPanel.Visibility>
-                                                <TextBlock HorizontalAlignment="Center"
-                                                    FontSize="16" FontWeight="Bold"
-                                                    Visibility="{Binding DataContext.KoltukDolu, ConverterParameter=reverse, Converter={StaticResource NullToVisibilityConverter}, ElementName=Tb}">
-                                                    <Hyperlink Command="{Binding YolcuDüzenViewModel.MüşteriEkleEkranı, Mode=OneWay, Source={StaticResource MainViewModel}}" Style="{StaticResource HyperLinkRed}">
-                                                        <Hyperlink.CommandParameter>
-                                                            <MultiBinding Converter="{StaticResource CloneConverter}">
-                                                                <Binding Source="{StaticResource MainViewModel}" />
+                                            <Viewbox>
+                                                <StackPanel Width="75" Height="75">
+                                                    <StackPanel.Visibility>
+                                                        <MultiBinding Converter="{StaticResource KoltukNoGizlenenKoltuklarConverter}">
+                                                            <Binding Mode="OneWay" />
+                                                            <Binding ElementName="CbAraç" Path="SelectedItem.GizlenenKoltuklar" />
+                                                        </MultiBinding>
+                                                    </StackPanel.Visibility>
+                                                    <TextBlock HorizontalAlignment="Center"
+                                                        FontSize="16" FontWeight="Bold"
+                                                        Visibility="{Binding DataContext.KoltukDolu, ConverterParameter=reverse, Converter={StaticResource NullToVisibilityConverter}, ElementName=Tb}">
+                                                        <Hyperlink Command="{Binding YolcuDüzenViewModel.MüşteriEkleEkranı, Mode=OneWay, Source={StaticResource MainViewModel}}" Style="{StaticResource HyperLinkRed}">
+                                                            <Hyperlink.CommandParameter>
+                                                                <MultiBinding Converter="{StaticResource CloneConverter}">
+                                                                    <Binding Source="{StaticResource MainViewModel}" />
+                                                                    <Binding Mode="OneWay" />
+                                                                    <Binding ElementName="CbSefer" Path="SelectedItem" />
+                                                                    <Binding ElementName="CbAraç" Path="SelectedItem" />
+                                                                </MultiBinding>
+                                                            </Hyperlink.CommandParameter>
+                                                            <Run Text="{Binding Mode=OneWay}" />
+                                                        </Hyperlink>
+                                                    </TextBlock>
+                                                    <TextBlock x:Name="Tb"
+                                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                        FontSize="14" Foreground="White">
+                                                        <TextBlock.DataContext>
+                                                            <MultiBinding Converter="{StaticResource KoltukNoMüşteriConverter}">
                                                                 <Binding Mode="OneWay" />
                                                                 <Binding ElementName="CbSefer" Path="SelectedItem" />
-                                                                <Binding ElementName="CbAraç" Path="SelectedItem" />
                                                             </MultiBinding>
-                                                        </Hyperlink.CommandParameter>
-                                                        <Run Text="{Binding Mode=OneWay}" />
-                                                    </Hyperlink>
-                                                </TextBlock>
-                                                <TextBlock x:Name="Tb"
-                                                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                    FontSize="14" Foreground="White">
-                                                    <TextBlock.DataContext>
-                                                        <MultiBinding Converter="{StaticResource KoltukNoMüşteriConverter}">
-                                                            <Binding Mode="OneWay" />
-                                                            <Binding ElementName="CbSefer" Path="SelectedItem" />
-                                                        </MultiBinding>
-                                                    </TextBlock.DataContext>
-                                                    <TextBlock.ToolTip>
-                                                        <StackPanel>
-                                                            <Extensions:MaskedTextBlock Mask="(000) 000 00 00" UnmaskedText="{Binding Telefon}" />
-                                                            <ListBox ItemsSource="{Binding Sipariş}">
-                                                                <ListBox.ItemTemplate>
-                                                                    <DataTemplate>
-                                                                        <ComboBox ItemTemplate="{StaticResource ComboBoxItemSiparişTemplate}"
-                                                                            ItemsSource="{Binding Otobüs.Ürünler.Ürün, Source={StaticResource MainViewModel}}"
-                                                                            SelectedValue="{Binding ÜrünId}"
-                                                                            SelectedValuePath="Id"
-                                                                            Template="{DynamicResource ComboBoxSimpleTemplate}" />
-                                                                    </DataTemplate>
-                                                                </ListBox.ItemTemplate>
-                                                            </ListBox>
-                                                            <Image MaxWidth="128" MaxHeight="128"
-                                                                Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
-                                                        </StackPanel>
-                                                    </TextBlock.ToolTip>
-                                                    <Run Text="{Binding Ad}" />
-                                                    <LineBreak />
-                                                    <Run Text="{Binding Soyad}" />
-                                                </TextBlock>
-                                                <TextBlock HorizontalAlignment="Center"
-                                                    FontSize="13" FontWeight="Bold">
-                                                    <TextBlock.Style>
-                                                        <Style TargetType="TextBlock">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </TextBlock.DataContext>
+                                                        <TextBlock.ToolTip>
+                                                            <StackPanel>
+                                                                <Extensions:MaskedTextBlock Mask="(000) 000 00 00" UnmaskedText="{Binding Telefon}" />
+                                                                <ListBox ItemsSource="{Binding Sipariş}">
+                                                                    <ListBox.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <ComboBox ItemTemplate="{StaticResource ComboBoxItemSiparişTemplate}"
+                                                                                ItemsSource="{Binding Otobüs.Ürünler.Ürün, Source={StaticResource MainViewModel}}"
+                                                                                SelectedValue="{Binding ÜrünId}"
+                                                                                SelectedValuePath="Id"
+                                                                                Template="{DynamicResource ComboBoxSimpleTemplate}" />
+                                                                        </DataTemplate>
+                                                                    </ListBox.ItemTemplate>
+                                                                </ListBox>
+                                                                <Image MaxWidth="128" MaxHeight="128"
+                                                                    Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
+                                                            </StackPanel>
+                                                        </TextBlock.ToolTip>
+                                                        <Run Text="{Binding Ad}" />
+                                                        <LineBreak />
+                                                        <Run Text="{Binding Soyad}" />
+                                                    </TextBlock>
+                                                    <TextBlock HorizontalAlignment="Center"
+                                                        FontSize="13" FontWeight="Bold">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding DataContext.BiletÖdendi, ElementName=Tb}" Value="false">
+                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                        <Hyperlink Command="{Binding YolcuDüzenViewModel.MüşteriBorçTahsilEt, Source={StaticResource MainViewModel}}"
+                                                            CommandParameter="{Binding ElementName=Tb, Path=DataContext}"
+                                                            Style="{StaticResource HyperLinkRed}">
+                                                            <Run Text="Tahsilat" />
+                                                        </Hyperlink>
+                                                    </TextBlock>
+                                                    <StackPanel.Style>
+                                                        <Style TargetType="StackPanel">
+                                                            <Setter Property="Background" Value="{StaticResource Koltuk}" />
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding DataContext.BiletÖdendi, ElementName=Tb}" Value="false">
-                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                <DataTrigger Binding="{Binding ElementName=Tb, Path=DataContext.Cinsiyet}" Value="0">
+                                                                    <Setter Property="Background" Value="{StaticResource KoltukBay}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding ElementName=Tb, Path=DataContext.Cinsiyet}" Value="1">
+                                                                    <Setter Property="Background" Value="{StaticResource KoltukBayan}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding ElementName=Tb, Path=DataContext.BiletÖdendi}" Value="false">
+                                                                    <Setter Property="Background" Value="{StaticResource KoltukÖdenmedi}" />
                                                                 </DataTrigger>
                                                             </Style.Triggers>
                                                         </Style>
-                                                    </TextBlock.Style>
-                                                    <Hyperlink Command="{Binding YolcuDüzenViewModel.MüşteriBorçTahsilEt, Source={StaticResource MainViewModel}}"
-                                                        CommandParameter="{Binding ElementName=Tb, Path=DataContext}"
-                                                        Style="{StaticResource HyperLinkRed}">
-                                                        <Run Text="Tahsilat" />
-                                                    </Hyperlink>
-                                                </TextBlock>
-                                                <StackPanel.Style>
-                                                    <Style TargetType="StackPanel">
-                                                        <Setter Property="Background" Value="{StaticResource Koltuk}" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding ElementName=Tb, Path=DataContext.Cinsiyet}" Value="0">
-                                                                <Setter Property="Background" Value="{StaticResource KoltukBay}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding ElementName=Tb, Path=DataContext.Cinsiyet}" Value="1">
-                                                                <Setter Property="Background" Value="{StaticResource KoltukBayan}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding ElementName=Tb, Path=DataContext.BiletÖdendi}" Value="false">
-                                                                <Setter Property="Background" Value="{StaticResource KoltukÖdenmedi}" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </StackPanel.Style>
-                                            </StackPanel>
+                                                    </StackPanel.Style>
+                                                </StackPanel>
+                                            </Viewbox>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                     <ItemsControl.ItemsPanel>

@@ -76,7 +76,9 @@
                     Header="ARAÇ MARKA GİRİŞİ">
                     <StackPanel>
                         <TextBlock Text="MARKA AÇIKLAMA" />
-                        <TextBox Text="{Binding Marka.Açıklama, UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" />
+                        <ComboBox Text="{Binding Marka.Açıklama, UpdateSourceTrigger=PropertyChanged}"
+                            IsEditable="True"
+                            ItemsSource="{StaticResource Arabalar}" />
                         <Button Command="{Binding MarkaEkle}" CommandParameter="{Binding Otobüs.Markalar, Source={StaticResource MainViewModel}}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="MARKA GİR" VerticalAlignment="Center" />
