@@ -32,6 +32,8 @@ namespace Autobus.Model
 
         [XmlAttribute(AttributeName = "SeferId")]
         public int SeferId { get; set; }
+        [XmlIgnore]
+        public Sefer SeçiliSefer { get; set; }
 
         [XmlElement(ElementName = "Sipariş")]
         public ObservableCollection<Sipariş> Sipariş { get; set; } = new();

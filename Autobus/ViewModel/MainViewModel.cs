@@ -64,11 +64,7 @@ namespace Autobus.ViewModel
             }, parameter => CurrentView != YolcuDüzenViewModel);
             SeferGirişEkranı = new RelayCommand<object>(parameter => CurrentView = SeferGirişViewModel, parameter => CurrentView != SeferGirişViewModel);
             ŞoförGirişEkranı = new RelayCommand<object>(parameter => CurrentView = ŞoförGirişViewModel, parameter => CurrentView != ŞoförGirişViewModel);
-            TümSeferlerEkranı = new RelayCommand<object>(parameter =>
-            {
-                TümSeferlerViewModel.Müşteriler = Otobüs.Sefer.SelectMany(z => z.Müşteri);
-                CurrentView = TümSeferlerViewModel;
-            }, parameter => CurrentView != TümSeferlerViewModel);
+            TümSeferlerEkranı = new RelayCommand<object>(parameter => CurrentView = TümSeferlerViewModel, parameter => CurrentView != TümSeferlerViewModel);
             AraçMasrafEkranı = new RelayCommand<object>(parameter =>
             {
                 AraçMasrafGirişViewModel.SeçiliSefer = null;
@@ -132,6 +128,7 @@ namespace Autobus.ViewModel
             {
                 [0] = AraçGirişViewModel,
                 [1] = YolcuGirişViewModel,
+                [2] = TümSeferlerViewModel
             };
 
             if (Settings.Default.EkranSeç)
@@ -139,14 +136,10 @@ namespace Autobus.ViewModel
                 CurrentView = DefaultScreen[Settings.Default.VarsayılanEkran];
             }
 
-            Settings.Default.PropertyChanged += (s, e) =>
-            {
-                Fold = 0;
-                Ripple = 0;
-                Settings.Default.Save();
-            };
-
+            Settings.Default.PropertyChanged += Default_PropertyChanged;
             PropertyChanged += MainViewModel_PropertyChanged;
+
+            TümSeferlerViewModel.Müşteriler = Otobüs?.Sefer?.SelectMany(z => z.Müşteri);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -206,6 +199,13 @@ namespace Autobus.ViewModel
         public YolcuGirişViewModel YolcuGirişViewModel { get; set; }
 
         private DispatcherTimer timer;
+
+        private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Fold = 0;
+            Ripple = 0;
+            Settings.Default.Save();
+        }
 
         private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {

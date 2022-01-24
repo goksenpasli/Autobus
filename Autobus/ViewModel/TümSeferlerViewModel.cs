@@ -20,6 +20,11 @@ namespace Autobus.ViewModel
 
         public string MüşteriSoyadArama { get; set; }
 
+        public override string ToString()
+        {
+            return "TÜM SEFERLER";
+        }
+
         private void TümSeferlerViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName is "MüşteriAdArama")

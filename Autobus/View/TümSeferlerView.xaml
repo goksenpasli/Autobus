@@ -19,9 +19,9 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <ListView x:Name="LvMüşteri"
+                Extensions:GridViewSort.AutoSort="True"
                 d:ItemsSource="{d:SampleData ItemCount=5}"
-                ItemsSource="{Binding Mode=OneWay, Source={StaticResource Müşteriler}}"
-                SelectedItem="{Binding YolcuGirişViewModel.SeçiliMüşteri, Source={StaticResource MainViewModel}}">
+                ItemsSource="{Binding Mode=OneWay, Source={StaticResource Müşteriler}}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn>
@@ -32,20 +32,22 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding KoltukNo}" Header="KOLTUK NO" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Ad}">
+                        <GridViewColumn Extensions:GridViewSort.PropertyName="KoltukNo"
+                            DisplayMemberBinding="{Binding KoltukNo}"
+                            Header="KOLTUK NO" />
+                        <GridViewColumn Extensions:GridViewSort.PropertyName="Ad" DisplayMemberBinding="{Binding Ad}">
                             <Extensions:ButtonedTextBox Text="{Binding MüşteriAdArama, Delay=500, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                                 Width="55"
                                 VerticalContentAlignment="Center"
                                 IsTabStop="False" />
                         </GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding Soyad}">
+                        <GridViewColumn Extensions:GridViewSort.PropertyName="Soyad" DisplayMemberBinding="{Binding Soyad}">
                             <Extensions:ButtonedTextBox Text="{Binding MüşteriSoyadArama, Delay=500, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                                 Width="55"
                                 VerticalContentAlignment="Center"
                                 IsTabStop="False" />
                         </GridViewColumn>
-                        <GridViewColumn Header="TELEFON">
+                        <GridViewColumn Extensions:GridViewSort.PropertyName="Telefon" Header="TELEFON">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Extensions:MaskedTextBlock Mask="(000) 000 00 00" UnmaskedText="{Binding Telefon}" />
@@ -62,7 +64,7 @@
                                         ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
                                         ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
                                         ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
-                                        SelectedItem="{Binding YolcuGirişViewModel.SeçiliSefer, Source={StaticResource MainViewModel}}"
+                                        SelectedItem="{Binding SeçiliSefer}"
                                         SelectedValue="{Binding SeferId}"
                                         SelectedValuePath="Id"
                                         Template="{StaticResource ComboBoxSimpleTemplate}" />
@@ -114,7 +116,7 @@
                             <DataTrigger Binding="{Binding BiletÖdendi}" Value="false">
                                 <Setter Property="Foreground" Value="Orange" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding YolcuGirişViewModel.SeçiliSefer.VarışZamanı, Source={StaticResource MainViewModel}, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
+                            <DataTrigger Binding="{Binding SeçiliSefer.VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
                                 <Setter Property="Background" Value="Gray" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -204,8 +206,8 @@
                                     </TableCell>
                                     <TableCell>
                                         <Paragraph TextAlignment="Left">
-                                            <Run Text="{Binding YolcuGirişViewModel.SeçiliSefer.KalkışZamanı, Source={StaticResource MainViewModel}}" />
-                                            <Run Text="{Binding YolcuGirişViewModel.SeçiliSefer.VarışZamanı, Source={StaticResource MainViewModel}}" />
+                                            <Run Text="{Binding SelectedItem.SeçiliSefer.KalkışZamanı, ElementName=LvMüşteri}" />
+                                            <Run Text="{Binding SelectedItem.SeçiliSefer.VarışZamanı, ElementName=LvMüşteri}" />
                                         </Paragraph>
                                     </TableCell>
                                 </TableRow>
@@ -217,7 +219,7 @@
                                     </TableCell>
                                     <TableCell ColumnSpan="2">
                                         <Paragraph>
-                                            <Run Text="{Binding YolcuGirişViewModel.SeçiliSefer.BiletTutarı, Source={StaticResource MainViewModel}, StringFormat=\{0:C\}}" />
+                                            <Run Text="{Binding SelectedItem.SeçiliSefer.BiletTutarı, ElementName=LvMüşteri, StringFormat=\{0:C\}}" />
                                         </Paragraph>
                                     </TableCell>
                                 </TableRow>
