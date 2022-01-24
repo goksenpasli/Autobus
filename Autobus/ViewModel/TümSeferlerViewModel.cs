@@ -1,6 +1,6 @@
 ﻿using Autobus.Model;
 using Autobus.View;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Autobus.ViewModel
@@ -16,7 +16,7 @@ namespace Autobus.ViewModel
 
         public string MüşteriAdArama { get; set; }
 
-        public ObservableCollection<Müşteri> Müşteriler { get; set; }
+        public IEnumerable<Müşteri> Müşteriler { get; set; }
 
         public string MüşteriSoyadArama { get; set; }
 

@@ -4,7 +4,6 @@ using Extensions;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
@@ -67,7 +66,7 @@ namespace Autobus.ViewModel
             ŞoförGirişEkranı = new RelayCommand<object>(parameter => CurrentView = ŞoförGirişViewModel, parameter => CurrentView != ŞoförGirişViewModel);
             TümSeferlerEkranı = new RelayCommand<object>(parameter =>
             {
-                TümSeferlerViewModel.Müşteriler = new ObservableCollection<Müşteri>(ExtensionMethods.SeferleriYükle().SelectMany(z => z.Müşteri));
+                TümSeferlerViewModel.Müşteriler = Otobüs.Sefer.SelectMany(z => z.Müşteri);
                 CurrentView = TümSeferlerViewModel;
             }, parameter => CurrentView != TümSeferlerViewModel);
             AraçMasrafEkranı = new RelayCommand<object>(parameter =>

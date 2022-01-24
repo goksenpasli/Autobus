@@ -31,7 +31,7 @@ namespace Autobus.ViewModel
                     MainViewModel.DatabaseSave.Execute(null);
                     SayılarıGüncelle();
                 }
-            }, parameter => true);
+            }, parameter => parameter is Müşteri müşteri && !müşteri.BiletÖdendi);
             PropertyChanged += YolcuDüzenViewModel_PropertyChanged;
         }
 

@@ -13,55 +13,234 @@
         <CollectionViewSource x:Key="Müşteriler" Source="{Binding Müşteriler}" />
     </UserControl.Resources>
     <GroupBox Header="TÜM SEFERLER">
-        <ListView d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Müşteriler}}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Image MaxWidth="90" MaxHeight="110"
-                                    Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding KoltukNo}" Header="KOLTUK NO" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Ad}">
-                        <Extensions:ButtonedTextBox Text="{Binding MüşteriAdArama, Delay=500, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                            Width="55"
-                            VerticalContentAlignment="Center"
-                            IsTabStop="False" />
-                    </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Soyad}">
-                        <Extensions:ButtonedTextBox Text="{Binding MüşteriSoyadArama, Delay=500, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                            Width="55"
-                            VerticalContentAlignment="Center"
-                            IsTabStop="False" />
-                    </GridViewColumn>
-                    <GridViewColumn Header="TELEFON">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Extensions:MaskedTextBlock Mask="(000) 000 00 00" UnmaskedText="{Binding Telefon}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="SEFER">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <ComboBox x:Name="CbSefer"
-                                    HorizontalContentAlignment="Stretch"
-                                    IsEnabled="False"
-                                    ItemContainerStyle="{StaticResource ComboBoxSüresiGeçenSeferItemContainerStyle}"
-                                    ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
-                                    ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                                    ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
-                                    SelectedValue="{Binding SeferId}"
-                                    SelectedValuePath="Id"
-                                    Template="{StaticResource ComboBoxSimpleTemplate}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ListView x:Name="LvMüşteri"
+                d:ItemsSource="{d:SampleData ItemCount=5}"
+                ItemsSource="{Binding Mode=OneWay, Source={StaticResource Müşteriler}}"
+                SelectedItem="{Binding YolcuGirişViewModel.SeçiliMüşteri, Source={StaticResource MainViewModel}}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image MaxWidth="90" MaxHeight="110"
+                                        Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding KoltukNo}" Header="KOLTUK NO" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Ad}">
+                            <Extensions:ButtonedTextBox Text="{Binding MüşteriAdArama, Delay=500, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                                Width="55"
+                                VerticalContentAlignment="Center"
+                                IsTabStop="False" />
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Soyad}">
+                            <Extensions:ButtonedTextBox Text="{Binding MüşteriSoyadArama, Delay=500, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                                Width="55"
+                                VerticalContentAlignment="Center"
+                                IsTabStop="False" />
+                        </GridViewColumn>
+                        <GridViewColumn Header="TELEFON">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Extensions:MaskedTextBlock Mask="(000) 000 00 00" UnmaskedText="{Binding Telefon}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="SEFER">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox x:Name="CbSefer"
+                                        HorizontalContentAlignment="Stretch"
+                                        IsEnabled="False"
+                                        ItemContainerStyle="{StaticResource ComboBoxSüresiGeçenSeferItemContainerStyle}"
+                                        ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
+                                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                                        ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
+                                        SelectedItem="{Binding YolcuGirişViewModel.SeçiliSefer, Source={StaticResource MainViewModel}}"
+                                        SelectedValue="{Binding SeferId}"
+                                        SelectedValuePath="Id"
+                                        Template="{StaticResource ComboBoxSimpleTemplate}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="SİPARİŞ">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ListBox Width="100" MaxHeight="110"
+                                        ItemsSource="{Binding Sipariş}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <ComboBox ItemTemplate="{StaticResource ComboBoxItemSiparişTemplate}"
+                                                    ItemsSource="{Binding Otobüs.Ürünler.Ürün, Source={StaticResource MainViewModel}}"
+                                                    SelectedValue="{Binding ÜrünId}"
+                                                    SelectedValuePath="Id"
+                                                    Template="{DynamicResource ComboBoxSimpleTemplate}" />
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <Hyperlink Command="{Binding YolcuDüzenViewModel.MüşteriBorçTahsilEt, Source={StaticResource MainViewModel}}"
+                                            CommandParameter="{Binding Mode=OneWay}"
+                                            Style="{StaticResource HyperLinkRed}">
+                                            <Run Text="Bilet&#x0a;Tahsil&#x0a;Et" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Cinsiyet}" Value="0">
+                                <Setter Property="Foreground" Value="Blue" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Cinsiyet}" Value="1">
+                                <Setter Property="Foreground" Value="Magenta" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding BiletÖdendi}" Value="false">
+                                <Setter Property="Foreground" Value="Orange" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding YolcuGirişViewModel.SeçiliSefer.VarışZamanı, Source={StaticResource MainViewModel}, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
+                                <Setter Property="Background" Value="Gray" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+            <Grid Grid.Column="1"
+                Width="10cm"
+                HorizontalAlignment="Left">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <FlowDocumentScrollViewer x:Name="Fd" VerticalScrollBarVisibility="Disabled">
+                    <FlowDocument Block.LineHeight="1" FontFamily="Segoe UI" FontSize="15" Language="tr-tr"
+                        PagePadding="0">
+                        <FlowDocument.Resources>
+                            <Style TargetType="Paragraph">
+                                <Setter Property="Margin" Value="3,0,0,0" />
+                            </Style>
+                            <Style TargetType="{x:Type TableCell}">
+                                <Setter Property="BorderBrush" Value="Black" />
+                                <Setter Property="BorderThickness" Value="0.5pt" />
+                            </Style>
+                        </FlowDocument.Resources>
+                        <Table CellSpacing="0">
+                            <Table.Columns>
+                                <TableColumn Width="100" />
+                                <TableColumn Width="180" />
+                                <TableColumn Width="97" />
+                            </Table.Columns>
+                            <TableRowGroup>
+                                <TableRow>
+                                    <TableCell ColumnSpan="3">
+                                        <Paragraph TextAlignment="Center">
+                                            <Run Text="BİLET" FontWeight="Bold" />
+                                        </Paragraph>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>
+                                        <Paragraph>
+                                            <Run Text="AD" FontWeight="Bold" />
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Paragraph>
+                                            <Run Text="{Binding SelectedItem.Ad, ElementName=LvMüşteri}" />
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell RowSpan="4">
+                                        <BlockUIContainer>
+                                            <Image Width="90" Height="110"
+                                                Source="{Binding SelectedItem.Resim, ElementName=LvMüşteri, Converter={StaticResource FilePathMergeConverter}}" />
+                                        </BlockUIContainer>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>
+                                        <Paragraph>
+                                            <Run Text="SOYAD" FontWeight="Bold" />
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Paragraph>
+                                            <Run Text="{Binding SelectedItem.Soyad, ElementName=LvMüşteri}" />
+                                        </Paragraph>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>
+                                        <Paragraph>
+                                            <Run Text="KOLTUK NO" FontWeight="Bold" />
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Paragraph>
+                                            <Run Text="{Binding SelectedItem.KoltukNo, ElementName=LvMüşteri}" />
+                                        </Paragraph>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>
+                                        <Paragraph>
+                                            <Run Text="KALKIŞ VARIŞ" FontWeight="Bold" />
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Paragraph TextAlignment="Left">
+                                            <Run Text="{Binding YolcuGirişViewModel.SeçiliSefer.KalkışZamanı, Source={StaticResource MainViewModel}}" />
+                                            <Run Text="{Binding YolcuGirişViewModel.SeçiliSefer.VarışZamanı, Source={StaticResource MainViewModel}}" />
+                                        </Paragraph>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>
+                                        <Paragraph>
+                                            <Run Text="FİYAT" FontWeight="Bold" />
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell ColumnSpan="2">
+                                        <Paragraph>
+                                            <Run Text="{Binding YolcuGirişViewModel.SeçiliSefer.BiletTutarı, Source={StaticResource MainViewModel}, StringFormat=\{0:C\}}" />
+                                        </Paragraph>
+                                    </TableCell>
+                                </TableRow>
+                            </TableRowGroup>
+                        </Table>
+                    </FlowDocument>
+                </FlowDocumentScrollViewer>
+                <Button Grid.Row="2"
+                    Command="{Binding YolcuGirişViewModel.BiletYazdır, Mode=OneWay, Source={StaticResource MainViewModel}}"
+                    CommandParameter="{Binding ElementName=Fd}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="32" Height="32">
+                            <Image.Source>
+                                <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                    <Binding Source="Shell32.dll" />
+                                    <Binding Source="136" />
+                                </MultiBinding>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Text="YAZDIR" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Grid>
     </GroupBox>
 </UserControl>
