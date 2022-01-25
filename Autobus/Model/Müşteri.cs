@@ -30,10 +30,11 @@ namespace Autobus.Model
         [XmlAttribute(AttributeName = "KoltukNo")]
         public int KoltukNo { get; set; }
 
-        [XmlAttribute(AttributeName = "SeferId")]
-        public int SeferId { get; set; }
         [XmlIgnore]
         public Sefer SeçiliSefer { get; set; }
+
+        [XmlAttribute(AttributeName = "SeferId")]
+        public int SeferId { get; set; }
 
         [XmlElement(ElementName = "Sipariş")]
         public ObservableCollection<Sipariş> Sipariş { get; set; } = new();

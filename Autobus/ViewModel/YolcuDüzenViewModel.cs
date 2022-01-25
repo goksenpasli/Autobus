@@ -29,7 +29,7 @@ namespace Autobus.ViewModel
                     müşteri.BiletÖdendi = true;
                     müşteri.KoltukDolu = true;
                     MainViewModel.DatabaseSave.Execute(null);
-                    SayılarıGüncelle();
+                    SayılarıGüncelle(SeçiliSefer, SeçiliAraç);
                 }
             }, parameter => parameter is Müşteri müşteri && !müşteri.BiletÖdendi);
             PropertyChanged += YolcuDüzenViewModel_PropertyChanged;
@@ -37,35 +37,38 @@ namespace Autobus.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public double DolulukOranı { get; set; }
+        public double DolulukOranı { get; private set; }
 
-        public int ErkekSayısı { get; set; }
+        public int ErkekSayısı { get; private set; }
 
-        public int KadınSayısı { get; set; }
+        public int KadınSayısı { get; private set; }
 
         public ICommand MüşteriBorçTahsilEt { get; }
 
         public ICommand MüşteriEkleEkranı { get; }
 
-        public int ÖdemeYapılmamışSayısı { get; set; }
+        public int ÖdemeYapılmamışSayısı { get; private set; }
 
         public Araç SeçiliAraç { get; set; }
 
         public Sefer SeçiliSefer { get; set; }
 
-        private void SayılarıGüncelle()
+        public double ToplamGelir { get; private set; }
+
+        private void SayılarıGüncelle(Sefer sefer, Araç araç)
         {
-            ErkekSayısı = SeçiliSefer?.Müşteri.Count(z => z.Cinsiyet == 0) ?? 0;
-            KadınSayısı = SeçiliSefer?.Müşteri.Count(z => z.Cinsiyet == 1) ?? 0;
-            ÖdemeYapılmamışSayısı = SeçiliSefer?.Müşteri.Count(z => !z.BiletÖdendi) ?? 0;
-            DolulukOranı = SeçiliAraç != null ? (double)((ErkekSayısı + KadınSayısı) / (double)(SeçiliAraç.KoltukSayısı - SeçiliAraç.GizlenenKoltuklar.Count)) : 0;
+            ErkekSayısı = sefer?.Müşteri.Count(z => z.Cinsiyet == 0) ?? 0;
+            KadınSayısı = sefer?.Müşteri.Count(z => z.Cinsiyet == 1) ?? 0;
+            ÖdemeYapılmamışSayısı = sefer?.Müşteri.Count(z => !z.BiletÖdendi) ?? 0;
+            ToplamGelir = sefer?.Müşteri.Where(z => z.BiletÖdendi).Sum(z => z.BiletFiyat) ?? 0;
+            DolulukOranı = araç != null ? (double)((ErkekSayısı + KadınSayısı) / (double)(araç.KoltukSayısı - araç.GizlenenKoltuklar.Count)) : 0;
         }
 
         private void YolcuDüzenViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName is "SeçiliAraç")
+            if (e.PropertyName is "SeçiliAraç" or "SeçiliSefer")
             {
-                SayılarıGüncelle();
+                SayılarıGüncelle(SeçiliSefer, SeçiliAraç);
             }
         }
     }

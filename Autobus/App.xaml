@@ -319,11 +319,18 @@
                     <Run Text="{Binding Value}" />
                 </TextBlock>
             </DataTemplate>
+            <DataTemplate x:Key="İlİsimTemplate">
+                <TextBlock>
+                    <Run Text="{Binding Value}" />
+                </TextBlock>
+            </DataTemplate>
             <DataTemplate x:Key="ComboBoxItemSeferTemplate">
                 <UniformGrid Columns="2">
                     <Border Margin="3"
                         BorderBrush="Black" BorderThickness="1">
-                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <StackPanel Width="250"
+                            HorizontalAlignment="Left"
+                            Orientation="Horizontal">
                             <ComboBox ItemTemplate="{StaticResource ComboBoxItemŞoförTemplate}"
                                 ItemsSource="{Binding Otobüs.Şöförler.Şöför, Source={StaticResource MainViewModel}}"
                                 SelectedValue="{Binding ŞöförId}"

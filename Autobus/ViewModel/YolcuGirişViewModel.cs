@@ -90,11 +90,7 @@ namespace Autobus.ViewModel
 
             BiletYazdır = new RelayCommand<object>(parameter =>
             {
-                PrintDialog printDlg = new();
-                if (printDlg.ShowDialog() == true)
-                {
-                    printDlg.PrintVisual(parameter as Visual, "Bilet Yazdır.");
-                }
+                PrintTicket(parameter);
             }, parameter => SeçiliSefer is not null && SeçiliMüşteri is not null);
 
             PropertyChanged += YolcuGirişViewModel_PropertyChanged;
@@ -125,6 +121,15 @@ namespace Autobus.ViewModel
         public Ürün Ürün { get; set; }
 
         public ICommand ÜrünEkle { get; }
+
+        public static void PrintTicket(object parameter)
+        {
+            PrintDialog printDlg = new();
+            if (printDlg.ShowDialog() == true)
+            {
+                printDlg.PrintVisual(parameter as Visual, "Bilet Yazdır.");
+            }
+        }
 
         public void OnPropertyChanged(string propertyName)
         {

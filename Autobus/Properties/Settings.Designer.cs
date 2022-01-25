@@ -106,5 +106,17 @@ namespace Autobus.Properties {
                 this["AnimasyonTipi"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TümSeferlerResimGöster {
+            get {
+                return ((bool)(this["TümSeferlerResimGöster"]));
+            }
+            set {
+                this["TümSeferlerResimGöster"] = value;
+            }
+        }
     }
 }

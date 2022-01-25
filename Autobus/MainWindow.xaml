@@ -43,6 +43,9 @@
                                         Value="{Binding Path=OrtalamaHız, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
                                 </HeaderedContentControl>
                                 <CheckBox Content="SÜRESİ GEÇEN SEFERLERİ GİZLE" IsChecked="{Binding Path=SüresiGeçenSeferleriGizle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
+                                <CheckBox Content="MÜŞTERİ RESİM GÖSTER"
+                                    IsChecked="{Binding Path=TümSeferlerResimGöster, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}"
+                                    ToolTip="Bu İşaretliyse Tüm Seferler Ekranında Müşteri Resimleri Gösterilir." />
                                 <HeaderedContentControl Header="ANİMASYON TİPİ">
                                     <ComboBox SelectedValue="{Binding Path=AnimasyonTipi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" SelectedValuePath="Tag">
                                         <ComboBoxItem Content="FOLD" Tag="0" />
@@ -81,6 +84,7 @@
                     <RibbonApplicationMenuItem IsEnabled="False" />
                     <RibbonApplicationMenuItem IsEnabled="False" />
                     <RibbonApplicationMenuItem IsEnabled="False" />
+                    <RibbonApplicationMenuItem IsEnabled="False" />
                 </RibbonApplicationMenu>
             </Ribbon.ApplicationMenu>
             <RibbonTab Header="OTOBÜS" RenderOptions.BitmapScalingMode="NearestNeighbor">
@@ -92,7 +96,7 @@
                 </RibbonGroup>
                 <RibbonGroup Header="Sefer İşlemleri">
                     <RibbonButton Command="{Binding SeferGirişEkranı}"
-                        KeyTip="S" Label="SEFER GİRİŞİ YAP" LargeImageSource="/Resources/route.png" />  
+                        KeyTip="S" Label="SEFER GİRİŞİ YAP" LargeImageSource="/Resources/route.png" />
                     <RibbonButton Command="{Binding TümSeferlerEkranı}"
                         KeyTip="TS" Label="TÜM SEFERLER" LargeImageSource="/Resources/route.png" />
                 </RibbonGroup>

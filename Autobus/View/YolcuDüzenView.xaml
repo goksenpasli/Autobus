@@ -17,17 +17,21 @@
                     <Rectangle Width="16" Fill="Orange" />
                     <TextBlock>
                         <Run Text="ÖDEMESİ YAPILMAMIŞ KOLTUK" />
-                        <Run Text="{Binding ÖdemeYapılmamışSayısı}" />
+                        <Run Text="{Binding ÖdemeYapılmamışSayısı, Mode=OneWay}" />
                     </TextBlock>
                     <Rectangle Width="16" Fill="Blue" />
                     <TextBlock>
                         <Run Text="ERKEK" />
-                        <Run Text="{Binding ErkekSayısı}" />
+                        <Run Text="{Binding ErkekSayısı, Mode=OneWay}" />
                     </TextBlock>
                     <Rectangle Width="16" Fill="Magenta" />
                     <TextBlock>
                         <Run Text="BAYAN" />
-                        <Run Text="{Binding KadınSayısı}" />
+                        <Run Text="{Binding KadınSayısı, Mode=OneWay}" />
+                    </TextBlock>
+                    <TextBlock>
+                        <Run Text=" TOPLAM GELİR" />
+                        <Run Text="{Binding ToplamGelir, Mode=OneWay, StringFormat=\{0:C\}}" Language="tr-tr" />
                     </TextBlock>
                 </StackPanel>
             </GroupBox.Header>
@@ -58,7 +62,7 @@
                                 Foreground="{StaticResource ProgressBarPinkForeground}"
                                 Maximum="1" Orientation="Vertical"
                                 Style="{StaticResource ProgressBarStyle}"
-                                Value="{Binding YolcuDüzenViewModel.DolulukOranı, Source={StaticResource MainViewModel}}" />
+                                Value="{Binding YolcuDüzenViewModel.DolulukOranı, Mode=OneWay, Source={StaticResource MainViewModel}}" />
                             <Canvas Width="96" Height="96"
                                 HorizontalAlignment="Left" VerticalAlignment="Bottom"
                                 Background="{StaticResource Direksiyon}"

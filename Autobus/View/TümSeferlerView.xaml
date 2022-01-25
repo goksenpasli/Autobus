@@ -2,10 +2,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
+    xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Autobus.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:model="clr-namespace:Autobus.Model" xmlns:viewmodel="clr-namespace:Autobus.ViewModel"
+    xmlns:model="clr-namespace:Autobus.Model" xmlns:properties="clr-namespace:Autobus.Properties"
+    xmlns:viewmodel="clr-namespace:Autobus.ViewModel"
     d:DataContext="{d:DesignInstance Type={x:Type viewmodel:TümSeferlerViewModel}}"
     d:DesignHeight="450" d:DesignWidth="800" UseLayoutRounding="True"
     mc:Ignorable="d">
@@ -27,8 +29,21 @@
                         <GridViewColumn>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Image MaxWidth="90" MaxHeight="110"
-                                        Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
+                                    <Image MaxWidth="90" MaxHeight="110">
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding TümSeferlerResimGöster, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" Value="true">
+                                                        <Setter Property="Source">
+                                                            <Setter.Value>
+                                                                <Binding Converter="{StaticResource FilePathMergeConverter}" Path="Resim" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -54,7 +69,37 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="SEFER">
+                        <GridViewColumn Extensions:GridViewSort.PropertyName="SeçiliSefer.KalkışZamanı">
+                            <GridViewColumn.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="KALKIŞ İLİ " VerticalAlignment="Center" />
+                                    <ComboBox IsTextSearchEnabled="False"
+                                        ItemTemplate="{StaticResource İlİsimTemplate}"
+                                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                                        SelectedValue="{Binding KalkışŞehirAramaId}"
+                                        SelectedValuePath="Key">
+                                        <ComboBox.ItemsSource>
+                                            <CompositeCollection>
+                                                <collections:DictionaryEntry Key="0" Value="FARK ETMEZ" />
+                                                <CollectionContainer Collection="{Binding Mode=OneWay, Source={StaticResource İller}}" />
+                                            </CompositeCollection>
+                                        </ComboBox.ItemsSource>
+                                    </ComboBox>
+                                    <TextBlock Text=" VARIŞ İLİ " VerticalAlignment="Center" />
+                                    <ComboBox IsTextSearchEnabled="False"
+                                        ItemTemplate="{StaticResource İlİsimTemplate}"
+                                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                                        SelectedValue="{Binding VarışŞehirAramaId}"
+                                        SelectedValuePath="Key">
+                                        <ComboBox.ItemsSource>
+                                            <CompositeCollection>
+                                                <collections:DictionaryEntry Key="0" Value="FARK ETMEZ" />
+                                                <CollectionContainer Collection="{Binding Mode=OneWay, Source={StaticResource İller}}" />
+                                            </CompositeCollection>
+                                        </ComboBox.ItemsSource>
+                                    </ComboBox>
+                                </StackPanel>
+                            </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox x:Name="CbSefer"
@@ -228,8 +273,9 @@
                     </FlowDocument>
                 </FlowDocumentScrollViewer>
                 <Button Grid.Row="2"
-                    Command="{Binding YolcuGirişViewModel.BiletYazdır, Mode=OneWay, Source={StaticResource MainViewModel}}"
-                    CommandParameter="{Binding ElementName=Fd}">
+                    Command="{Binding BiletYazdır}"
+                    CommandParameter="{Binding ElementName=Fd}"
+                    IsEnabled="{Binding ElementName=LvMüşteri, Path=SelectedItem, Converter={StaticResource NullableToBooleanConverter}}">
                     <StackPanel Orientation="Horizontal">
                         <Image Width="32" Height="32">
                             <Image.Source>
