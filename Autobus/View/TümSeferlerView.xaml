@@ -147,6 +147,19 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <Hyperlink Command="{Binding TümSeferlerViewModel.MüşteriSil, Mode=OneWay, Source={StaticResource MainViewModel}}"
+                                            CommandParameter="{Binding Mode=OneWay}"
+                                            Style="{StaticResource HyperLinkRed}">
+                                            <Run Text="Müşteri&#x0a;Sil" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
                 <ListView.ItemContainerStyle>

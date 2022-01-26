@@ -1,5 +1,6 @@
 ﻿using Autobus.Model;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -90,6 +91,11 @@ namespace Autobus.ViewModel
             }
             _ = Directory.CreateDirectory(Path.GetDirectoryName(MainViewModel.xmldatapath));
             return new ObservableCollection<Şöför>();
+        }
+
+        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> enumerableList)
+        {
+            return enumerableList != null ? new ObservableCollection<T>(enumerableList) : null;
         }
 
         public static ObservableCollection<Ürün> ÜrünleriYükle()

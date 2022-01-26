@@ -9,7 +9,6 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -135,11 +134,10 @@ namespace Autobus.ViewModel
             {
                 CurrentView = DefaultScreen[Settings.Default.VarsayılanEkran];
             }
+            TümSeferlerViewModel.Seferler = Otobüs?.Sefer;
 
             Settings.Default.PropertyChanged += Default_PropertyChanged;
             PropertyChanged += MainViewModel_PropertyChanged;
-
-            TümSeferlerViewModel.Müşteriler = Otobüs?.Sefer?.SelectMany(z => z.Müşteri);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
