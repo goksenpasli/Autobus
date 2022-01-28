@@ -23,10 +23,11 @@
             <ListView x:Name="LvMüşteri"
                 Extensions:GridViewSort.AutoSort="True"
                 d:ItemsSource="{d:SampleData ItemCount=5}"
-                ItemsSource="{Binding Mode=OneWay, Source={StaticResource Müşteriler}}">
+                ItemsSource="{Binding Mode=OneWay, Source={StaticResource Müşteriler}}"
+                SelectedItem="{Binding SeçiliMüşteri}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn>
+                        <GridViewColumn Header="RESİM">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Image MaxWidth="90" MaxHeight="110">
@@ -49,7 +50,7 @@
                         </GridViewColumn>
                         <GridViewColumn Extensions:GridViewSort.PropertyName="KoltukNo"
                             DisplayMemberBinding="{Binding KoltukNo}"
-                            Header="KOLTUK NO" />
+                            Header="KOLTUK&#x0a;NO" />
                         <GridViewColumn Extensions:GridViewSort.PropertyName="Ad" DisplayMemberBinding="{Binding Ad}">
                             <Extensions:ButtonedTextBox Text="{Binding MüşteriAdArama, Delay=500, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                                 Width="55"
@@ -62,7 +63,11 @@
                                 VerticalContentAlignment="Center"
                                 IsTabStop="False" />
                         </GridViewColumn>
-                        <GridViewColumn Extensions:GridViewSort.PropertyName="Telefon" Header="TELEFON">
+                        <GridViewColumn Extensions:GridViewSort.PropertyName="Telefon">
+                            <GridViewColumn.Header>
+                                <Extensions:MaskedTextBox IncludeLiterals="False" IncludePrompt="False" Mask="(000) 000 00 00"
+                                    Value="{Binding TelefonArama, Delay=500, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                            </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Extensions:MaskedTextBlock Mask="(000) 000 00 00" UnmaskedText="{Binding Telefon}" />
@@ -72,8 +77,11 @@
                         <GridViewColumn Extensions:GridViewSort.PropertyName="SeçiliSefer.KalkışZamanı">
                             <GridViewColumn.Header>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="KALKIŞ İLİ " VerticalAlignment="Center" />
-                                    <ComboBox IsTextSearchEnabled="False"
+                                    <TextBlock Text="KALKIŞ&#x0a;TARİHİ " VerticalAlignment="Center" />
+                                    <DatePicker VerticalContentAlignment="Center" SelectedDate="{Binding KalkışTarihArama}" />
+                                    <TextBlock Text="KALKIŞ&#x0a;İLİ " VerticalAlignment="Center" />
+                                    <ComboBox VerticalContentAlignment="Center"
+                                        IsTextSearchEnabled="False"
                                         ItemTemplate="{StaticResource İlİsimTemplate}"
                                         ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
                                         SelectedValue="{Binding KalkışŞehirAramaId}"
@@ -85,8 +93,9 @@
                                             </CompositeCollection>
                                         </ComboBox.ItemsSource>
                                     </ComboBox>
-                                    <TextBlock Text=" VARIŞ İLİ " VerticalAlignment="Center" />
-                                    <ComboBox IsTextSearchEnabled="False"
+                                    <TextBlock Text="VARIŞ&#x0a;İLİ " VerticalAlignment="Center" />
+                                    <ComboBox VerticalContentAlignment="Center"
+                                        IsTextSearchEnabled="False"
                                         ItemTemplate="{StaticResource İlİsimTemplate}"
                                         ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
                                         SelectedValue="{Binding VarışŞehirAramaId}"
@@ -134,7 +143,12 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn>
+                        <GridViewColumn Extensions:GridViewSort.PropertyName="BiletÖdendi">
+                            <GridViewColumn.Header>
+                                <CheckBox Content="DURUM"
+                                    IsChecked="{Binding BiletÖdendi}"
+                                    IsThreeState="True" />
+                            </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock>
@@ -185,8 +199,9 @@
                 Width="10cm"
                 HorizontalAlignment="Left">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="154.4" />
+                    <RowDefinition Height="36" />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <FlowDocumentScrollViewer x:Name="Fd" VerticalScrollBarVisibility="Disabled">
                     <FlowDocument Block.LineHeight="1" FontFamily="Segoe UI" FontSize="15" Language="tr-tr"
@@ -285,7 +300,7 @@
                         </Table>
                     </FlowDocument>
                 </FlowDocumentScrollViewer>
-                <Button Grid.Row="2"
+                <Button Grid.Row="1"
                     Command="{Binding BiletYazdır}"
                     CommandParameter="{Binding ElementName=Fd}"
                     IsEnabled="{Binding ElementName=LvMüşteri, Path=SelectedItem, Converter={StaticResource NullableToBooleanConverter}}">
@@ -301,6 +316,69 @@
                         <TextBlock Text="YAZDIR" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
+                <GroupBox Grid.Row="2">
+                    <GroupBox.Header>
+                        <Canvas Width="96" Height="96"
+                            HorizontalAlignment="Left"
+                            Background="{StaticResource Direksiyon}" />
+                    </GroupBox.Header>
+                    <ListBox HorizontalContentAlignment="Center"
+                        d:ItemsSource="{d:SampleData ItemCount=5}"
+                        IsTextSearchEnabled="False"
+                        ItemsSource="{Binding SeçiliAraç.KoltukÖnizlemeListe}"
+                        SelectedItem="{Binding SeçiliMüşteri.KoltukNo}"
+                        SelectionMode="Single">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Extensions:VirtualizingTilePanel ChildHeight="20"
+                                    Columns="{Binding SeçiliAraç.BölmeSayısı}"
+                                    Tile="False" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TransformGroup>
+                                            <ScaleTransform />
+                                            <SkewTransform />
+                                            <RotateTransform />
+                                            <TranslateTransform />
+                                        </TransformGroup>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Value="Collapsed">
+                                        <DataTrigger.Binding>
+                                            <MultiBinding Converter="{StaticResource KoltukNoGizlenenKoltuklarConverter}">
+                                                <Binding Mode="OneWay" />
+                                                <Binding Path="TümSeferlerViewModel.SeçiliAraç.GizlenenKoltuklar" Source="{StaticResource MainViewModel}" />
+                                            </MultiBinding>
+                                        </DataTrigger.Binding>
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <d:Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <EventTrigger RoutedEvent="ListBoxItem.Selected">
+                                        <BeginStoryboard>
+                                            <Storyboard AutoReverse="True" Timeline.DesiredFrameRate="25">
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                                                    <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="360" />
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </GroupBox>
             </Grid>
         </Grid>
     </GroupBox>

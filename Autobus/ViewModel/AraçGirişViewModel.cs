@@ -1,8 +1,12 @@
 ﻿using Autobus.Model;
 using Extensions;
+using Microsoft.Win32;
+using System;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Autobus.ViewModel
 {
@@ -41,6 +45,18 @@ namespace Autobus.ViewModel
                 MainViewModel.DatabaseSave.Execute(null);
             }, parameter => !string.IsNullOrWhiteSpace(Marka?.Açıklama));
 
+            AraçResimYükle = new RelayCommand<object>(parameter =>
+            {
+                OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff;*.png)|*.jpg;*.jpeg;*.tif;*.tiff;*.png" };
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    string filename = Guid.NewGuid() + Path.GetExtension(openFileDialog.FileName);
+                    image = new BitmapImage(new Uri(openFileDialog.FileName));
+                    File.WriteAllBytes($"{Path.GetDirectoryName(MainViewModel.xmldatapath)}\\{filename}", image.Resize(ResimEn, ResimBoy).ToTiffJpegByteArray(Extensions.ExtensionMethods.Format.Jpg));
+                    Araç.Resim = filename;
+                }
+            }, parameter => true);
+
             GizlenenKoltuklaraEkle = new RelayCommand<object>(parameter =>
             {
                 if (parameter is int koltukno && Araç.GizlenenKoltuklar?.Contains(koltukno) == false)
@@ -62,6 +78,8 @@ namespace Autobus.ViewModel
 
         public ICommand AraçEkle { get; }
 
+        public ICommand AraçResimYükle { get; }
+
         public ICommand GizlenenKoltuklaraEkle { get; }
 
         public ICommand GizlenenKoltuklardanSil { get; }
@@ -70,10 +88,16 @@ namespace Autobus.ViewModel
 
         public ICommand MarkaEkle { get; }
 
+        public double ResimBoy { get; set; }
+
+        public double ResimEn { get; set; }
+
         public override string ToString()
         {
             return "ARAÇ GİRİŞ";
         }
+
+        private BitmapImage image;
 
         private void ResetAraç()
         {

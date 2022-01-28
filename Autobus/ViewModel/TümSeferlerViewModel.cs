@@ -1,6 +1,7 @@
 ﻿using Autobus.Model;
 using Autobus.View;
 using Extensions;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -38,9 +39,13 @@ namespace Autobus.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public bool? BiletÖdendi { get; set; }
+
         public ICommand BiletYazdır { get; }
 
         public int KalkışŞehirAramaId { get; set; }
+
+        public DateTime? KalkışTarihArama { get; set; }
 
         public string MüşteriAdArama { get; set; }
 
@@ -50,7 +55,13 @@ namespace Autobus.ViewModel
 
         public string MüşteriSoyadArama { get; set; }
 
+        public Araç SeçiliAraç { get; set; }
+
+        public Müşteri SeçiliMüşteri { get; set; }
+
         public ObservableCollection<Sefer> Seferler { get; set; }
+
+        public string TelefonArama { get; set; }
 
         public int VarışŞehirAramaId { get; set; }
 
@@ -70,6 +81,10 @@ namespace Autobus.ViewModel
             {
                 TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.Ad.Contains(MüşteriAdArama) == true;
             }
+            if (e.PropertyName is "TelefonArama")
+            {
+                TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.Telefon.Contains(TelefonArama) == true;
+            }
             if (e.PropertyName is "KalkışŞehirAramaId")
             {
                 if (KalkışŞehirAramaId == 0)
@@ -78,6 +93,24 @@ namespace Autobus.ViewModel
                     return;
                 }
                 TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.SeçiliSefer.KalkışŞehirId == KalkışŞehirAramaId;
+            }
+            if (e.PropertyName is "KalkışTarihArama")
+            {
+                if (KalkışTarihArama == null)
+                {
+                    TümSeferlerView.cvs.Filter += (s, e) => e.Accepted = true;
+                    return;
+                }
+                TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.SeçiliSefer.KalkışZamanı == KalkışTarihArama;
+            }
+            if (e.PropertyName is "BiletÖdendi")
+            {
+                if (BiletÖdendi == null)
+                {
+                    TümSeferlerView.cvs.Filter += (s, e) => e.Accepted = true;
+                    return;
+                }
+                TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.BiletÖdendi == BiletÖdendi;
             }
             if (e.PropertyName is "VarışŞehirAramaId")
             {
@@ -95,6 +128,10 @@ namespace Autobus.ViewModel
             if (e.PropertyName is "Seferler")
             {
                 Müşteriler = Seferler?.SelectMany(z => z.Müşteri);
+            }
+            if (e.PropertyName is "SeçiliMüşteri")
+            {
+                SeçiliAraç = ExtensionMethods.AraçlarıYükle().FirstOrDefault(z => z.Id == SeçiliMüşteri?.SeçiliSefer?.AraçId);
             }
         }
     }

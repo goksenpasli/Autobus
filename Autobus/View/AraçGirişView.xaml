@@ -63,6 +63,29 @@
                             ItemsSource="{Binding Otobüs.Markalar.Marka, Source={StaticResource MainViewModel}}"
                             SelectedValue="{Binding Araç.MarkaId}"
                             SelectedValuePath="Id" />
+                        <UniformGrid Columns="3">
+                            <Button Command="{Binding AraçResimYükle}" IsTabStop="False">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="32" Height="32">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="117" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock Text="ARAÇ RESİM EKLE" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                            <HeaderedContentControl Header="RESİM EN" IsTabStop="False">
+                                <Extensions:NumericUpDownControl IsTabStop="False" Maximum="1024" Minimum="160" SmallChange="1"
+                                    Value="{Binding Path=ResimEn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </HeaderedContentControl>
+                            <HeaderedContentControl Header="RESİM BOY" IsTabStop="False">
+                                <Extensions:NumericUpDownControl IsTabStop="False" Maximum="1024" Minimum="120" SmallChange="1"
+                                    Value="{Binding Path=ResimBoy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </HeaderedContentControl>
+                        </UniformGrid>
                         <Button Command="{Binding AraçEkle}" CommandParameter="{Binding Otobüs.Araçlar, Source={StaticResource MainViewModel}}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="ARAÇ GİR" VerticalAlignment="Center" />
