@@ -39,7 +39,7 @@ namespace Autobus.ViewModel
                     sefer.VarışZamanı = Sefer.VarışZamanı;
                     sefer.VarışŞehirId = Sefer.VarışŞehirId;
                     sefer.ŞöförId = Sefer.ŞöförId;
-
+                    sefer.Renk = ExtensionMethods.RandomColor();
                     otobüs?.Sefer.Add(sefer);
                     MainViewModel.DatabaseSave.Execute(null);
 

@@ -1,5 +1,6 @@
 ﻿using PropertyChanged;
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Xml;
@@ -10,6 +11,11 @@ namespace Autobus.Model
     [XmlRoot(ElementName = "Sefer")]
     public class Sefer : INotifyPropertyChanged
     {
+        static Sefer()
+        {
+            İllerListe = App.Current.TryFindResource("İller") as ArrayList;
+        }
+
         public Sefer()
         {
             VarışZamanı = KalkışZamanı.AddHours(TahminiSüre).AddTicks(KalkışSaat.Ticks);
@@ -20,6 +26,9 @@ namespace Autobus.Model
 
         [XmlAttribute(AttributeName = "AraçId")]
         public int AraçId { get; set; } = -1;
+
+        [DependsOn("KalkışŞehirId", "VarışŞehirId")]
+        public string Başlık => ((DictionaryEntry)İllerListe[KalkışŞehirId]).Value?.ToString()[0] + "" + ((DictionaryEntry)İllerListe[VarışŞehirId]).Value?.ToString()[0];
 
         [XmlAttribute(AttributeName = "BiletTutarı")]
         public double BiletTutarı { get; set; } = 0;
@@ -47,6 +56,9 @@ namespace Autobus.Model
         [XmlElement(ElementName = "Müşteri")]
         public ObservableCollection<Müşteri> Müşteri { get; set; } = new();
 
+        [XmlAttribute(AttributeName = "Renk")]
+        public string Renk { get; set; }
+
         [XmlAttribute(AttributeName = "ŞöförId")]
         public int ŞöförId { get; set; }
 
@@ -63,6 +75,8 @@ namespace Autobus.Model
 
         [XmlAttribute(AttributeName = "VarışZamanı")]
         public DateTime VarışZamanı { get; set; }
+
+        private static readonly ArrayList İllerListe;
 
         private int mesafe;
 

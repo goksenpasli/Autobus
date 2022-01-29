@@ -27,6 +27,20 @@
                 SelectedItem="{Binding SeçiliMüşteri}">
                 <ListView.View>
                     <GridView>
+                        <GridViewColumn Extensions:GridViewSort.PropertyName="SeçiliSefer.Renk">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Ellipse Width="32" Height="32"
+                                            d:Fill="Blue"
+                                            Fill="{Binding SeçiliSefer.Renk, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
+                                        <TextBlock Text="{Binding SeçiliSefer.Başlık, Mode=OneWay}"
+                                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                                            FontStyle="Italic" FontWeight="Bold" />
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn Header="RESİM">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
