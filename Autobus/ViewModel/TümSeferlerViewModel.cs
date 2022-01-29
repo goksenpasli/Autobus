@@ -18,20 +18,21 @@ namespace Autobus.ViewModel
             BiletYazdır = new RelayCommand<object>(parameter => YolcuGirişViewModel.PrintTicket(parameter), parameter => true);
             MüşteriSil = new RelayCommand<object>(parameter =>
             {
-                if (MessageBox.Show("Seçili Müşteriyi Silmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                if (MessageBox.Show($"{SeçiliMüşteri.Ad} {SeçiliMüşteri.Soyad} Adlı Müşteriyi Silmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    foreach (Sefer item in Seferler)
-                    {
-                        foreach (Müşteri müşteri in Müşteriler.ToList())
-                        {
-                            if (müşteri.Id == (parameter as Müşteri)?.Id)
-                            {
-                                item.Müşteri.Remove(müşteri);
-                            }
-                        }
-                    }
+                    SeçiliMüşteri?.SeçiliSefer?.Müşteri?.Remove(SeçiliMüşteri);
                     MainViewModel.DatabaseSave.Execute(null);
                     OnPropertyChanged(nameof(Seferler));
+                }
+            }, parameter => SeçiliMüşteri is not null);
+
+            MüşteriTaşı = new RelayCommand<object>(parameter =>
+            {
+                if (MessageBox.Show($"{SeçiliMüşteri.Ad} {SeçiliMüşteri.Soyad} Adlı Müşteriyi Taşımak İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    SeçiliMüşteri.KoltukNo = (int)parameter;
+                    MainViewModel.DatabaseSave.Execute(null);
+                    OnPropertyChanged(nameof(SeçiliMüşteri));
                 }
             }, parameter => true);
             PropertyChanged += TümSeferlerViewModel_PropertyChanged;
@@ -42,6 +43,8 @@ namespace Autobus.ViewModel
         public bool? BiletÖdendi { get; set; }
 
         public ICommand BiletYazdır { get; }
+
+        public IEnumerable<int> BoşKalanKoltuklar { get; set; }
 
         public int KalkışŞehirAramaId { get; set; }
 
@@ -54,6 +57,10 @@ namespace Autobus.ViewModel
         public ICommand MüşteriSil { get; }
 
         public string MüşteriSoyadArama { get; set; }
+
+        public ICommand MüşteriTaşı { get; }
+
+        public Otobüs Otobüs { get; set; }
 
         public Araç SeçiliAraç { get; set; }
 
@@ -127,11 +134,12 @@ namespace Autobus.ViewModel
             }
             if (e.PropertyName is "Seferler")
             {
-                Müşteriler = Seferler?.SelectMany(z => z.Müşteri);
+                Müşteriler = Otobüs.Sefer?.SelectMany(z => z.Müşteri);
             }
             if (e.PropertyName is "SeçiliMüşteri")
             {
-                SeçiliAraç = ExtensionMethods.AraçlarıYükle().FirstOrDefault(z => z.Id == SeçiliMüşteri?.SeçiliSefer?.AraçId);
+                SeçiliAraç = Otobüs.Araçlar.Araç.FirstOrDefault(z => z.Id == SeçiliMüşteri?.SeçiliSefer?.AraçId);
+                BoşKalanKoltuklar = SeçiliAraç?.KoltukÖnizlemeListe.Except(SeçiliAraç?.GizlenenKoltuklar)?.Except(Müşteriler?.Where(z => z.SeferId == SeçiliMüşteri?.SeferId && z.KoltukDolu).Select(z => z.KoltukNo));
             }
         }
     }

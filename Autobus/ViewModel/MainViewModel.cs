@@ -134,7 +134,8 @@ namespace Autobus.ViewModel
             {
                 CurrentView = DefaultScreen[Settings.Default.VarsayılanEkran];
             }
-            TümSeferlerViewModel.Seferler = Otobüs?.Sefer;
+            TümSeferlerViewModel.Otobüs = Otobüs;
+            TümSeferlerViewModel.Seferler = TümSeferlerViewModel.Otobüs?.Sefer;
 
             Settings.Default.PropertyChanged += Default_PropertyChanged;
             PropertyChanged += MainViewModel_PropertyChanged;

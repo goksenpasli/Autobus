@@ -167,6 +167,7 @@
                                     <TextBlock>
                                         <Hyperlink Command="{Binding TümSeferlerViewModel.MüşteriSil, Mode=OneWay, Source={StaticResource MainViewModel}}"
                                             CommandParameter="{Binding Mode=OneWay}"
+                                            IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}"
                                             Style="{StaticResource HyperLinkRed}">
                                             <Run Text="Müşteri&#x0a;Sil" />
                                         </Hyperlink>
@@ -318,9 +319,21 @@
                 </Button>
                 <GroupBox Grid.Row="2">
                     <GroupBox.Header>
-                        <Canvas Width="96" Height="96"
-                            HorizontalAlignment="Left"
-                            Background="{StaticResource Direksiyon}" />
+                        <UniformGrid Columns="2">
+                            <Canvas Width="96" Height="96"
+                                HorizontalAlignment="Left"
+                                Background="{StaticResource Direksiyon}" />
+                            <StackPanel>
+                                <ListBox x:Name="LbBoşKoltuk"
+                                    Height="80"
+                                    d:ItemsSource="{d:SampleData ItemCount=5}"
+                                    ItemsSource="{Binding BoşKalanKoltuklar}" />
+                                <Button Content="SEÇİLİ KOLTUĞA TAŞI"
+                                    Command="{Binding MüşteriTaşı}"
+                                    CommandParameter="{Binding ElementName=LbBoşKoltuk, Path=SelectedItem}"
+                                    IsEnabled="{Binding ElementName=LbBoşKoltuk, Path=SelectedItem, Converter={StaticResource NullableToBooleanConverter}}" />
+                            </StackPanel>
+                        </UniformGrid>
                     </GroupBox.Header>
                     <ListBox HorizontalContentAlignment="Center"
                         d:ItemsSource="{d:SampleData ItemCount=5}"

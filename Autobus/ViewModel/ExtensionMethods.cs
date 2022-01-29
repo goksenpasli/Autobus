@@ -39,6 +39,16 @@ namespace Autobus.ViewModel
             return serializer.Deserialize(xElement.CreateReader()) as T;
         }
 
+        public static ObservableCollection<T> DeSerialize<T>(this IEnumerable<XElement> xElement) where T : class, new()
+        {
+            ObservableCollection<T> list = new();
+            foreach (XElement element in xElement)
+            {
+                list.Add(element.DeSerialize<T>());
+            }
+            return list;
+        }
+
         public static ObservableCollection<Marka> MarkalarıYükle()
         {
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
@@ -91,11 +101,6 @@ namespace Autobus.ViewModel
             }
             _ = Directory.CreateDirectory(Path.GetDirectoryName(MainViewModel.xmldatapath));
             return new ObservableCollection<Şöför>();
-        }
-
-        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> enumerableList)
-        {
-            return enumerableList != null ? new ObservableCollection<T>(enumerableList) : null;
         }
 
         public static ObservableCollection<Ürün> ÜrünleriYükle()

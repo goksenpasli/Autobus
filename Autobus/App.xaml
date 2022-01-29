@@ -281,7 +281,9 @@
             </DataTemplate>
             <DataTemplate x:Key="ListBoxMüşteriTemplate">
                 <TextBlock>
-                    <Hyperlink Command="{Binding YolcuGirişViewModel.MüşteriSil, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding Mode=OneWay}">
+                    <Hyperlink Command="{Binding YolcuGirişViewModel.MüşteriSil, Mode=OneWay, Source={StaticResource MainViewModel}}"
+                        CommandParameter="{Binding Mode=OneWay}"
+                        IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}">
                         <Run Text="X" />
                     </Hyperlink>
                     <Run Text="{Binding KoltukNo, StringFormat={}{0} NOLU KOLTUK\&#x09;\&#x09;\&#x09;}" />

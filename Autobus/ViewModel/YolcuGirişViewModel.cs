@@ -22,37 +22,45 @@ namespace Autobus.ViewModel
 
             MüşteriEkle = new RelayCommand<object>(parameter =>
             {
-                if (Müşteri.BiletÖdendi || MessageBox.Show("Bilet Ödenmedi Devam Ederseniz Giriş Yapılır Ancak Yolculuktan Önce Biletin Ödenmesi Gerekir.\nDevam Etmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.No)
+                Müşteri müşteri = new();
+                müşteri.Id = ExtensionMethods.RandomNumber();
+                müşteri.Ad = Müşteri.Ad;
+                müşteri.Adres = Müşteri.Adres;
+                müşteri.Cinsiyet = Müşteri.Cinsiyet;
+                müşteri.Soyad = Müşteri.Soyad;
+                müşteri.Telefon = Müşteri.Telefon;
+                müşteri.BiletFiyat = SeçiliSefer.BiletTutarı;
+                müşteri.KoltukNo = Müşteri.KoltukNo;
+                müşteri.Resim = Müşteri.Resim;
+                müşteri.SeferId = SeçiliSefer.Id;
+                müşteri.KoltukDolu = true;
+                if (Müşteri.BiletÖdendi)
                 {
-                    Müşteri müşteri = new();
-                    müşteri.Id = ExtensionMethods.RandomNumber();
-                    müşteri.Ad = Müşteri.Ad;
-                    müşteri.Adres = Müşteri.Adres;
-                    müşteri.Cinsiyet = Müşteri.Cinsiyet;
-                    müşteri.Soyad = Müşteri.Soyad;
-                    müşteri.Telefon = Müşteri.Telefon;
-                    müşteri.BiletFiyat = SeçiliSefer.BiletTutarı;
-                    müşteri.BiletÖdendi = Müşteri.BiletÖdendi;
-                    müşteri.KoltukDolu = Müşteri.BiletÖdendi;
-                    müşteri.KoltukNo = Müşteri.KoltukNo;
-                    müşteri.Resim = Müşteri.Resim;
-                    müşteri.SeferId = SeçiliSefer.Id;
-
-                    SeçiliSefer.Müşteri.Add(müşteri);
-                    MainViewModel.DatabaseSave.Execute(null);
-                    ResetMüşteri();
+                    müşteri.BiletÖdendi = true;
                 }
+                else if (MessageBox.Show("Bilet Ödenmedi Devam Ederseniz Giriş Yapılır Ancak Yolculuktan Önce Biletin Ödenmesi Gerekir.\nDevam Etmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    müşteri.BiletÖdendi = false;
+                }
+                else
+                {
+                    return;
+                }
+
+                SeçiliSefer.Müşteri.Add(müşteri);
+                MainViewModel.DatabaseSave.Execute(null);
+                ResetMüşteri();
             }, parameter => SeçiliSefer is not null && Müşteri.KoltukNo > 0 && SeçiliSefer.VarışZamanı > DateTime.Now && !string.IsNullOrWhiteSpace(Müşteri.Ad) && !string.IsNullOrWhiteSpace(Müşteri.Soyad) && !string.IsNullOrWhiteSpace(Müşteri.Adres) && Müşteri.Telefon?.Length == 10 && Müşteri.Cinsiyet > -1);
 
             MüşteriSil = new RelayCommand<object>(parameter =>
             {
-                if (MessageBox.Show("Seçili Müşteriyi Silmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                if (MessageBox.Show($"{SeçiliMüşteri.Ad} {SeçiliMüşteri.Soyad} Adlı Müşteriyi Silmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
                     SeçiliSefer.Müşteri.Remove(parameter as Müşteri);
                     MainViewModel.DatabaseSave.Execute(null);
                     OnPropertyChanged(nameof(Müşteri));
                 }
-            }, parameter => true);
+            }, parameter => SeçiliMüşteri is not null);
 
             ÜrünEkle = new RelayCommand<object>(parameter =>
             {
