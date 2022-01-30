@@ -18,29 +18,31 @@ namespace Autobus.ViewModel
 
             ŞöförEkle = new RelayCommand<object>(parameter =>
             {
-                Şöför şöför = new();
-                şöför.Id = ExtensionMethods.RandomNumber();
-                şöför.Ad = Şöför.Ad;
-                şöför.Adres = Şöför.Adres;
-                şöför.Soyad = Şöför.Soyad;
-                şöför.Telefon = Şöför.Telefon;
-                şöför.Resim = Şöför.Resim;
-                şöför.Etkin = true;
+                if (parameter is Şöförler şöförler)
+                {
+                    Şöför şöför = new();
+                    şöför.Id = ExtensionMethods.RandomNumber();
+                    şöför.Ad = Şöför.Ad;
+                    şöför.Adres = Şöför.Adres;
+                    şöför.Soyad = Şöför.Soyad;
+                    şöför.Telefon = Şöför.Telefon;
+                    şöför.Resim = Şöför.Resim;
+                    şöför.Etkin = true;
 
-                (parameter as Şöförler)?.Şöför.Add(şöför);
-                MainViewModel.DatabaseSave.Execute(null);
-
-                ResetŞöför();
+                    şöförler?.Şöför.Add(şöför);
+                    MainViewModel.DatabaseSave.Execute(null);
+                    ResetŞöför();
+                }
             }, parameter => !string.IsNullOrWhiteSpace(Şöför?.Ad) && !string.IsNullOrWhiteSpace(Şöför?.Soyad));
 
             ŞöförSil = new RelayCommand<object>(parameter =>
             {
-                if (MessageBox.Show("Seçili Şoförü Silmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                if (parameter is Şöförler şöförler && MessageBox.Show("Seçili Şoförü Silmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    (parameter as Şöförler)?.Şöför?.Remove(SeçiliŞöför);
+                    şöförler?.Şöför?.Remove(SeçiliŞöför);
                     MainViewModel.DatabaseSave.Execute(null);
                 }
-            }, parameter => SeçiliŞöför is not null);
+            }, parameter => SeçiliŞöför?.Etkin == true);
 
             ŞöförResimYükle = new RelayCommand<object>(parameter =>
             {

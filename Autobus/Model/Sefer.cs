@@ -28,13 +28,16 @@ namespace Autobus.Model
         public int AraçId { get; set; } = -1;
 
         [DependsOn("KalkışŞehirId", "VarışŞehirId")]
-        public string Başlık => ((DictionaryEntry)İllerListe[KalkışŞehirId - 1]).Value?.ToString()[0] + "" + ((DictionaryEntry)İllerListe[VarışŞehirId - 1]).Value?.ToString()[0];
+        public string Başlık => $"{((DictionaryEntry)İllerListe[KalkışŞehirId - 1]).Value?.ToString()[0]}{((DictionaryEntry)İllerListe[VarışŞehirId - 1]).Value?.ToString()[0]}";
 
         [XmlAttribute(AttributeName = "BiletTutarı")]
         public double BiletTutarı { get; set; } = 0;
 
         [XmlAttribute(AttributeName = "Id")]
         public int Id { get; set; }
+
+        [XmlAttribute(AttributeName = "İptal")]
+        public bool İptal { get; set; }
 
         [XmlIgnore]
         public TimeSpan KalkışSaat { get; set; }

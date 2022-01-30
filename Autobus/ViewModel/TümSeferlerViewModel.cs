@@ -28,7 +28,7 @@ namespace Autobus.ViewModel
 
             MüşteriTaşı = new RelayCommand<object>(parameter =>
             {
-                if (MessageBox.Show($"{SeçiliMüşteri.Ad} {SeçiliMüşteri.Soyad} Adlı Müşteriyi Taşımak İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                if (MessageBox.Show($"{SeçiliMüşteri.Ad} {SeçiliMüşteri.Soyad} Adlı Müşteriyi {(int)parameter} Nolu Koltuğa Taşımak İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
                     SeçiliMüşteri.KoltukNo = (int)parameter;
                     MainViewModel.DatabaseSave.Execute(null);

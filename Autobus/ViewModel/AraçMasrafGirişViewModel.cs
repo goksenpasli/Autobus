@@ -23,7 +23,7 @@ namespace Autobus.ViewModel
                 MainViewModel.DatabaseSave.Execute(null);
 
                 ResetAraçMasraf();
-            }, parameter => SeçiliSefer is not null && SeçiliAraç is not null && Masraf?.Tutar != 0 && !string.IsNullOrWhiteSpace(Masraf?.Açıklama));
+            }, parameter => SeçiliSefer is not null && SeçiliAraç is not null && Masraf?.Tutar > 0 && !string.IsNullOrWhiteSpace(Masraf?.Açıklama));
         }
 
         public Masraf Masraf { get; set; }

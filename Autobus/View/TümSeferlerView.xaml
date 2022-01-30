@@ -36,7 +36,7 @@
                                             Fill="{Binding SeçiliSefer.Renk, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
                                         <TextBlock Text="{Binding SeçiliSefer.Başlık, Mode=OneWay}"
                                             HorizontalAlignment="Center" VerticalAlignment="Center"
-                                            FontStyle="Italic" FontWeight="Bold" />
+                                            d:Foreground="White" FontStyle="Italic" FontWeight="Bold" />
                                     </Grid>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -44,9 +44,10 @@
                         <GridViewColumn Header="RESİM">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Image MaxWidth="90" MaxHeight="110">
-                                        <Image.Style>
-                                            <Style TargetType="Image">
+                                    <viewmodel:ShadowedImage MaxWidth="90" MaxHeight="110"
+                                        ShowShadow="True">
+                                        <viewmodel:ShadowedImage.Style>
+                                            <Style TargetType="viewmodel:ShadowedImage">
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding TümSeferlerResimGöster, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" Value="true">
                                                         <Setter Property="Source">
@@ -57,8 +58,8 @@
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </Image.Style>
-                                    </Image>
+                                        </viewmodel:ShadowedImage.Style>
+                                    </viewmodel:ShadowedImage>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -206,6 +207,9 @@
                             <DataTrigger Binding="{Binding SeçiliSefer.VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
                                 <Setter Property="Background" Value="Gray" />
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding SeçiliSefer.İptal}" Value="true">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </ListView.ItemContainerStyle>
@@ -257,7 +261,8 @@
                                     </TableCell>
                                     <TableCell RowSpan="4">
                                         <BlockUIContainer>
-                                            <Image Width="90" Height="110"
+                                            <viewmodel:ShadowedImage Width="90" Height="110"
+                                                ShowShadow="True"
                                                 Source="{Binding SelectedItem.Resim, ElementName=LvMüşteri, Converter={StaticResource FilePathMergeConverter}}" />
                                         </BlockUIContainer>
                                     </TableCell>

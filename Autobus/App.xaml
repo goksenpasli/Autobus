@@ -88,12 +88,15 @@
                 <Setter Property="Foreground" Value="Red" />
             </Style>
             <Style x:Key="ComboBoxSüresiGeçenSeferItemContainerStyle" TargetType="{x:Type ComboBoxItem}">
+                <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
-                        <Setter Property="Background" Value="{StaticResource Dur}" />
                         <Setter Property="IsEnabled" Value="False" />
-                        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
                         <Setter Property="ToolTip" Value="Bu Seferin Süresi Geçmiştir." />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding İptal}" Value="true">
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Setter Property="ToolTip" Value="Bu Sefer İptal Edilmiştir." />
                     </DataTrigger>
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
@@ -269,10 +272,11 @@
                 </StackPanel>
             </DataTemplate>
             <DataTemplate x:Key="ComboBoxItemŞoförTemplate">
-                <StackPanel Orientation="Horizontal">
-                    <Image MaxWidth="64" MaxHeight="64"
+                <StackPanel Margin="2" Orientation="Horizontal">
+                    <ViewModel:ShadowedImage MaxWidth="64" MaxHeight="64"
+                        ShowShadow="True"
                         Source="{Binding Resim, Mode=OneWay, Converter={StaticResource FilePathMergeConverter}}" />
-                    <TextBlock>
+                    <TextBlock VerticalAlignment="Center">
                         <Run Text="{Binding Ad}" />
                         <LineBreak />
                         <Run Text="{Binding Soyad}" />
@@ -296,10 +300,13 @@
             </DataTemplate>
             <DataTemplate x:Key="ListBoxŞoförTemplate">
                 <StackPanel Orientation="Horizontal">
-                    <Image MaxWidth="128" MaxHeight="128"
+                    <ViewModel:ShadowedImage MaxWidth="64" MaxHeight="64"
+                        Margin="2"
+                        ShowOverlayColor="{Binding Etkin, Converter={StaticResource ReverseBooleanConverter}}"
+                        ShowShadow="True"
                         Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
                     <StackPanel Grid.Column="1">
-                        <TextBlock VerticalAlignment="Center">
+                        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center">
                             <Run Text="{Binding Ad}" />
                             <Run Text="{Binding Soyad}" />
                             <Hyperlink Command="{Binding ŞoförGirişViewModel.ŞöförSil, Mode=OneWay, Source={StaticResource MainViewModel}}"
@@ -309,9 +316,14 @@
                             </Hyperlink>
                         </TextBlock>
                         <CheckBox Content="AKTİF"
-                            VerticalAlignment="Center"
-                            Command="{Binding Path=DatabaseSave, Source={StaticResource MainViewModel}}"
+                            HorizontalAlignment="Right" VerticalAlignment="Center"
                             IsChecked="{Binding Etkin}" />
+                        <Extensions:MaskedTextBox HorizontalAlignment="Right"
+                            IncludeLiterals="False" IncludePrompt="False"
+                            IsEnabled="{Binding Etkin}"
+                            Mask="(000) 000 00 00"
+                            Value="{Binding DataContext.Telefon, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" />
+                        <Button Content="GÜNCELLE" Command="{Binding Path=DatabaseSave, Source={StaticResource MainViewModel}}" />
                     </StackPanel>
                 </StackPanel>
             </DataTemplate>
@@ -333,12 +345,28 @@
                         <StackPanel Width="250"
                             HorizontalAlignment="Left"
                             Orientation="Horizontal">
-                            <ComboBox ItemTemplate="{StaticResource ComboBoxItemŞoförTemplate}"
-                                ItemsSource="{Binding Otobüs.Şöförler.Şöför, Source={StaticResource MainViewModel}}"
+                            <ComboBox ItemsSource="{Binding Otobüs.Şöförler.Şöför, Source={StaticResource MainViewModel}}"
                                 SelectedValue="{Binding ŞöförId}"
                                 SelectedValuePath="Id"
-                                Template="{StaticResource ComboBoxSimpleTemplate}" />
-                            <TextBlock Foreground="Red">
+                                Template="{StaticResource ComboBoxSimpleTemplate}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="2" Orientation="Horizontal">
+                                            <ViewModel:ShadowedImage MaxWidth="64" MaxHeight="64"
+                                                ShowOverlayColor="{Binding DataContext.İptal, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                                ShowShadow="True"
+                                                Source="{Binding Resim, Mode=OneWay, Converter={StaticResource FilePathMergeConverter}}" />
+                                            <TextBlock VerticalAlignment="Center">
+                                                <Run Text="{Binding Ad}" />
+                                                <LineBreak />
+                                                <Run Text="{Binding Soyad}" />
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <TextBlock VerticalAlignment="Center"
+                                FontWeight="Bold" Foreground="Red">
                                 <Run Text="{Binding KalkışZamanı, StringFormat=KALKIŞ: \{0:g\}}" Language="tr-tr" />
                                 <LineBreak />
                                 <Run Text="{Binding VarışZamanı, StringFormat=VARIŞ: \{0:g\}}" Language="tr-tr" />

@@ -60,13 +60,13 @@ namespace Autobus.ViewModel
                     MainViewModel.DatabaseSave.Execute(null);
                     OnPropertyChanged(nameof(Müşteri));
                 }
-            }, parameter => SeçiliMüşteri is not null);
+            }, parameter => SeçiliMüşteri is not null && SeçiliSefer?.İptal == false);
 
             ÜrünEkle = new RelayCommand<object>(parameter =>
             {
                 Ürün ürün = new();
                 ürün.Id = ExtensionMethods.RandomNumber();
-                ürün.ÜrünFiyat = Ürün.ÜrünFiyat;
+                ürün.ÜrünFiyat = Math.Round(Ürün.ÜrünFiyat, 2);
                 ürün.ÜrünAçıklama = Ürün.ÜrünAçıklama;
                 (parameter as Ürünler)?.Ürün?.Add(ürün);
                 MainViewModel.DatabaseSave.Execute(null);
@@ -101,6 +101,16 @@ namespace Autobus.ViewModel
                 PrintTicket(parameter);
             }, parameter => SeçiliSefer is not null && SeçiliMüşteri is not null);
 
+            SeferİptalEt = new RelayCommand<object>(parameter =>
+            {
+                if (MessageBox.Show("Seçili Seferi İptal Etmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    Müşteri.KoltukNo = 0;
+                    SeçiliSefer.İptal = true;
+                    MainViewModel.DatabaseSave.Execute(null);
+                }
+            }, parameter => SeçiliSefer is not null);
+
             PropertyChanged += YolcuGirişViewModel_PropertyChanged;
         }
 
@@ -125,6 +135,8 @@ namespace Autobus.ViewModel
         public Sefer SeçiliSefer { get; set; }
 
         public Ürün SeçiliÜrün { get; set; }
+
+        public ICommand SeferİptalEt { get; }
 
         public Ürün Ürün { get; set; }
 

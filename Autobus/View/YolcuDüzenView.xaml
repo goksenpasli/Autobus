@@ -81,6 +81,7 @@
                     </GroupBox.Header>
                     <ContentControl Content="{Binding}"
                         Grid.Column="1"
+                        IsEnabled="{Binding SelectedItem.İptal, ElementName=CbSefer, Converter={StaticResource ReverseBooleanConverter}}"
                         RenderTransformOrigin="0.5,0.5">
                         <ContentControl.ContentTemplate>
                             <DataTemplate>
