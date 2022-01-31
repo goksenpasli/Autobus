@@ -95,6 +95,7 @@
     <Compile Include="ViewModel\TümSeferlerViewModel.cs" />
     <Compile Include="ViewModel\YolcuDüzenViewModel.cs" />
     <Compile Include="ViewModel\YolcuGirişViewModel.cs" />
+    <Compile Include="ViewModel\ÖdemeYapılmayanKoltuklarViewModel.cs" />
     <Compile Include="ViewModel\ŞoförGirişViewModel.cs" />
     <Compile Include="View\AraçGirişView.xaml.cs">
       <DependentUpon>AraçGirişView.xaml</DependentUpon>
@@ -113,6 +114,9 @@
     </Compile>
     <Compile Include="View\YolcuGirişView.xaml.cs">
       <DependentUpon>YolcuGirişView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ÖdemeYapılmayanKoltuklarView.xaml.cs">
+      <DependentUpon>ÖdemeYapılmayanKoltuklarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ŞöförGirişView.xaml.cs">
       <DependentUpon>ŞöförGirişView.xaml</DependentUpon>
@@ -154,6 +158,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\YolcuGirişView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ÖdemeYapılmayanKoltuklarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

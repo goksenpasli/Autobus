@@ -24,7 +24,7 @@
                 Extensions:GridViewSort.AutoSort="True"
                 d:ItemsSource="{d:SampleData ItemCount=5}"
                 ItemsSource="{Binding Mode=OneWay, Source={StaticResource Müşteriler}}"
-                SelectedItem="{Binding SeçiliMüşteri}">
+                SelectedItem="{Binding SeçiliMüşteri, Mode=OneWayToSource}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Extensions:GridViewSort.PropertyName="SeçiliSefer.Renk">
@@ -103,7 +103,7 @@
                                         SelectedValuePath="Key">
                                         <ComboBox.ItemsSource>
                                             <CompositeCollection>
-                                                <collections:DictionaryEntry Key="0" Value="FARK ETMEZ" />
+                                                <collections:DictionaryEntry Key="0" Value="FARK&#x0a;ETMEZ" />
                                                 <CollectionContainer Collection="{Binding Mode=OneWay, Source={StaticResource İller}}" />
                                             </CompositeCollection>
                                         </ComboBox.ItemsSource>
@@ -117,7 +117,7 @@
                                         SelectedValuePath="Key">
                                         <ComboBox.ItemsSource>
                                             <CompositeCollection>
-                                                <collections:DictionaryEntry Key="0" Value="FARK ETMEZ" />
+                                                <collections:DictionaryEntry Key="0" Value="FARK&#x0a;ETMEZ" />
                                                 <CollectionContainer Collection="{Binding Mode=OneWay, Source={StaticResource İller}}" />
                                             </CompositeCollection>
                                         </ComboBox.ItemsSource>
@@ -158,10 +158,10 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Extensions:GridViewSort.PropertyName="BiletÖdendi">
+                        <GridViewColumn Extensions:GridViewSort.PropertyName="AramaBiletÖdendi">
                             <GridViewColumn.Header>
                                 <CheckBox Content="DURUM"
-                                    IsChecked="{Binding BiletÖdendi}"
+                                    IsChecked="{Binding AramaBiletÖdendi}"
                                     IsThreeState="True" />
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>

@@ -44,6 +44,9 @@
             <DataTemplate DataType="{x:Type ViewModel:TümSeferlerViewModel}">
                 <View:TümSeferlerView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModel:ÖdemeYapılmayanKoltuklarViewModel}">
+                <View:ÖdemeYapılmayanKoltuklarView />
+            </DataTemplate>
             <ObjectDataProvider x:Key="ColorList"
                 MethodName="GetProperties"
                 ObjectInstance="{x:Type Colors}" />
@@ -52,6 +55,11 @@
             </ItemsPanelTemplate>
             <Style TargetType="ComboBox">
                 <Setter Property="IsTextSearchEnabled" Value="False" />
+            </Style>
+            <Style TargetType="ListView">
+                <Setter Property="VirtualizingPanel.CacheLengthUnit" Value="Item" />
+                <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel" />
+                <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="True" />
             </Style>
             <Style TargetType="{x:Type GroupBox}">
                 <Setter Property="Background" Value="{StaticResource GroupBoxBackGround}" />
@@ -339,7 +347,11 @@
                 </TextBlock>
             </DataTemplate>
             <DataTemplate x:Key="ComboBoxItemSeferTemplate">
-                <UniformGrid Columns="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
                     <Border Margin="3"
                         BorderBrush="Black" BorderThickness="1">
                         <StackPanel Width="250"
@@ -373,7 +385,8 @@
                             </TextBlock>
                         </StackPanel>
                     </Border>
-                    <Border Margin="3"
+                    <Border Grid.Column="1"
+                        Margin="3"
                         Background="Blue" BorderBrush="Black" BorderThickness="1">
                         <StackPanel HorizontalAlignment="Right">
                             <ComboBox HorizontalAlignment="Center"
@@ -393,7 +406,7 @@
                                 Template="{StaticResource ComboBoxSimpleTemplate}" />
                         </StackPanel>
                     </Border>
-                </UniformGrid>
+                </Grid>
             </DataTemplate>
             <DataTemplate x:Key="MasrafTemplate">
                 <StackPanel Orientation="Horizontal">

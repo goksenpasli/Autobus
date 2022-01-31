@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -48,6 +49,7 @@ namespace Autobus.ViewModel
             YolcuGirişViewModel = new YolcuGirişViewModel();
             YolcuDüzenViewModel = new YolcuDüzenViewModel();
             TümSeferlerViewModel = new TümSeferlerViewModel();
+            ÖdemeYapılmayanKoltuklarViewModel = new ÖdemeYapılmayanKoltuklarViewModel();
             AraçMasrafGirişViewModel = new AraçMasrafGirişViewModel();
 
             AraçGirişEkranı = new RelayCommand<object>(parameter => CurrentView = AraçGirişViewModel, parameter => CurrentView != AraçGirişViewModel);
@@ -87,6 +89,8 @@ namespace Autobus.ViewModel
                     _ = Process.Start(xmldatapath);
                 }
             });
+
+            ÖdemeYapılmayanKoltuklarEkranıAç = new RelayCommand<object>(parameter => ÖdemeYapılmayanKoltuklarViewModel.ÖdemeYapmayanMüşteriler = Otobüs?.Sefer?.SelectMany(z => z.Müşteri)?.Where(z => !z.BiletÖdendi));
 
             WebAdreseGit = new RelayCommand<object>(parameter => Process.Start(parameter as string), parameter => true);
 
@@ -135,7 +139,7 @@ namespace Autobus.ViewModel
                 CurrentView = DefaultScreen[Settings.Default.VarsayılanEkran];
             }
             TümSeferlerViewModel.Otobüs = Otobüs;
-            TümSeferlerViewModel.Seferler = TümSeferlerViewModel.Otobüs?.Sefer;
+            TümSeferlerViewModel.Seferler = Otobüs?.Sefer;
 
             Settings.Default.PropertyChanged += Default_PropertyChanged;
             PropertyChanged += MainViewModel_PropertyChanged;
@@ -166,6 +170,10 @@ namespace Autobus.ViewModel
         public double Fold { get; set; } = 0.5;
 
         public Otobüs Otobüs { get; set; }
+
+        public ICommand ÖdemeYapılmayanKoltuklarEkranıAç { get; }
+
+        public ÖdemeYapılmayanKoltuklarViewModel ÖdemeYapılmayanKoltuklarViewModel { get; set; }
 
         public double Ripple { get; set; }
 

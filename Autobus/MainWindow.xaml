@@ -17,6 +17,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="24" />
         </Grid.RowDefinitions>
         <Ribbon Margin="0,-22,0,0">
             <Ribbon.ApplicationMenu>
@@ -201,5 +202,24 @@
             </Grid.Style>
             <ContentPresenter Content="{Binding CurrentView}" />
         </Grid>
+        <StatusBar Grid.Row="2" Background="Maroon">
+            <StatusBarItem>
+                <Extension:ContentToggleButton Command="{Binding ÖdemeYapılmayanKoltuklarEkranıAç}">
+                    <Extension:ContentToggleButton.OverContent>
+                        <Image Width="16" Height="16">
+                            <Image.Source>
+                                <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                    <Binding Source="Shell32.dll" />
+                                    <Binding Source="239" />
+                                </MultiBinding>
+                            </Image.Source>
+                        </Image>
+                    </Extension:ContentToggleButton.OverContent>
+                    <Extension:ContentToggleButton.Content>
+                        <viewmodel:ÖdemeYapılmayanKoltuklarViewModel />
+                    </Extension:ContentToggleButton.Content>
+                </Extension:ContentToggleButton>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

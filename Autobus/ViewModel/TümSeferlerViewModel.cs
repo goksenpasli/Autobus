@@ -22,7 +22,7 @@ namespace Autobus.ViewModel
                 {
                     SeçiliMüşteri?.SeçiliSefer?.Müşteri?.Remove(SeçiliMüşteri);
                     MainViewModel.DatabaseSave.Execute(null);
-                    OnPropertyChanged(nameof(Seferler));
+                    OnPropertyChanged(nameof(Otobüs));
                 }
             }, parameter => SeçiliMüşteri is not null);
 
@@ -40,7 +40,7 @@ namespace Autobus.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool? BiletÖdendi { get; set; }
+        public bool? AramaBiletÖdendi { get; set; }
 
         public ICommand BiletYazdır { get; }
 
@@ -110,14 +110,14 @@ namespace Autobus.ViewModel
                 }
                 TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.SeçiliSefer.KalkışZamanı == KalkışTarihArama;
             }
-            if (e.PropertyName is "BiletÖdendi")
+            if (e.PropertyName is "AramaBiletÖdendi")
             {
-                if (BiletÖdendi == null)
+                if (AramaBiletÖdendi == null)
                 {
                     TümSeferlerView.cvs.Filter += (s, e) => e.Accepted = true;
                     return;
                 }
-                TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.BiletÖdendi == BiletÖdendi;
+                TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.BiletÖdendi == AramaBiletÖdendi;
             }
             if (e.PropertyName is "VarışŞehirAramaId")
             {
@@ -132,7 +132,7 @@ namespace Autobus.ViewModel
             {
                 TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.Ad.Contains(MüşteriSoyadArama) == true;
             }
-            if (e.PropertyName is "Seferler")
+            if (e.PropertyName is "Otobüs")
             {
                 Müşteriler = Otobüs.Sefer?.SelectMany(z => z.Müşteri);
             }
