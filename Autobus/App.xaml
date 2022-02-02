@@ -59,6 +59,7 @@
             <Style TargetType="ListView">
                 <Setter Property="VirtualizingPanel.CacheLengthUnit" Value="Item" />
                 <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel" />
+                <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling" />
                 <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="True" />
             </Style>
             <Style TargetType="{x:Type GroupBox}">
@@ -346,6 +347,27 @@
                     <Run Text="{Binding Value}" />
                 </TextBlock>
             </DataTemplate>
+            <DataTemplate x:Key="SimpleItemSeferTemplate">
+                <Border Background="Blue" BorderBrush="Black" BorderThickness="1">
+                    <StackPanel HorizontalAlignment="Right">
+                        <ComboBox HorizontalAlignment="Center"
+                            DisplayMemberPath="Value" Foreground="White"
+                            ItemsSource="{Binding Mode=OneWay, Source={StaticResource İller}}"
+                            SelectedValue="{Binding KalkışŞehirId}"
+                            SelectedValuePath="Key"
+                            Template="{StaticResource ComboBoxSimpleTemplate}" />
+                        <TextBlock Text="ÞÞÞ"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            FontFamily="Wingdings" FontSize="16" FontWeight="Bold" Foreground="White" />
+                        <ComboBox HorizontalAlignment="Center"
+                            DisplayMemberPath="Value" Foreground="White"
+                            ItemsSource="{Binding Mode=OneWay, Source={StaticResource İller}}"
+                            SelectedValue="{Binding VarışŞehirId}"
+                            SelectedValuePath="Key"
+                            Template="{StaticResource ComboBoxSimpleTemplate}" />
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
             <DataTemplate x:Key="ComboBoxItemSeferTemplate">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -385,27 +407,9 @@
                             </TextBlock>
                         </StackPanel>
                     </Border>
-                    <Border Grid.Column="1"
+                    <ContentPresenter Grid.Column="1"
                         Margin="3"
-                        Background="Blue" BorderBrush="Black" BorderThickness="1">
-                        <StackPanel HorizontalAlignment="Right">
-                            <ComboBox HorizontalAlignment="Center"
-                                DisplayMemberPath="Value" Foreground="White"
-                                ItemsSource="{Binding Mode=OneWay, Source={StaticResource İller}}"
-                                SelectedValue="{Binding KalkışŞehirId}"
-                                SelectedValuePath="Key"
-                                Template="{StaticResource ComboBoxSimpleTemplate}" />
-                            <TextBlock Text="ÞÞÞ"
-                                HorizontalAlignment="Center" VerticalAlignment="Center"
-                                FontFamily="Wingdings" FontSize="16" FontWeight="Bold" Foreground="White" />
-                            <ComboBox HorizontalAlignment="Center"
-                                DisplayMemberPath="Value" Foreground="White"
-                                ItemsSource="{Binding Mode=OneWay, Source={StaticResource İller}}"
-                                SelectedValue="{Binding VarışŞehirId}"
-                                SelectedValuePath="Key"
-                                Template="{StaticResource ComboBoxSimpleTemplate}" />
-                        </StackPanel>
-                    </Border>
+                        ContentTemplate="{StaticResource SimpleItemSeferTemplate}" />
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="MasrafTemplate">

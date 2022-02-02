@@ -206,6 +206,7 @@
                             </DataTrigger>
                             <DataTrigger Binding="{Binding SeçiliSefer.VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
                                 <Setter Property="Background" Value="Gray" />
+                                <Setter Property="IsEnabled" Value="False" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding SeçiliSefer.İptal}" Value="true">
                                 <Setter Property="IsEnabled" Value="False" />

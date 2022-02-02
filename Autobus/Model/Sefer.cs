@@ -28,7 +28,7 @@ namespace Autobus.Model
         public int AraçId { get; set; } = -1;
 
         [DependsOn("KalkışŞehirId", "VarışŞehirId")]
-        public string Başlık => $"{((DictionaryEntry)İllerListe[KalkışŞehirId - 1]).Value?.ToString()[0]}{((DictionaryEntry)İllerListe[VarışŞehirId - 1]).Value?.ToString()[0]}";
+        public string Başlık => (KalkışŞehirId == 0 || VarışŞehirId == 0) ? string.Empty : $"{((DictionaryEntry)İllerListe[KalkışŞehirId - 1]).Value?.ToString()[0]}{((DictionaryEntry)İllerListe[VarışŞehirId - 1]).Value?.ToString()[0]}";
 
         [XmlAttribute(AttributeName = "BiletTutarı")]
         public double BiletTutarı { get; set; } = 0;

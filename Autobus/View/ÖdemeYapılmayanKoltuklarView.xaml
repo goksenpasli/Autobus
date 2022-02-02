@@ -7,29 +7,62 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="clr-namespace:Autobus.ViewModel"
     DataContext="{Binding ÖdemeYapılmayanKoltuklarViewModel, Source={StaticResource MainViewModel}}"
-    Width="480" Height="360"
+    Width="640" Height="480"
     d:DataContext="{d:DesignInstance Type=viewmodel:ÖdemeYapılmayanKoltuklarViewModel}"
     d:DesignHeight="450" d:DesignWidth="800" UseLayoutRounding="True"
     mc:Ignorable="d">
     <GroupBox Header="ÖDEME YAPILMAYAN KOLTUKLAR">
-        <ListView d:ItemsSource="{d:SampleData ItemCount=5}"
-            IsSynchronizedWithCurrentItem="False"
-            ItemsSource="{Binding ÖdemeYapmayanMüşteriler}"
-            SelectionMode="Single">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Ad}" Header="AD" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Soyad}" Header="SOYAD" />
-                    <GridViewColumn DisplayMemberBinding="{Binding KoltukNo}" Header="KOLTUK NO" />
-                    <GridViewColumn Header="TELEFON">
-                        <GridViewColumn.CellTemplate>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <ListView d:ItemsSource="{d:SampleData ItemCount=5}"
+                IsSynchronizedWithCurrentItem="False"
+                ItemsSource="{Binding ÖdemeYapmayanMüşteriler}"
+                SelectionMode="Single">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Ad}" Header="AD" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Soyad}" Header="SOYAD" />
+                        <GridViewColumn DisplayMemberBinding="{Binding KoltukNo}" Header="KOLTUK NO" />
+                        <GridViewColumn Header="TELEFON">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Extension:MaskedTextBlock Mask="(000) 000 00 00" UnmaskedText="{Binding Telefon}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox IsEnabled="False"
+                                        ItemTemplate="{StaticResource SimpleItemSeferTemplate}"
+                                        ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
+                                        SelectedValue="{Binding DataContext.SeferId, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                        SelectedValuePath="Id"
+                                        Template="{StaticResource ComboBoxSimpleTemplate}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <GroupBox Grid.Column="1" Header="YILLIK TOPLAM TAHSİLAT DURUMU">
+                <UniformGrid Rows="2">
+                    <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding ÖdemeYapılmayanKoltuklarViewModel.Tahsilatlar, Source={StaticResource MainViewModel}}">
+                        <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Extension:MaskedTextBlock Mask="(000) 000 00 00" UnmaskedText="{Binding Telefon}" />
+                                <TextBlock>
+                                    <Run Text="{Binding Tarih, StringFormat={}{0} Ayı}" />
+                                    <Run Text="{Binding Tutar, StringFormat=\{0:C\}}" Language="tr-tr" />
+                                </TextBlock>
                             </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Extension:GraphControl Series="{Binding ÖdemeYapılmayanKoltuklarViewModel.GrafikVerileri, Source={StaticResource MainViewModel}}" />
+                </UniformGrid>
+            </GroupBox>
+        </Grid>
     </GroupBox>
 </UserControl>

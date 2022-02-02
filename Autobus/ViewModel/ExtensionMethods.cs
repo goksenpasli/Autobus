@@ -69,7 +69,7 @@ namespace Autobus.ViewModel
         }
         public static string RandomColor()
         {
-            return $"#{new Random().Next(0x1000000):X6}";
+            return $"#{new Random(Guid.NewGuid().GetHashCode()).Next(0x1000000):X6}";
         }
 
         public static ObservableCollection<Sefer> SeferleriYükle()
