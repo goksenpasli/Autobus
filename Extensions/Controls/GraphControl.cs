@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,6 +39,20 @@ namespace Extensions
             }
         }
 
+        public Visibility SeriesTextVisibility
+        {
+            get => seriesTextVisibility;
+
+            set
+            {
+                if (seriesTextVisibility != value)
+                {
+                    seriesTextVisibility = value;
+                    OnPropertyChanged(nameof(SeriesTextVisibility));
+                }
+            }
+        }
+
         protected virtual void OnPropertyChanged(string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -51,7 +66,9 @@ namespace Extensions
             }
         }
 
-        private Visibility seriesListVisibility;
+        private Visibility seriesListVisibility = Visibility.Collapsed;
+
+        private Visibility seriesTextVisibility;
 
         private DrawingContext DrawGraph(DrawingContext drawingContext, ObservableCollection<Chart> Series)
         {
@@ -64,13 +81,18 @@ namespace Extensions
                 Chart item = Series[i - 1];
                 pen = new Pen(item.ChartBrush, ActualWidth / Series.Count);
                 pen.Freeze();
-
                 dg = new();
                 using (DrawingContext graph = dg.Open())
                 {
                     Point point0 = new((pen.Thickness * i) - (pen.Thickness / 2), ActualHeight);
                     Point point1 = new((pen.Thickness * i) - (pen.Thickness / 2), ActualHeight - (item.ChartValue / max * ActualHeight));
                     graph.DrawLine(pen, point0, point1);
+                    if (SeriesTextVisibility == Visibility.Visible)
+                    {
+                        graph.PushTransform(new RotateTransform(-90, point1.X, point1.Y));
+                        graph.DrawText(new FormattedText(item.Description, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Segoe UI"), 12, Brushes.Black), point1);
+                        graph.Pop();
+                    }
                     drawingContext.DrawDrawing(dg);
                 }
                 dg.Freeze();

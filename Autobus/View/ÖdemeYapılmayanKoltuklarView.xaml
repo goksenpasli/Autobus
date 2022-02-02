@@ -60,7 +60,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Extension:GraphControl Series="{Binding ÖdemeYapılmayanKoltuklarViewModel.GrafikVerileri, Source={StaticResource MainViewModel}}" />
+                    <Extension:GraphControl Series="{Binding ÖdemeYapılmayanKoltuklarViewModel.GrafikVerileri, Source={StaticResource MainViewModel}}" SeriesListVisibility="Collapsed" />
                 </UniformGrid>
             </GroupBox>
         </Grid>

@@ -82,7 +82,7 @@ namespace Autobus.ViewModel
                      SeçiliMüşteri.Sipariş.Add(sipariş);
                      MainViewModel.DatabaseSave.Execute(null);
                  }
-             }, parameter => SeçiliMüşteri is not null && SeçiliÜrün is not null);
+             }, parameter =>  SeçiliMüşteri is not null && SeçiliÜrün is not null && SeçiliSefer?.İptal == false);
 
             MüşteriResimYükle = new RelayCommand<object>(parameter =>
             {
