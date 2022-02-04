@@ -28,7 +28,7 @@ namespace Autobus.Model
 
         [XmlAttribute(AttributeName = "BölmeSayısı")]
         [DependsOn("KoltukSayısı")]
-        public int BölmeSayısı { get; set; } = 1;
+        public short BölmeSayısı { get; set; } = 1;
 
         public string Error => string.Empty;
 
@@ -43,7 +43,7 @@ namespace Autobus.Model
 
         [XmlAttribute(AttributeName = "KoltukSayısı")]
         [DependsOn("BölmeSayısı")]
-        public int KoltukSayısı { get; set; } = 1;
+        public short KoltukSayısı { get; set; } = 1;
 
         [XmlAttribute(AttributeName = "MarkaId")]
         public int MarkaId { get; set; } = -1;

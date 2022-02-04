@@ -579,12 +579,12 @@
                 <ColumnDefinition Width="9.5" />
             </Grid.ColumnDefinitions>
             <TextBox Grid.Row="0" Grid.Column="1"
-                MinWidth="18"
                 VerticalContentAlignment="Center"
                 Background="{TemplateBinding Background}"
                 BorderThickness="1"
                 IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
-                Style="{StaticResource NumericUpDownTextBoxStyle}" />
+                Style="{StaticResource NumericUpDownTextBoxStyle}"
+                Visibility="{Binding NumericUpdownTextBoxVisibility, RelativeSource={RelativeSource TemplatedParent}}" />
             <RepeatButton x:Name="PART_LineUpButton"
                 Grid.Row="0" Grid.Column="0"
                 Command="{x:Static ScrollBar.LineLeftCommand}"
@@ -594,7 +594,7 @@
                     <VisualBrush Stretch="Uniform">
                         <VisualBrush.Visual>
                             <Path x:Name="Up"
-                                Width="9.5" Height="8.5"
+                                Width="9.5" MinHeight="8.5"
                                 Data="M0,0L5,5 10,0z" Fill="Black" RenderTransformOrigin="0.5,0.5" Stretch="Fill"
                                 StrokeLineJoin="Round">
                                 <Path.RenderTransform>
@@ -614,7 +614,7 @@
                     <VisualBrush Stretch="Uniform">
                         <VisualBrush.Visual>
                             <Path x:Name="Down"
-                                Width="9.5" Height="8.5"
+                                Width="9.5" MinHeight="8.5"
                                 Data="M0,0L5,5 10,0z" Fill="Black" RenderTransformOrigin="0.5,0.5" Stretch="Fill"
                                 StrokeLineJoin="Round">
                                 <Path.RenderTransform>
@@ -646,14 +646,15 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <TextBox Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
-                MinWidth="18"
                 VerticalContentAlignment="Center"
                 Background="{TemplateBinding Background}"
                 BorderThickness="1"
                 IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
-                Style="{StaticResource NumericUpDownTextBoxStyle}" />
+                Style="{StaticResource NumericUpDownTextBoxStyle}"
+                Visibility="{Binding NumericUpdownTextBoxVisibility, RelativeSource={RelativeSource TemplatedParent}}" />
             <RepeatButton x:Name="PART_LineUpButton"
                 Grid.Row="0" Grid.Column="1"
+                MinHeight="8.5"
                 Command="{x:Static ScrollBar.LineDownCommand}"
                 Style="{StaticResource ScrollBarButton}"
                 Visibility="{Binding NumericUpDownButtonsVisibility, RelativeSource={RelativeSource TemplatedParent}}">
@@ -674,6 +675,7 @@
             </RepeatButton>
             <RepeatButton x:Name="PART_LineDownButton"
                 Grid.Row="1" Grid.Column="1"
+                MinHeight="8.5"
                 Command="{x:Static ScrollBar.LineUpCommand}"
                 Style="{StaticResource ScrollBarButton}"
                 Visibility="{Binding NumericUpDownButtonsVisibility, RelativeSource={RelativeSource TemplatedParent}}">

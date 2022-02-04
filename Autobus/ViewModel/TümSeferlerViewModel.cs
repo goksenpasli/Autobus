@@ -99,7 +99,7 @@ namespace Autobus.ViewModel
                     TümSeferlerView.cvs.Filter += (s, e) => e.Accepted = true;
                     return;
                 }
-                TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.SeçiliSefer.KalkışŞehirId == KalkışŞehirAramaId;
+                TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.SeçiliSefer?.KalkışŞehirId == KalkışŞehirAramaId;
             }
             if (e.PropertyName is "KalkışTarihArama")
             {
@@ -108,7 +108,7 @@ namespace Autobus.ViewModel
                     TümSeferlerView.cvs.Filter += (s, e) => e.Accepted = true;
                     return;
                 }
-                TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.SeçiliSefer.KalkışZamanı == KalkışTarihArama;
+                TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.SeçiliSefer?.KalkışZamanı >= KalkışTarihArama && (e.Item as Müşteri)?.SeçiliSefer?.KalkışZamanı < KalkışTarihArama.Value.AddDays(1);
             }
             if (e.PropertyName is "AramaBiletÖdendi")
             {
@@ -126,7 +126,7 @@ namespace Autobus.ViewModel
                     TümSeferlerView.cvs.Filter += (s, e) => e.Accepted = true;
                     return;
                 }
-                TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.SeçiliSefer.VarışŞehirId == VarışŞehirAramaId;
+                TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.SeçiliSefer?.VarışŞehirId == VarışŞehirAramaId;
             }
             if (e.PropertyName is "MüşteriSoyadArama")
             {

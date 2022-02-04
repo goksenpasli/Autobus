@@ -60,13 +60,31 @@
                             </StackPanel>
                         </Button>
                         <TextBlock Text="SEFER" />
-                        <ComboBox x:Name="CbSefer"
-                            HorizontalContentAlignment="Stretch"
-                            ItemContainerStyle="{StaticResource ComboBoxSüresiGeçenSeferItemContainerStyle}"
-                            ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
-                            ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                            ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
-                            SelectedItem="{Binding SeçiliSefer}" />
+                        <UniformGrid Columns="2">
+                            <ComboBox x:Name="CbSefer"
+                                HorizontalContentAlignment="Stretch"
+                                ItemContainerStyle="{StaticResource ComboBoxSüresiGeçenSeferItemContainerStyle}"
+                                ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
+                                ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                                ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
+                                SelectedItem="{Binding SeçiliSefer}" />
+                            <Button Background="Red"
+                                Command="{Binding SeferİptalEt}"
+                                CommandParameter="{Binding SeçiliSefer}"
+                                IsTabStop="False">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="32" Height="32">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="77" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock Text="SEÇİLİ SEFERİ İPTAL ET" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                        </UniformGrid>
                         <CheckBox VerticalContentAlignment="Center" IsChecked="{Binding Müşteri.BiletÖdendi}">
                             <CheckBox.Content>
                                 <TextBlock FontSize="16" Foreground="Red">
@@ -84,22 +102,6 @@
                                         Source="/Resources/car-sharing.png" />
                                 </StackPanel>
                             </Button.Content>
-                        </Button>
-                        <Button Background="Red"
-                            Command="{Binding SeferİptalEt}"
-                            CommandParameter="{Binding SeçiliSefer}"
-                            IsTabStop="False">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="32" Height="32">
-                                    <Image.Source>
-                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                            <Binding Source="Shell32.dll" />
-                                            <Binding Source="77" />
-                                        </MultiBinding>
-                                    </Image.Source>
-                                </Image>
-                                <TextBlock Text="SEÇİLİ SEFERİ İPTAL ET" VerticalAlignment="Center" />
-                            </StackPanel>
                         </Button>
                     </StackPanel>
                 </ScrollViewer>
@@ -121,7 +123,7 @@
                         </StackPanel>
                     </GroupBox.Header>
                     <ListBox HorizontalContentAlignment="Center"
-                        d:ItemsSource="{d:SampleData ItemCount=5}"
+                        d:ItemsSource="{d:SampleData ItemCount=15}"
                         IsEnabled="{Binding SeçiliSefer.İptal, Converter={StaticResource ReverseBooleanConverter}}"
                         IsTextSearchEnabled="False"
                         ItemsSource="{Binding SeçiliAraç.KoltukÖnizlemeListe}"

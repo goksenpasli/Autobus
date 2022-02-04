@@ -1,13 +1,14 @@
 ﻿using Autobus.Model;
 using Extensions;
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Autobus.ViewModel
 {
-    public class SeferGirişViewModel
+    public class SeferGirişViewModel : INotifyPropertyChanged
     {
         public SeferGirişViewModel()
         {
@@ -45,12 +46,38 @@ namespace Autobus.ViewModel
 
                     ResetSefer();
                 }
-            }, parameter => Sefer?.ŞöförId > 0 && Sefer?.AraçId > 0 && Sefer?.BiletTutarı > 0 && Sefer?.KalkışŞehirId > 0 && Sefer?.VarışŞehirId > 0);
+            }, parameter => Sefer?.VarışZamanı > Sefer?.KalkışZamanı && Sefer?.ŞöförId > 0 && Sefer?.AraçId > 0 && Sefer?.BiletTutarı > 0 && Sefer?.KalkışŞehirId > 0 && Sefer?.VarışŞehirId > 0);
+
+            SeferGüncelle = new RelayCommand<object>(parameter =>
+            {
+                if (parameter is Otobüs otobüs)
+                {
+                    if (SeçiliSefer.VarışZamanı < DateTime.Now)
+                    {
+                        MessageBox.Show("Sefer Varış Zamanı Şu Anki Tarihten Daha Önce Devam Edilmez. Gerekli Düzeltmeyi Yapın.", App.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
+                    }
+
+                    if (otobüs?.Sefer.Any(z => z.ŞöförId == SeçiliSefer.ŞöförId && z.KalkışZamanı > SeçiliSefer.KalkışZamanı && z.KalkışZamanı < SeçiliSefer.VarışZamanı) == true)
+                    {
+                        MessageBox.Show("Belirtilen Kalkış Saatinde Bu Şoför İçin Başka Bir Sefer Var.", App.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
+                    }
+
+                    MainViewModel.DatabaseSave.Execute(null);
+                }
+            }, parameter => SeçiliSefer?.İptal == false && SeçiliSefer?.VarışZamanı > SeçiliSefer?.KalkışZamanı);
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public Sefer SeçiliSefer { get; set; }
 
         public Sefer Sefer { get; set; }
 
         public ICommand SeferEkle { get; }
+
+        public ICommand SeferGüncelle { get; }
 
         private void ResetSefer()
         {

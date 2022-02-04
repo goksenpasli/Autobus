@@ -18,9 +18,6 @@ namespace Autobus.Model
         [XmlElement(ElementName = "Sefer")]
         public ObservableCollection<Sefer> Sefer { get; set; }
 
-        [XmlElement(ElementName = "Şehirler")]
-        public Şehirler Şehirler { get; set; }
-
         [XmlElement(ElementName = "Şöförler")]
         public Şöförler Şöförler { get; set; }
 

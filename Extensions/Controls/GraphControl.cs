@@ -17,6 +17,12 @@ namespace Extensions
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphControl), new FrameworkPropertyMetadata(typeof(GraphControl)));
         }
 
+        public GraphControl()
+        {
+            Margin = SeriesTextVisibility == Visibility.Visible ? new Thickness(0, 12, 0, 0) : new Thickness(0);
+            PropertyChanged += GraphControl_PropertyChanged;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<Chart> Series
@@ -89,15 +95,25 @@ namespace Extensions
                     graph.DrawLine(pen, point0, point1);
                     if (SeriesTextVisibility == Visibility.Visible)
                     {
-                        graph.PushTransform(new RotateTransform(-90, point1.X, point1.Y));
-                        graph.DrawText(new FormattedText(item.Description, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Segoe UI"), 12, Brushes.Black), point1);
-                        graph.Pop();
+                        FormattedText formattedText = new(item.Description, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Segoe UI"), 12, Brushes.Black)
+                        {
+                            MaxTextWidth = pen.Thickness
+                        };
+                        graph.DrawText(formattedText, new Point(point1.X - (pen.Thickness / 2), point1.Y - 16));
                     }
                     drawingContext.DrawDrawing(dg);
                 }
                 dg.Freeze();
             }
             return drawingContext;
+        }
+
+        private void GraphControl_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName is "SeriesTextVisibility")
+            {
+                Margin = SeriesTextVisibility == Visibility.Visible ? new Thickness(0, 12, 0, 0) : new Thickness(0);
+            }
         }
     }
 }

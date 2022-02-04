@@ -14,6 +14,8 @@ namespace Extensions
 
         public static readonly DependencyProperty NumericUpDownButtonsVisibilityProperty = DependencyProperty.Register("NumericUpDownButtonsVisibility", typeof(Visibility), typeof(NumericUpDownControl), new PropertyMetadata(Visibility.Visible));
 
+        public static readonly DependencyProperty NumericUpdownTextBoxVisibilityProperty = DependencyProperty.Register("NumericUpdownTextBoxVisibility", typeof(Visibility), typeof(NumericUpDownControl), new PropertyMetadata(Visibility.Visible));
+
         public static readonly DependencyProperty ShowModeProperty = DependencyProperty.Register("ShowMode", typeof(Mode), typeof(NumericUpDownControl), new PropertyMetadata(Mode.NumberMode, ModeChanged));
 
         [Browsable(false)]
@@ -52,6 +54,12 @@ namespace Extensions
         {
             get => (Visibility)GetValue(NumericUpDownButtonsVisibilityProperty);
             set => SetValue(NumericUpDownButtonsVisibilityProperty, value);
+        }
+
+        public Visibility NumericUpdownTextBoxVisibility
+        {
+            get { return (Visibility)GetValue(NumericUpdownTextBoxVisibilityProperty); }
+            set { SetValue(NumericUpdownTextBoxVisibilityProperty, value); }
         }
 
         public Mode ShowMode

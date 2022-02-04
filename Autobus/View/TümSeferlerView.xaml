@@ -348,18 +348,29 @@
                                     Height="80"
                                     d:ItemsSource="{d:SampleData ItemCount=5}"
                                     ItemsSource="{Binding BoşKalanKoltuklar}" />
-                                <Button Content="SEÇİLİ KOLTUĞA TAŞI"
-                                    Command="{Binding MüşteriTaşı}"
+                                <Button Command="{Binding MüşteriTaşı}"
                                     CommandParameter="{Binding ElementName=LbBoşKoltuk, Path=SelectedItem}"
-                                    IsEnabled="{Binding ElementName=LbBoşKoltuk, Path=SelectedItem, Converter={StaticResource NullableToBooleanConverter}}" />
+                                    IsEnabled="{Binding ElementName=LbBoşKoltuk, Path=SelectedItem, Converter={StaticResource NullableToBooleanConverter}}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="32" Height="32">
+                                            <Image.Source>
+                                                <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                    <Binding Source="Imageres.dll" />
+                                                    <Binding Source="272" />
+                                                </MultiBinding>
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock Text="SEÇİLİ KOLTUĞA TAŞI" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
                             </StackPanel>
                         </UniformGrid>
                     </GroupBox.Header>
                     <ListBox HorizontalContentAlignment="Center"
                         d:ItemsSource="{d:SampleData ItemCount=5}"
-                        IsTextSearchEnabled="False"
+                        IsHitTestVisible="False" IsTextSearchEnabled="False"
                         ItemsSource="{Binding SeçiliAraç.KoltukÖnizlemeListe}"
-                        SelectedItem="{Binding SeçiliMüşteri.KoltukNo}"
+                        SelectedItem="{Binding SeçiliMüşteri.KoltukNo, Mode=OneWay}"
                         SelectionMode="Single">
                         <ListBox.ItemTemplate>
                             <DataTemplate>

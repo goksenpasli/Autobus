@@ -75,18 +75,29 @@
                     </ComboBox>
                     <TextBlock Text="KALKIŞ SAATİ" />
                     <UniformGrid Columns="2">
-                        <DatePicker DisplayDateStart="{Binding Mode=OneWay, Source={x:Static sys:DateTime.Today}}" SelectedDate="{Binding Sefer.KalkışZamanı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <Extensions:HourControl HourValue="{Binding Sefer.KalkışSaat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <StackPanel Orientation="Horizontal">
+                            <DatePicker DisplayDateStart="{Binding Mode=OneWay, Source={x:Static sys:DateTime.Today}}" SelectedDate="{Binding Sefer.KalkışZamanı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <Extensions:NumericUpDownControl IsReadOnly="True" NumericUpdownTextBoxVisibility="Collapsed" SmallChange="0.25"
+                                Value="{Binding Sefer.KalkışSaat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                            <TextBlock Text="TAHMİNİ SEFER SÜRESİ SAAT" VerticalAlignment="Center" />
+                            <Extensions:NumericUpDownControl SmallChange="0.25" Value="{Binding Sefer.TahminiSüre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
                     </UniformGrid>
-                    <TextBlock Text="TAHMİNİ SÜRE SAAT" />
-                    <Extensions:NumericUpDownControl Minimum="0" SmallChange="1"
-                        Value="{Binding Sefer.TahminiSüre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Text="BİLET TUTARI" />
                     <Extensions:NumericUpDownControl Minimum="0" ShowMode="CurrencyMode" SmallChange="1"
                         Value="{Binding Sefer.BiletTutarı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Text="TAHMİNİ VARIŞ SAATİ" />
-                    <TextBlock Text="{Binding Sefer.VarışZamanı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        FontSize="16" Foreground="Red" />
+                    <UniformGrid Columns="2">
+                        <TextBlock Text="TAHMİNİ KALKIŞ SAATİ" />
+                        <TextBlock Text="TAHMİNİ VARIŞ SAATİ" />
+                        <TextBlock Text="{Binding Sefer.KalkışZamanı, ValidatesOnDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            FontSize="16" Foreground="Red"
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                        <TextBlock Text="{Binding Sefer.VarışZamanı, ValidatesOnDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            FontSize="16" Foreground="Red"
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                    </UniformGrid>
                     <Button Command="{Binding SeferEkle}" CommandParameter="{Binding Otobüs, Source={StaticResource MainViewModel}}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
@@ -96,6 +107,30 @@
                             </StackPanel>
                         </Button.Content>
                     </Button>
+                    <GroupBox Grid.Row="1" Header="SEFER GÜNCELLE">
+                        <StackPanel>
+                            <ComboBox x:Name="CbSefer"
+                                HorizontalContentAlignment="Stretch"
+                                ItemContainerStyle="{StaticResource ComboBoxSüresiGeçenSeferItemContainerStyle}"
+                                ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
+                                ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                                ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
+                                SelectedItem="{Binding SeçiliSefer}" />
+                            <UniformGrid Columns="3" IsEnabled="{Binding ElementName=CbSefer, Path=SelectedItem, Converter={StaticResource NullableToBooleanConverter}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <DatePicker DisplayDateStart="{Binding Mode=OneWay, Source={x:Static sys:DateTime.Today}}" SelectedDate="{Binding SeçiliSefer.KalkışZamanı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <Extensions:NumericUpDownControl IsReadOnly="True" NumericUpdownTextBoxVisibility="Collapsed" SmallChange="0.25"
+                                        Value="{Binding SeçiliSefer.KalkışSaatGüncelle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <Extensions:NumericUpDownControl IsReadOnly="True" SmallChange="0.25"
+                                    Value="{Binding SeçiliSefer.İlaveSüre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <Button Content="GÜNCELLE"
+                                    Command="{Binding SeferGüncelle}"
+                                    CommandParameter="{Binding Otobüs, Source={StaticResource MainViewModel}}" />
+                            </UniformGrid>
+                        </StackPanel>
+                    </GroupBox>
+
                 </StackPanel>
             </ScrollViewer>
         </GroupBox>

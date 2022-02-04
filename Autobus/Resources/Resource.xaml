@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
+    xmlns:clc="clr-namespace:System.Collections;assembly=mscorlib"
     xmlns:ice="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <DrawingBrush x:Key="Koltuk" Stretch="Uniform">
@@ -99,89 +99,89 @@
         <GradientStop ice:Freeze="True" Offset="1" Color="#FE00C8FF" />
         <GradientStop ice:Freeze="True" Color="turquoise" />
     </LinearGradientBrush>
-    <collections:ArrayList x:Key="İller">
-        <collections:DictionaryEntry Key="1" Value="ADANA" />
-        <collections:DictionaryEntry Key="2" Value="ADIYAMAN" />
-        <collections:DictionaryEntry Key="3" Value="AFYONKARAHİSAR" />
-        <collections:DictionaryEntry Key="4" Value="AĞRI" />
-        <collections:DictionaryEntry Key="5" Value="AMASYA" />
-        <collections:DictionaryEntry Key="6" Value="ANKARA" />
-        <collections:DictionaryEntry Key="7" Value="ANTALYA" />
-        <collections:DictionaryEntry Key="8" Value="ARTVİN" />
-        <collections:DictionaryEntry Key="9" Value="AYDIN" />
-        <collections:DictionaryEntry Key="10" Value="BALIKESİR" />
-        <collections:DictionaryEntry Key="11" Value="BİLECİK" />
-        <collections:DictionaryEntry Key="12" Value="BİNGÖL" />
-        <collections:DictionaryEntry Key="13" Value="BİTLİS" />
-        <collections:DictionaryEntry Key="14" Value="BOLU" />
-        <collections:DictionaryEntry Key="15" Value="BURDUR" />
-        <collections:DictionaryEntry Key="16" Value="BURSA" />
-        <collections:DictionaryEntry Key="17" Value="ÇANAKKALE" />
-        <collections:DictionaryEntry Key="18" Value="ÇANKIRI" />
-        <collections:DictionaryEntry Key="19" Value="ÇORUM" />
-        <collections:DictionaryEntry Key="20" Value="DENİZLİ" />
-        <collections:DictionaryEntry Key="21" Value="DİYARBAKIR" />
-        <collections:DictionaryEntry Key="22" Value="EDİRNE" />
-        <collections:DictionaryEntry Key="23" Value="ELAZIĞ" />
-        <collections:DictionaryEntry Key="24" Value="ERZİNCAN" />
-        <collections:DictionaryEntry Key="25" Value="ERZURUM" />
-        <collections:DictionaryEntry Key="26" Value="ESKİŞEHİR" />
-        <collections:DictionaryEntry Key="27" Value="GAZİANTEP" />
-        <collections:DictionaryEntry Key="28" Value="GİRESUN" />
-        <collections:DictionaryEntry Key="29" Value="GÜMÜŞHANE" />
-        <collections:DictionaryEntry Key="30" Value="HAKKARİ" />
-        <collections:DictionaryEntry Key="31" Value="HATAY" />
-        <collections:DictionaryEntry Key="32" Value="ISPARTA" />
-        <collections:DictionaryEntry Key="33" Value="MERSİN" />
-        <collections:DictionaryEntry Key="34" Value="İSTANBUL" />
-        <collections:DictionaryEntry Key="35" Value="İZMİR" />
-        <collections:DictionaryEntry Key="36" Value="KARS" />
-        <collections:DictionaryEntry Key="37" Value="KASTAMONU" />
-        <collections:DictionaryEntry Key="38" Value="KAYSERİ" />
-        <collections:DictionaryEntry Key="39" Value="KIRKLARELİ" />
-        <collections:DictionaryEntry Key="40" Value="KIRŞEHİR" />
-        <collections:DictionaryEntry Key="41" Value="KOCAELİ" />
-        <collections:DictionaryEntry Key="42" Value="KONYA" />
-        <collections:DictionaryEntry Key="43" Value="KÜTAHYA" />
-        <collections:DictionaryEntry Key="44" Value="MALATYA" />
-        <collections:DictionaryEntry Key="45" Value="MANİSA" />
-        <collections:DictionaryEntry Key="46" Value="KAHRAMANMARAŞ" />
-        <collections:DictionaryEntry Key="47" Value="MARDİN" />
-        <collections:DictionaryEntry Key="48" Value="MUĞLA" />
-        <collections:DictionaryEntry Key="49" Value="MUŞ" />
-        <collections:DictionaryEntry Key="50" Value="NEVŞEHİR" />
-        <collections:DictionaryEntry Key="51" Value="NİĞDE" />
-        <collections:DictionaryEntry Key="52" Value="ORDU" />
-        <collections:DictionaryEntry Key="53" Value="RİZE" />
-        <collections:DictionaryEntry Key="54" Value="SAKARYA" />
-        <collections:DictionaryEntry Key="55" Value="SAMSUN" />
-        <collections:DictionaryEntry Key="56" Value="SİİRT" />
-        <collections:DictionaryEntry Key="57" Value="SİNOP" />
-        <collections:DictionaryEntry Key="58" Value="SİVAS" />
-        <collections:DictionaryEntry Key="59" Value="TEKİRDAĞ" />
-        <collections:DictionaryEntry Key="60" Value="TOKAT" />
-        <collections:DictionaryEntry Key="61" Value="TRABZON" />
-        <collections:DictionaryEntry Key="62" Value="TUNCELİ" />
-        <collections:DictionaryEntry Key="63" Value="ŞANLIURFA" />
-        <collections:DictionaryEntry Key="64" Value="UŞAK" />
-        <collections:DictionaryEntry Key="65" Value="VAN" />
-        <collections:DictionaryEntry Key="66" Value="YOZGAT" />
-        <collections:DictionaryEntry Key="67" Value="ZONGULDAK" />
-        <collections:DictionaryEntry Key="68" Value="AKSARAY" />
-        <collections:DictionaryEntry Key="69" Value="BAYBURT" />
-        <collections:DictionaryEntry Key="70" Value="KARAMAN" />
-        <collections:DictionaryEntry Key="71" Value="KIRIKKALE" />
-        <collections:DictionaryEntry Key="72" Value="BATMAN" />
-        <collections:DictionaryEntry Key="73" Value="ŞIRNAK" />
-        <collections:DictionaryEntry Key="74" Value="BARTIN" />
-        <collections:DictionaryEntry Key="75" Value="ARDAHAN" />
-        <collections:DictionaryEntry Key="76" Value="IĞDIR" />
-        <collections:DictionaryEntry Key="77" Value="YALOVA" />
-        <collections:DictionaryEntry Key="78" Value="KARABÜK" />
-        <collections:DictionaryEntry Key="79" Value="KİLİS" />
-        <collections:DictionaryEntry Key="80" Value="OSMANİYE" />
-        <collections:DictionaryEntry Key="81" Value="DÜZCE" />
-    </collections:ArrayList>
+    <clc:ArrayList x:Key="İller">
+        <clc:DictionaryEntry Key="1" Value="ADANA" />
+        <clc:DictionaryEntry Key="2" Value="ADIYAMAN" />
+        <clc:DictionaryEntry Key="3" Value="AFYONKARAHİSAR" />
+        <clc:DictionaryEntry Key="4" Value="AĞRI" />
+        <clc:DictionaryEntry Key="5" Value="AMASYA" />
+        <clc:DictionaryEntry Key="6" Value="ANKARA" />
+        <clc:DictionaryEntry Key="7" Value="ANTALYA" />
+        <clc:DictionaryEntry Key="8" Value="ARTVİN" />
+        <clc:DictionaryEntry Key="9" Value="AYDIN" />
+        <clc:DictionaryEntry Key="10" Value="BALIKESİR" />
+        <clc:DictionaryEntry Key="11" Value="BİLECİK" />
+        <clc:DictionaryEntry Key="12" Value="BİNGÖL" />
+        <clc:DictionaryEntry Key="13" Value="BİTLİS" />
+        <clc:DictionaryEntry Key="14" Value="BOLU" />
+        <clc:DictionaryEntry Key="15" Value="BURDUR" />
+        <clc:DictionaryEntry Key="16" Value="BURSA" />
+        <clc:DictionaryEntry Key="17" Value="ÇANAKKALE" />
+        <clc:DictionaryEntry Key="18" Value="ÇANKIRI" />
+        <clc:DictionaryEntry Key="19" Value="ÇORUM" />
+        <clc:DictionaryEntry Key="20" Value="DENİZLİ" />
+        <clc:DictionaryEntry Key="21" Value="DİYARBAKIR" />
+        <clc:DictionaryEntry Key="22" Value="EDİRNE" />
+        <clc:DictionaryEntry Key="23" Value="ELAZIĞ" />
+        <clc:DictionaryEntry Key="24" Value="ERZİNCAN" />
+        <clc:DictionaryEntry Key="25" Value="ERZURUM" />
+        <clc:DictionaryEntry Key="26" Value="ESKİŞEHİR" />
+        <clc:DictionaryEntry Key="27" Value="GAZİANTEP" />
+        <clc:DictionaryEntry Key="28" Value="GİRESUN" />
+        <clc:DictionaryEntry Key="29" Value="GÜMÜŞHANE" />
+        <clc:DictionaryEntry Key="30" Value="HAKKARİ" />
+        <clc:DictionaryEntry Key="31" Value="HATAY" />
+        <clc:DictionaryEntry Key="32" Value="ISPARTA" />
+        <clc:DictionaryEntry Key="33" Value="MERSİN" />
+        <clc:DictionaryEntry Key="34" Value="İSTANBUL" />
+        <clc:DictionaryEntry Key="35" Value="İZMİR" />
+        <clc:DictionaryEntry Key="36" Value="KARS" />
+        <clc:DictionaryEntry Key="37" Value="KASTAMONU" />
+        <clc:DictionaryEntry Key="38" Value="KAYSERİ" />
+        <clc:DictionaryEntry Key="39" Value="KIRKLARELİ" />
+        <clc:DictionaryEntry Key="40" Value="KIRŞEHİR" />
+        <clc:DictionaryEntry Key="41" Value="KOCAELİ" />
+        <clc:DictionaryEntry Key="42" Value="KONYA" />
+        <clc:DictionaryEntry Key="43" Value="KÜTAHYA" />
+        <clc:DictionaryEntry Key="44" Value="MALATYA" />
+        <clc:DictionaryEntry Key="45" Value="MANİSA" />
+        <clc:DictionaryEntry Key="46" Value="KAHRAMANMARAŞ" />
+        <clc:DictionaryEntry Key="47" Value="MARDİN" />
+        <clc:DictionaryEntry Key="48" Value="MUĞLA" />
+        <clc:DictionaryEntry Key="49" Value="MUŞ" />
+        <clc:DictionaryEntry Key="50" Value="NEVŞEHİR" />
+        <clc:DictionaryEntry Key="51" Value="NİĞDE" />
+        <clc:DictionaryEntry Key="52" Value="ORDU" />
+        <clc:DictionaryEntry Key="53" Value="RİZE" />
+        <clc:DictionaryEntry Key="54" Value="SAKARYA" />
+        <clc:DictionaryEntry Key="55" Value="SAMSUN" />
+        <clc:DictionaryEntry Key="56" Value="SİİRT" />
+        <clc:DictionaryEntry Key="57" Value="SİNOP" />
+        <clc:DictionaryEntry Key="58" Value="SİVAS" />
+        <clc:DictionaryEntry Key="59" Value="TEKİRDAĞ" />
+        <clc:DictionaryEntry Key="60" Value="TOKAT" />
+        <clc:DictionaryEntry Key="61" Value="TRABZON" />
+        <clc:DictionaryEntry Key="62" Value="TUNCELİ" />
+        <clc:DictionaryEntry Key="63" Value="ŞANLIURFA" />
+        <clc:DictionaryEntry Key="64" Value="UŞAK" />
+        <clc:DictionaryEntry Key="65" Value="VAN" />
+        <clc:DictionaryEntry Key="66" Value="YOZGAT" />
+        <clc:DictionaryEntry Key="67" Value="ZONGULDAK" />
+        <clc:DictionaryEntry Key="68" Value="AKSARAY" />
+        <clc:DictionaryEntry Key="69" Value="BAYBURT" />
+        <clc:DictionaryEntry Key="70" Value="KARAMAN" />
+        <clc:DictionaryEntry Key="71" Value="KIRIKKALE" />
+        <clc:DictionaryEntry Key="72" Value="BATMAN" />
+        <clc:DictionaryEntry Key="73" Value="ŞIRNAK" />
+        <clc:DictionaryEntry Key="74" Value="BARTIN" />
+        <clc:DictionaryEntry Key="75" Value="ARDAHAN" />
+        <clc:DictionaryEntry Key="76" Value="IĞDIR" />
+        <clc:DictionaryEntry Key="77" Value="YALOVA" />
+        <clc:DictionaryEntry Key="78" Value="KARABÜK" />
+        <clc:DictionaryEntry Key="79" Value="KİLİS" />
+        <clc:DictionaryEntry Key="80" Value="OSMANİYE" />
+        <clc:DictionaryEntry Key="81" Value="DÜZCE" />
+    </clc:ArrayList>
     <x:Array x:Key="Arabalar" Type="{x:Type sys:String}">
         <sys:String>Chrysler</sys:String>
         <sys:String>Citroën</sys:String>

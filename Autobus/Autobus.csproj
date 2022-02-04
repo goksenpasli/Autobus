@@ -181,8 +181,6 @@
     <Compile Include="Model\Müşteri.cs" />
     <Compile Include="Model\Otobüs.cs" />
     <Compile Include="Model\Sefer.cs" />
-    <Compile Include="Model\Şehir.cs" />
-    <Compile Include="Model\Şehirler.cs" />
     <Compile Include="Model\Şöför.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
