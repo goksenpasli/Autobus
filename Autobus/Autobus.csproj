@@ -80,6 +80,7 @@
     <Compile Include="Converter\SeferSüreGeçtiConverter.cs" />
     <Compile Include="Converter\StringToBrushConverter.cs" />
     <Compile Include="ViewModel\AnimationType.cs" />
+    <Compile Include="Model\Aylar.cs" />
     <Compile Include="ViewModel\Mesafe.cs" />
     <Compile Include="Model\Sipariş.cs" />
     <Compile Include="Model\Ürün.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="ViewModel\RippleEffect.cs" />
     <Compile Include="ViewModel\SeferGirişViewModel.cs" />
     <Compile Include="ViewModel\ShadowedImage.cs" />
+    <Compile Include="Model\Tahsilat.cs" />
     <Compile Include="ViewModel\TümSeferlerViewModel.cs" />
     <Compile Include="ViewModel\YolcuDüzenViewModel.cs" />
     <Compile Include="ViewModel\YolcuGirişViewModel.cs" />

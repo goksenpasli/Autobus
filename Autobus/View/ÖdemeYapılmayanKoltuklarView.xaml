@@ -50,16 +50,46 @@
             </ListView>
             <GroupBox Grid.Column="1" Header="YILLIK TOPLAM TAHSİLAT DURUMU">
                 <UniformGrid Rows="2">
-                    <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding ÖdemeYapılmayanKoltuklarViewModel.Tahsilatlar, Source={StaticResource MainViewModel}}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock>
-                                    <Run Text="{Binding Tarih, StringFormat={}{0} Ayı}" />
-                                    <Run Text="{Binding Tutar, StringFormat=\{0:C\}}" Language="tr-tr" />
-                                </TextBlock>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                    <UniformGrid Columns="2">
+                        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding ÖdemeYapılmayanKoltuklarViewModel.Tahsilatlar, Source={StaticResource MainViewModel}}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <Run Text="{Binding Tarih, StringFormat={}{0} Ayı}" />
+                                        <Run Text="{Binding Tutar, StringFormat=\{0:C\}}" Language="tr-tr" />
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <ListView d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding Otobüs.Aylar, Source={StaticResource MainViewModel}}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Ad}" Header="AY" />
+                                        <GridViewColumn Width="75" Header="RENK">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <ComboBox VerticalContentAlignment="Center"
+                                                        ItemTemplate="{StaticResource ColorItemTemplate}"
+                                                        ItemsPanel="{StaticResource ColorPanelTemplate}"
+                                                        ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}"
+                                                        SelectedValue="{Binding Renk}"
+                                                        SelectedValuePath="Name" />
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                            <Button Content="SAKLA"
+                                Grid.Row="1"
+                                Command="{Binding DatabaseSave, Source={StaticResource MainViewModel}}" />
+                        </Grid>
+                    </UniformGrid>
                     <Extension:GraphControl Series="{Binding ÖdemeYapılmayanKoltuklarViewModel.GrafikVerileri, Source={StaticResource MainViewModel}}" SeriesListVisibility="Collapsed" />
                 </UniformGrid>
             </GroupBox>

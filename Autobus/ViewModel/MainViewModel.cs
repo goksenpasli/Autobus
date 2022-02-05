@@ -41,6 +41,7 @@ namespace Autobus.ViewModel
                 {
                     Şöför = ExtensionMethods.ŞoförleriYükle()
                 },
+                Aylar = ExtensionMethods.AylarıYükle(),
                 Ürünler = new Ürünler
                 {
                     Ürün = ExtensionMethods.ÜrünleriYükle()
@@ -106,7 +107,7 @@ namespace Autobus.ViewModel
                 {
                     ÖdemeYapılmayanKoltuklarViewModel.GrafikVerileri.Add(new Chart()
                     {
-                        ChartBrush = (Brush)stringToBrushConverter.Convert(ExtensionMethods.RandomColor(), null, null, CultureInfo.CurrentCulture),
+                        ChartBrush = (Brush)stringToBrushConverter.Convert(Otobüs?.Aylar?.FirstOrDefault(z => z.Ad == tahsilat.Tarih)?.Renk, null, null, CultureInfo.CurrentCulture),
                         Description = tahsilat.Tarih,
                         ChartValue = (double)tahsilat.Tutar
                     });

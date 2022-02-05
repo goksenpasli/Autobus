@@ -35,9 +35,6 @@ namespace Autobus.Model
 
         public string Error => string.Empty;
 
-        [XmlIgnore]
-        public DateTime GeçiciTarih { get; set; }
-
         [XmlAttribute(AttributeName = "Id")]
         public int Id { get; set; }
 
@@ -81,6 +78,9 @@ namespace Autobus.Model
         [DependsOn("Mesafe")]
         public double TahminiSüre { get; set; }
 
+        [XmlAttribute(AttributeName = "TarihDeğiştirildi")]
+        public bool TarihDeğiştirildi { get; set; }
+
         [XmlAttribute(AttributeName = "VarışŞehirId")]
         public short VarışŞehirId { get; set; } = -1;
 
@@ -118,11 +118,13 @@ namespace Autobus.Model
             if (e.PropertyName is "İlaveSüre")
             {
                 VarışZamanı = KalkışZamanı.AddHours(İlaveSüre);
+                TarihDeğiştirildi = true;
             }
             if (e.PropertyName is "KalkışSaatGüncelle")
             {
                 KalkışZamanı = KalkışZamanı.AddHours(KalkışSaatGüncelle);
                 KalkışSaatGüncelle = 0;
+                TarihDeğiştirildi = true;
             }
         }
     }

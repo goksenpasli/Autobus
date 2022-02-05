@@ -63,7 +63,6 @@ namespace Autobus.ViewModel
                         MessageBox.Show("Belirtilen Kalkış Saatinde Bu Şoför İçin Başka Bir Sefer Var.", App.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         return;
                     }
-
                     MainViewModel.DatabaseSave.Execute(null);
                 }
             }, parameter => SeçiliSefer?.İptal == false && SeçiliSefer?.VarışZamanı > SeçiliSefer?.KalkışZamanı);

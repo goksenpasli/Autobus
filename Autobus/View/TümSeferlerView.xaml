@@ -368,7 +368,7 @@
                     </GroupBox.Header>
                     <ListBox HorizontalContentAlignment="Center"
                         d:ItemsSource="{d:SampleData ItemCount=5}"
-                        IsHitTestVisible="False" IsTextSearchEnabled="False"
+                        IsTextSearchEnabled="False"
                         ItemsSource="{Binding SeçiliAraç.KoltukÖnizlemeListe}"
                         SelectedItem="{Binding SeçiliMüşteri.KoltukNo, Mode=OneWay}"
                         SelectionMode="Single">

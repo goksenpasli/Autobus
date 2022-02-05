@@ -405,6 +405,42 @@
                                 <LineBreak />
                                 <Run Text="{Binding VarışZamanı, StringFormat=VARIŞ: \{0:g\}}" Language="tr-tr" />
                             </TextBlock>
+                            <Image MaxWidth="32" MaxHeight="32">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding TarihDeğiştirildi, Mode=OneWay}" Value="true">
+                                                <Setter Property="Source">
+                                                    <Setter.Value>
+                                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                            <Binding Source="Shell32.dll" />
+                                                            <Binding Source="249" />
+                                                        </MultiBinding>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>       
+                            <Image MaxWidth="32" MaxHeight="32">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding İptal, Mode=OneWay}" Value="true">
+                                                <Setter Property="Source">
+                                                    <Setter.Value>
+                                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                            <Binding Source="Shell32.dll" />
+                                                            <Binding Source="131" />
+                                                        </MultiBinding>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
                         </StackPanel>
                     </Border>
                     <ContentPresenter Grid.Column="1"

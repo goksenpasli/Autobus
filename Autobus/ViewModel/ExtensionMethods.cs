@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -24,6 +26,25 @@ namespace Autobus.ViewModel
             }
             _ = Directory.CreateDirectory(Path.GetDirectoryName(MainViewModel.xmldatapath));
             return new ObservableCollection<Araç>();
+        }
+
+        public static ObservableCollection<Aylar> AylarıYükle()
+        {
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+            {
+                return null;
+            }
+            if (File.Exists(MainViewModel.xmldatapath))
+            {
+                return MainViewModel.xmldatapath.DeSerialize<Otobüs>().Aylar;
+            }
+            _ = Directory.CreateDirectory(Path.GetDirectoryName(MainViewModel.xmldatapath));
+            ObservableCollection<Aylar> aylar = new();
+            foreach (string monthName in DateTimeFormatInfo.CurrentInfo.MonthNames.Take(12))
+            {
+                aylar.Add(new Aylar() { Ad = monthName, Renk = "Transparent" });
+            }
+            return aylar;
         }
 
         public static T DeSerialize<T>(this string xmldatapath) where T : class, new()
@@ -63,13 +84,14 @@ namespace Autobus.ViewModel
             return new ObservableCollection<Marka>();
         }
 
-        public static int RandomNumber()
-        {
-            return new Random(Guid.NewGuid().GetHashCode()).Next(1, int.MaxValue);
-        }
         public static string RandomColor()
         {
             return $"#{new Random(Guid.NewGuid().GetHashCode()).Next(0x1000000):X6}";
+        }
+
+        public static int RandomNumber()
+        {
+            return new Random(Guid.NewGuid().GetHashCode()).Next(1, int.MaxValue);
         }
 
         public static ObservableCollection<Sefer> SeferleriYükle()
