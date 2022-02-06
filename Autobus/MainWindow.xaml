@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:Extensions.Controls;assembly=Extensions"
     xmlns:Extension="clr-namespace:Extensions;assembly=Extensions"
-    xmlns:Model="clr-namespace:Autobus.Model"
+    xmlns:Model="clr-namespace:Autobus.Model" xmlns:view="clr-namespace:Autobus.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Autobus"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:Autobus.Properties"
@@ -29,41 +29,7 @@
                         </MultiBinding>
                     </RibbonApplicationMenu.SmallImageSource>
                     <RibbonApplicationMenu.AuxiliaryPaneContent>
-                        <GroupBox Header="AYARLAR">
-                            <StackPanel>
-                                <HeaderedContentControl Header="RESİM EN">
-                                    <Extension:NumericUpDownControl Maximum="1024" Minimum="120" SmallChange="1"
-                                        Value="{Binding Path=ResimEn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
-                                </HeaderedContentControl>
-                                <HeaderedContentControl Header="RESİM BOY">
-                                    <Extension:NumericUpDownControl Maximum="1024" Minimum="160" SmallChange="1"
-                                        Value="{Binding Path=ResimBoy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
-                                </HeaderedContentControl>
-                                <HeaderedContentControl Header="ORTALAMA HIZ">
-                                    <Extension:NumericUpDownControl Maximum="400" Minimum="1" SmallChange="1" ToolTip="Tahimini Varış Süresinde Ortalama Hız."
-                                        Value="{Binding Path=OrtalamaHız, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
-                                </HeaderedContentControl>
-                                <CheckBox Content="SÜRESİ GEÇEN SEFERLERİ GİZLE" IsChecked="{Binding Path=SüresiGeçenSeferleriGizle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
-                                <CheckBox Content="MÜŞTERİ RESİM GÖSTER"
-                                    IsChecked="{Binding Path=TümSeferlerResimGöster, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}"
-                                    ToolTip="Bu İşaretliyse Tüm Seferler Ekranında Müşteri Resimleri Gösterilir." />
-                                <HeaderedContentControl Header="ANİMASYON TİPİ">
-                                    <ComboBox SelectedValue="{Binding Path=AnimasyonTipi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" SelectedValuePath="Tag">
-                                        <ComboBoxItem Content="FOLD" Tag="0" />
-                                        <ComboBoxItem Content="RIPPLE" Tag="1" />
-                                    </ComboBox>
-                                </HeaderedContentControl>
-                                <HeaderedContentControl>
-                                    <HeaderedContentControl.Header>
-                                        <CheckBox Content="VARSAYILAN GİRİŞ EKRANI" IsChecked="{Binding Path=EkranSeç, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
-                                    </HeaderedContentControl.Header>
-                                    <ComboBox DisplayMemberPath="Value"
-                                        IsEnabled="{Binding Path=EkranSeç, Mode=OneWay, Source={x:Static properties:Settings.Default}}"
-                                        ItemsSource="{Binding DefaultScreen, Source={StaticResource MainViewModel}}"
-                                        SelectedIndex="{Binding VarsayılanEkran, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
-                                </HeaderedContentControl>
-                            </StackPanel>
-                        </GroupBox>
+                        <view:AppSettings/>
                     </RibbonApplicationMenu.AuxiliaryPaneContent>
                     <RibbonApplicationMenuItem Command="{Binding VeritabanınıAç}" Header="VERİTABANINI AÇ">
                         <RibbonApplicationMenuItem.ImageSource>

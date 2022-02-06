@@ -99,6 +99,9 @@
     <Compile Include="ViewModel\YolcuGirişViewModel.cs" />
     <Compile Include="ViewModel\ÖdemeYapılmayanKoltuklarViewModel.cs" />
     <Compile Include="ViewModel\ŞoförGirişViewModel.cs" />
+    <Compile Include="View\AppSettings.xaml.cs">
+      <DependentUpon>AppSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AraçGirişView.xaml.cs">
       <DependentUpon>AraçGirişView.xaml</DependentUpon>
     </Compile>
@@ -139,6 +142,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Page Include="View\AppSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AraçGirişView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

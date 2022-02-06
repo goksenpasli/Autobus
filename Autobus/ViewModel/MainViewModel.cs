@@ -1,5 +1,4 @@
-﻿using Autobus.Converter;
-using Autobus.Model;
+﻿using Autobus.Model;
 using Autobus.Properties;
 using Extensions;
 using Microsoft.Win32;
@@ -8,15 +7,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Threading;
-using static Extensions.GraphControl;
 
 namespace Autobus.ViewModel
 {
@@ -97,21 +93,8 @@ namespace Autobus.ViewModel
 
             ÖdemeYapılmayanKoltuklarEkranıAç = new RelayCommand<object>(parameter =>
             {
-                ÖdemeYapılmayanKoltuklarViewModel.Tahsilatlar = Otobüs?.Sefer?.Where(z => z.KalkışZamanı.Year == DateTime.Today.Year && !z.İptal).GroupBy(z => z.KalkışZamanı.Month).OrderBy(z => z.Key).Select(z => new Tahsilat()
-                {
-                    Tarih = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(z.Key),
-                    Tutar = z.SelectMany(z => z.Müşteri).Where(z => z.BiletÖdendi).Sum(z => z.BiletFiyat)
-                });
-                ÖdemeYapılmayanKoltuklarViewModel.GrafikVerileri = new();
-                foreach (Tahsilat tahsilat in ÖdemeYapılmayanKoltuklarViewModel.Tahsilatlar)
-                {
-                    ÖdemeYapılmayanKoltuklarViewModel.GrafikVerileri.Add(new Chart()
-                    {
-                        ChartBrush = (Brush)stringToBrushConverter.Convert(Otobüs?.Aylar?.FirstOrDefault(z => z.Ad == tahsilat.Tarih)?.Renk, null, null, CultureInfo.CurrentCulture),
-                        Description = tahsilat.Tarih,
-                        ChartValue = (double)tahsilat.Tutar
-                    });
-                }
+                ÖdemeYapılmayanKoltuklarViewModel.Tahsilatlar = Otobüs.BiletTahsilat();
+                ÖdemeYapılmayanKoltuklarViewModel.GrafikVerileri = Otobüs.GrafikVerileri();
                 ÖdemeYapılmayanKoltuklarViewModel.ÖdemeYapmayanMüşteriler = Otobüs?.Sefer?.SelectMany(z => z.Müşteri)?.Where(z => !z.BiletÖdendi);
             });
 
@@ -227,8 +210,6 @@ namespace Autobus.ViewModel
         public ICommand YolcuGirişEkranı { get; }
 
         public YolcuGirişViewModel YolcuGirişViewModel { get; set; }
-
-        private static readonly StringToBrushConverter stringToBrushConverter = new();
 
         private DispatcherTimer timer;
 

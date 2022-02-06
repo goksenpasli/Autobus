@@ -74,20 +74,23 @@
                         </ComboBox.ItemContainerStyle>
                     </ComboBox>
                     <TextBlock Text="KALKIŞ SAATİ" />
-                    <UniformGrid Columns="2">
+                    <UniformGrid Columns="3">
                         <StackPanel Orientation="Horizontal">
                             <DatePicker DisplayDateStart="{Binding Mode=OneWay, Source={x:Static sys:DateTime.Today}}" SelectedDate="{Binding Sefer.KalkışZamanı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <Extensions:NumericUpDownControl IsReadOnly="True" NumericUpdownTextBoxVisibility="Collapsed" SmallChange="0.25"
                                 Value="{Binding Sefer.KalkışSaat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
-                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <UniformGrid Columns="2">
                             <TextBlock Text="TAHMİNİ SEFER SÜRESİ SAAT" VerticalAlignment="Center" />
                             <Extensions:NumericUpDownControl SmallChange="0.25" Value="{Binding Sefer.TahminiSüre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </UniformGrid>
+                        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <TextBlock Text="BİLET TUTARI" />
+                            <Extensions:NumericUpDownControl Minimum="0" ShowMode="CurrencyMode" SmallChange="1"
+                                Value="{Binding Sefer.BiletTutarı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
                     </UniformGrid>
-                    <TextBlock Text="BİLET TUTARI" />
-                    <Extensions:NumericUpDownControl Minimum="0" ShowMode="CurrencyMode" SmallChange="1"
-                        Value="{Binding Sefer.BiletTutarı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <UniformGrid Columns="2">
                         <TextBlock Text="TAHMİNİ KALKIŞ SAATİ" />
                         <TextBlock Text="TAHMİNİ VARIŞ SAATİ" />

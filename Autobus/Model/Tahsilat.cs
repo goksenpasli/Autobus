@@ -9,5 +9,7 @@ namespace Autobus.Model
         public string Tarih { get; set; }
 
         public double Tutar { get; set; }
+
+        public double ÜrünTutar { get; set; }
     }
 }
