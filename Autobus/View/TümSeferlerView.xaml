@@ -126,17 +126,42 @@
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ComboBox x:Name="CbSefer"
-                                        HorizontalContentAlignment="Stretch"
-                                        IsEnabled="False"
-                                        ItemContainerStyle="{StaticResource ComboBoxSüresiGeçenSeferItemContainerStyle}"
-                                        ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
-                                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                                        ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
-                                        SelectedItem="{Binding SeçiliSefer}"
-                                        SelectedValue="{Binding SeferId}"
-                                        SelectedValuePath="Id"
-                                        Template="{StaticResource ComboBoxSimpleTemplate}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <ComboBox x:Name="CbSefer"
+                                            HorizontalContentAlignment="Stretch"
+                                            IsEnabled="False"
+                                            ItemContainerStyle="{StaticResource ComboBoxSüresiGeçenSeferItemContainerStyle}"
+                                            ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
+                                            ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                                            ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
+                                            SelectedItem="{Binding SeçiliSefer}"
+                                            SelectedValue="{Binding SeferId}"
+                                            SelectedValuePath="Id"
+                                            Template="{StaticResource ComboBoxSimpleTemplate}" />
+                                        <Extensions:ContentToggleButton IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}">
+                                            <Extensions:ContentToggleButton.OverContent>
+                                                <Image Width="32" Height="32">
+                                                    <Image.Source>
+                                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                            <Binding Source="Shell32.dll" />
+                                                            <Binding Source="238" />
+                                                        </MultiBinding>
+                                                    </Image.Source>
+                                                </Image>
+                                            </Extensions:ContentToggleButton.OverContent>
+                                            <Extensions:ContentToggleButton.Content>
+                                                <StackPanel>
+                                                    <ListBox x:Name="LbSefer"
+                                                        Height="300"
+                                                        ItemTemplate="{StaticResource SimpleItemSeferTemplate}"
+                                                        ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}" />
+                                                    <Button Content="SEFER DEĞİŞTİR"
+                                                        Command="{Binding TümSeferlerViewModel.SeferGüncelle, Mode=OneWay, Source={StaticResource MainViewModel}}"
+                                                        CommandParameter="{Binding ElementName=LbSefer, Path=SelectedItem}" />
+                                                </StackPanel>
+                                            </Extensions:ContentToggleButton.Content>
+                                        </Extensions:ContentToggleButton>
+                                    </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

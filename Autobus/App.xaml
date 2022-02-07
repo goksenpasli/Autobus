@@ -376,7 +376,7 @@
                     </Grid.ColumnDefinitions>
                     <Border Margin="3"
                         BorderBrush="Black" BorderThickness="1">
-                        <StackPanel Width="250"
+                        <StackPanel Width="270"
                             HorizontalAlignment="Left"
                             Orientation="Horizontal">
                             <ComboBox ItemsSource="{Binding Otobüs.Şöförler.Şöför, Source={StaticResource MainViewModel}}"
@@ -422,7 +422,7 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Image.Style>
-                            </Image>       
+                            </Image>
                             <Image MaxWidth="32" MaxHeight="32">
                                 <Image.Style>
                                     <Style TargetType="Image">

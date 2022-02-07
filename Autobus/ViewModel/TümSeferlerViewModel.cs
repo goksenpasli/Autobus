@@ -26,6 +26,28 @@ namespace Autobus.ViewModel
                 }
             }, parameter => SeçiliMüşteri is not null);
 
+            SeferGüncelle = new RelayCommand<object>(parameter =>
+            {
+                if (parameter is Sefer seçilisefer)
+                {
+                    if (seçilisefer.BiletTutarı > SeçiliMüşteri?.SeçiliSefer?.BiletTutarı)
+                    {
+                        MessageBox.Show($"Dikkat Taşınacak Seferin Bilet Tutarı {seçilisefer.BiletTutarı - SeçiliMüşteri?.SeçiliSefer?.BiletTutarı:C} Daha Fazladır.", App.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
+                    if (seçilisefer.BiletTutarı < SeçiliMüşteri?.SeçiliSefer?.BiletTutarı)
+                    {
+                        MessageBox.Show($"Dikkat Taşınacak Seferin Bilet Tutarı {SeçiliMüşteri?.SeçiliSefer?.BiletTutarı - seçilisefer.BiletTutarı:C} Daha Azdır.", App.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
+                    if (MessageBox.Show($"{SeçiliMüşteri.Ad} {SeçiliMüşteri.Soyad} Adlı Müşterinin Seferini Değiştirmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                    {
+                        SeçiliMüşteri?.SeçiliSefer?.Müşteri?.Remove(SeçiliMüşteri);
+                        SeçiliMüşteri.SeferId = seçilisefer.Id;
+                        seçilisefer.Müşteri?.Add(SeçiliMüşteri);
+                        MainViewModel.DatabaseSave.Execute(null);
+                    }
+                }
+            }, parameter => SeçiliMüşteri?.SeferId != (parameter as Sefer)?.Id);
+
             MüşteriTaşı = new RelayCommand<object>(parameter =>
             {
                 if (MessageBox.Show($"{SeçiliMüşteri.Ad} {SeçiliMüşteri.Soyad} Adlı Müşteriyi {(int)parameter} Nolu Koltuğa Taşımak İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
@@ -65,6 +87,8 @@ namespace Autobus.ViewModel
         public Araç SeçiliAraç { get; set; }
 
         public Müşteri SeçiliMüşteri { get; set; }
+
+        public ICommand SeferGüncelle { get; }
 
         public ObservableCollection<Sefer> Seferler { get; set; }
 

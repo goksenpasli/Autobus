@@ -56,11 +56,11 @@ namespace Autobus.ViewModel
 
         public static IEnumerable<Tahsilat> BiletTahsilat(this Otobüs otobüs)
         {
-            return otobüs?.Sefer?.Where(z => z.KalkışZamanı.Year == DateTime.Today.Year && !z.İptal).GroupBy(z => z.KalkışZamanı.Month).OrderBy(z => z.Key).Select(z => new Tahsilat()
+            return otobüs?.Sefer?.Where(sefer => sefer.KalkışZamanı.Year == DateTime.Today.Year && !sefer.İptal).GroupBy(sefer => sefer.KalkışZamanı.Month).OrderBy(z => z.Key).Select(sefer => new Tahsilat()
             {
-                Tarih = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(z.Key),
-                Tutar = z.SelectMany(z => z.Müşteri).Where(z => z.BiletÖdendi).Sum(z => z.BiletFiyat),
-                ÜrünTutar = otobüs?.Sefer?.SelectMany(z => z.Müşteri).SelectMany(z => z.Sipariş).SelectMany(t => otobüs?.Ürünler.Ürün.Where(z => z.Id == t.ÜrünId)).Sum(z => z.ÜrünFiyat) ?? 0
+                Tarih = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(sefer.Key),
+                Tutar = sefer.SelectMany(z => z.Müşteri).Where(z => z.BiletÖdendi).Sum(z => z.BiletFiyat),
+                ÜrünTutar = otobüs?.Sefer?.Where(z => z.KalkışZamanı.Month == sefer.Key).SelectMany(z => z.Müşteri).SelectMany(z => z.Sipariş).SelectMany(t => otobüs?.Ürünler.Ürün.Where(z => z.Id == t.ÜrünId)).Sum(z => z.ÜrünFiyat) ?? 0
             });
         }
 

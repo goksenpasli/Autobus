@@ -17,15 +17,6 @@ namespace Autobus.ViewModel
     {
         public ÖdemeYapılmayanKoltuklarViewModel()
         {
-            Kaydet = new RelayCommand<object>(parameter =>
-            {
-                if (parameter is MainViewModel mainViewModel)
-                {
-                    MainViewModel.DatabaseSave.Execute(null);
-                    mainViewModel.ÖdemeYapılmayanKoltuklarEkranıAç.Execute(null);
-                }
-            });
-
             CsvDosyasınaYaz = new RelayCommand<object>(parameter =>
             {
                 string dosyaismi = Path.GetTempPath() + Guid.NewGuid() + ".csv";
@@ -44,8 +35,6 @@ namespace Autobus.ViewModel
         public ICommand CsvDosyasınaYaz { get; }
 
         public ObservableCollection<Chart> GrafikVerileri { get; set; }
-
-        public ICommand Kaydet { get; }
 
         public IEnumerable<Müşteri> ÖdemeYapmayanMüşteriler { get; set; }
 

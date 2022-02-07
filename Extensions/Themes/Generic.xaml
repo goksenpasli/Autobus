@@ -546,6 +546,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="#ADADAD" />
+                            <Setter Property="Background" Value="#F4F4F4" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
