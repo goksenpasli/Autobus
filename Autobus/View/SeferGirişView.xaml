@@ -121,15 +121,31 @@
                                 SelectedItem="{Binding SeçiliSefer}" />
                             <UniformGrid Columns="3" IsEnabled="{Binding ElementName=CbSefer, Path=SelectedItem, Converter={StaticResource NullableToBooleanConverter}}">
                                 <StackPanel Orientation="Horizontal">
-                                    <DatePicker DisplayDateStart="{Binding Mode=OneWay, Source={x:Static sys:DateTime.Today}}" SelectedDate="{Binding SeçiliSefer.KalkışZamanı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <DatePicker VerticalAlignment="Center"
+                                        DisplayDateStart="{Binding Mode=OneWay, Source={x:Static sys:DateTime.Today}}"
+                                        SelectedDate="{Binding SeçiliSefer.KalkışZamanı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     <Extensions:NumericUpDownControl IsReadOnly="True" NumericUpdownTextBoxVisibility="Collapsed" SmallChange="0.25"
                                         Value="{Binding SeçiliSefer.KalkışSaatGüncelle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
-                                <Extensions:NumericUpDownControl IsReadOnly="True" SmallChange="0.25"
-                                    Value="{Binding SeçiliSefer.İlaveSüre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 <Button Content="GÜNCELLE"
                                     Command="{Binding SeferGüncelle}"
                                     CommandParameter="{Binding Otobüs, Source={StaticResource MainViewModel}}" />
+                                <Button Background="Red"
+                                    Command="{Binding SeferİptalEt}"
+                                    CommandParameter="{Binding SeçiliSefer}"
+                                    IsTabStop="False">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="32" Height="32">
+                                            <Image.Source>
+                                                <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                    <Binding Source="Shell32.dll" />
+                                                    <Binding Source="77" />
+                                                </MultiBinding>
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock Text="SEÇİLİ SEFERİ İPTAL ET" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
                             </UniformGrid>
                         </StackPanel>
                     </GroupBox>

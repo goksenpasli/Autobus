@@ -66,6 +66,15 @@ namespace Autobus.ViewModel
                     MainViewModel.DatabaseSave.Execute(null);
                 }
             }, parameter => SeçiliSefer?.İptal == false && SeçiliSefer?.VarışZamanı > SeçiliSefer?.KalkışZamanı);
+
+            SeferİptalEt = new RelayCommand<object>(parameter =>
+            {
+                if (MessageBox.Show("Seçili Seferi İptal Etmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    SeçiliSefer.İptal = true;
+                    MainViewModel.DatabaseSave.Execute(null);
+                }
+            }, parameter => SeçiliSefer is not null);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -77,6 +86,8 @@ namespace Autobus.ViewModel
         public ICommand SeferEkle { get; }
 
         public ICommand SeferGüncelle { get; }
+
+        public ICommand SeferİptalEt { get; }
 
         private void ResetSefer()
         {

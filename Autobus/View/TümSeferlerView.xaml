@@ -96,7 +96,6 @@
                                     <DatePicker VerticalContentAlignment="Center" SelectedDate="{Binding KalkışTarihArama}" />
                                     <TextBlock Text="KALKIŞ&#x0a;İLİ " VerticalAlignment="Center" />
                                     <ComboBox VerticalContentAlignment="Center"
-                                        IsTextSearchEnabled="False"
                                         ItemTemplate="{StaticResource İlİsimTemplate}"
                                         ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
                                         SelectedValue="{Binding KalkışŞehirAramaId}"
@@ -110,7 +109,6 @@
                                     </ComboBox>
                                     <TextBlock Text="VARIŞ&#x0a;İLİ " VerticalAlignment="Center" />
                                     <ComboBox VerticalContentAlignment="Center"
-                                        IsTextSearchEnabled="False"
                                         ItemTemplate="{StaticResource İlİsimTemplate}"
                                         ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
                                         SelectedValue="{Binding VarışŞehirAramaId}"
@@ -153,8 +151,26 @@
                                                 <StackPanel>
                                                     <ListBox x:Name="LbSefer"
                                                         Height="300"
+                                                        IsTextSearchEnabled="False"
                                                         ItemTemplate="{StaticResource SimpleItemSeferTemplate}"
-                                                        ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}" />
+                                                        ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}">
+                                                        <ListBox.ItemContainerStyle>
+                                                            <Style TargetType="ListBoxItem">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
+                                                                        <Setter Property="IsEnabled" Value="False" />
+                                                                        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                                                                        <Setter Property="ToolTip" Value="Bu Seferin Süresi Geçmiştir." />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding İptal}" Value="true">
+                                                                        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                                                                        <Setter Property="IsEnabled" Value="False" />
+                                                                        <Setter Property="ToolTip" Value="Bu Sefer İptal Edilmiştir." />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </ListBox.ItemContainerStyle>
+                                                    </ListBox>
                                                     <Button Content="SEFER DEĞİŞTİR"
                                                         Command="{Binding TümSeferlerViewModel.SeferGüncelle, Mode=OneWay, Source={StaticResource MainViewModel}}"
                                                         CommandParameter="{Binding ElementName=LbSefer, Path=SelectedItem}" />

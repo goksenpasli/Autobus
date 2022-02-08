@@ -38,9 +38,6 @@ namespace Autobus.Model
         [XmlAttribute(AttributeName = "Id")]
         public int Id { get; set; }
 
-        [XmlIgnore]
-        public double İlaveSüre { get; set; }
-
         [XmlAttribute(AttributeName = "İptal")]
         public bool İptal { get; set; }
 
@@ -113,12 +110,6 @@ namespace Autobus.Model
             {
                 KalkışZamanı = KalkışZamanı.AddHours(KalkışSaat);
                 KalkışSaat = 0;
-            }
-
-            if (e.PropertyName is "İlaveSüre")
-            {
-                VarışZamanı = KalkışZamanı.AddHours(İlaveSüre);
-                TarihDeğiştirildi = true;
             }
             if (e.PropertyName is "KalkışSaatGüncelle")
             {

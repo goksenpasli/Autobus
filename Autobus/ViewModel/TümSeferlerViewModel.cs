@@ -30,15 +30,28 @@ namespace Autobus.ViewModel
             {
                 if (parameter is Sefer seçilisefer)
                 {
-                    if (seçilisefer.BiletTutarı > SeçiliMüşteri?.SeçiliSefer?.BiletTutarı)
+                    if (seçilisefer.AraçId != SeçiliAraç.Id)
                     {
-                        MessageBox.Show($"Dikkat Taşınacak Seferin Bilet Tutarı {seçilisefer.BiletTutarı - SeçiliMüşteri?.SeçiliSefer?.BiletTutarı:C} Daha Fazladır.", App.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        MessageBox.Show("Sadece Aynı Araçta Taşıma İşlemi Yapılır.", Application.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
                     }
-                    if (seçilisefer.BiletTutarı < SeçiliMüşteri?.SeçiliSefer?.BiletTutarı)
+                    if (seçilisefer.Müşteri.Any(z => (z.KoltukDolu || z.BiletÖdendi) && z.KoltukNo == SeçiliMüşteri?.KoltukNo))
                     {
-                        MessageBox.Show($"Dikkat Taşınacak Seferin Bilet Tutarı {SeçiliMüşteri?.SeçiliSefer?.BiletTutarı - seçilisefer.BiletTutarı:C} Daha Azdır.", App.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        MessageBox.Show("Bu Seferde Belirtilen Koltuk Doludur Veya Bilet Ödemesi Vardır.", Application.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
                     }
-                    if (MessageBox.Show($"{SeçiliMüşteri.Ad} {SeçiliMüşteri.Soyad} Adlı Müşterinin Seferini Değiştirmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+
+                    double? şuankiseferbilettutarı = SeçiliMüşteri?.SeçiliSefer?.BiletTutarı;
+                    double taşınacakseferbilettutarı = seçilisefer.BiletTutarı;
+                    if (taşınacakseferbilettutarı > şuankiseferbilettutarı)
+                    {
+                        MessageBox.Show($"Dikkat Taşınacak Seferin Bilet Tutarı {taşınacakseferbilettutarı - şuankiseferbilettutarı:C} Daha Fazladır. Farkı Tahsil Edin.", Application.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    if (taşınacakseferbilettutarı < şuankiseferbilettutarı)
+                    {
+                        MessageBox.Show($"Dikkat Taşınacak Seferin Bilet Tutarı {şuankiseferbilettutarı - taşınacakseferbilettutarı:C} Daha Azdır. Farkı Geri Verin.", Application.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    if (MessageBox.Show($"{SeçiliMüşteri.Ad} {SeçiliMüşteri.Soyad} Adlı Müşterinin Seferini Değiştirmek İstiyor Musun?", Application.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                     {
                         SeçiliMüşteri?.SeçiliSefer?.Müşteri?.Remove(SeçiliMüşteri);
                         SeçiliMüşteri.SeferId = seçilisefer.Id;

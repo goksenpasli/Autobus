@@ -60,31 +60,13 @@
                             </StackPanel>
                         </Button>
                         <TextBlock Text="SEFER" />
-                        <UniformGrid Columns="2">
-                            <ComboBox x:Name="CbSefer"
-                                HorizontalContentAlignment="Stretch"
-                                ItemContainerStyle="{StaticResource ComboBoxSüresiGeçenSeferItemContainerStyle}"
-                                ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
-                                ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                                ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
-                                SelectedItem="{Binding SeçiliSefer}" />
-                            <Button Background="Red"
-                                Command="{Binding SeferİptalEt}"
-                                CommandParameter="{Binding SeçiliSefer}"
-                                IsTabStop="False">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="32" Height="32">
-                                        <Image.Source>
-                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                                <Binding Source="Shell32.dll" />
-                                                <Binding Source="77" />
-                                            </MultiBinding>
-                                        </Image.Source>
-                                    </Image>
-                                    <TextBlock Text="SEÇİLİ SEFERİ İPTAL ET" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </Button>
-                        </UniformGrid>
+                        <ComboBox x:Name="CbSefer"
+                            HorizontalContentAlignment="Stretch"
+                            ItemContainerStyle="{StaticResource ComboBoxSüresiGeçenSeferItemContainerStyle}"
+                            ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
+                            ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                            ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
+                            SelectedItem="{Binding SeçiliSefer}" />
                         <CheckBox VerticalContentAlignment="Center" IsChecked="{Binding Müşteri.BiletÖdendi}">
                             <CheckBox.Content>
                                 <TextBlock FontSize="16" Foreground="Red">

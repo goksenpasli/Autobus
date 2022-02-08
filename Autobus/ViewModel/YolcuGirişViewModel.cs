@@ -82,7 +82,7 @@ namespace Autobus.ViewModel
                      SeçiliMüşteri.Sipariş.Add(sipariş);
                      MainViewModel.DatabaseSave.Execute(null);
                  }
-             }, parameter =>  SeçiliMüşteri is not null && SeçiliÜrün is not null && SeçiliSefer?.İptal == false);
+             }, parameter => SeçiliMüşteri is not null && SeçiliÜrün is not null && SeçiliSefer?.İptal == false);
 
             MüşteriResimYükle = new RelayCommand<object>(parameter =>
             {
@@ -100,16 +100,6 @@ namespace Autobus.ViewModel
             {
                 PrintTicket(parameter);
             }, parameter => SeçiliSefer is not null && SeçiliMüşteri is not null);
-
-            SeferİptalEt = new RelayCommand<object>(parameter =>
-            {
-                if (MessageBox.Show("Seçili Seferi İptal Etmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
-                {
-                    Müşteri.KoltukNo = 0;
-                    SeçiliSefer.İptal = true;
-                    MainViewModel.DatabaseSave.Execute(null);
-                }
-            }, parameter => SeçiliSefer is not null);
 
             PropertyChanged += YolcuGirişViewModel_PropertyChanged;
         }
@@ -135,8 +125,6 @@ namespace Autobus.ViewModel
         public Sefer SeçiliSefer { get; set; }
 
         public Ürün SeçiliÜrün { get; set; }
-
-        public ICommand SeferİptalEt { get; }
 
         public Ürün Ürün { get; set; }
 
