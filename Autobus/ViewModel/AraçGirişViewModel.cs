@@ -37,12 +37,17 @@ namespace Autobus.ViewModel
 
             MarkaEkle = new RelayCommand<object>(parameter =>
             {
-                Marka marka = new();
-                marka.Id = ExtensionMethods.RandomNumber();
-                marka.Açıklama = Marka.Açıklama;
-
-                (parameter as Markalar)?.Marka.Add(marka);
-                MainViewModel.DatabaseSave.Execute(null);
+                if (parameter is Markalar markalar)
+                {
+                    Marka marka = new();
+                    marka.Id = ExtensionMethods.RandomNumber();
+                    marka.Açıklama = Marka.Açıklama;
+                    if (markalar?.Marka.Any(z => z.Açıklama == marka.Açıklama) == false)
+                    {
+                        markalar?.Marka.Add(marka);
+                        MainViewModel.DatabaseSave.Execute(null);
+                    }
+                }
             }, parameter => !string.IsNullOrWhiteSpace(Marka?.Açıklama));
 
             AraçResimYükle = new RelayCommand<object>(parameter =>

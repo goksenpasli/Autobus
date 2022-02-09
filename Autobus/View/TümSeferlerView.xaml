@@ -148,33 +148,35 @@
                                                 </Image>
                                             </Extensions:ContentToggleButton.OverContent>
                                             <Extensions:ContentToggleButton.Content>
-                                                <StackPanel>
-                                                    <ListBox x:Name="LbSefer"
-                                                        Height="300"
-                                                        IsTextSearchEnabled="False"
-                                                        ItemTemplate="{StaticResource SimpleItemSeferTemplate}"
-                                                        ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}">
-                                                        <ListBox.ItemContainerStyle>
-                                                            <Style TargetType="ListBoxItem">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
-                                                                        <Setter Property="IsEnabled" Value="False" />
-                                                                        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
-                                                                        <Setter Property="ToolTip" Value="Bu Seferin Süresi Geçmiştir." />
-                                                                    </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding İptal}" Value="true">
-                                                                        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
-                                                                        <Setter Property="IsEnabled" Value="False" />
-                                                                        <Setter Property="ToolTip" Value="Bu Sefer İptal Edilmiştir." />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </ListBox.ItemContainerStyle>
-                                                    </ListBox>
-                                                    <Button Content="SEFER DEĞİŞTİR"
-                                                        Command="{Binding TümSeferlerViewModel.SeferGüncelle, Mode=OneWay, Source={StaticResource MainViewModel}}"
-                                                        CommandParameter="{Binding ElementName=LbSefer, Path=SelectedItem}" />
-                                                </StackPanel>
+                                                <GroupBox Header="SEFERLER">
+                                                    <StackPanel>
+                                                        <ListBox x:Name="LbSefer"
+                                                            Height="300"
+                                                            IsTextSearchEnabled="False"
+                                                            ItemTemplate="{StaticResource SimpleItemSeferTemplate}"
+                                                            ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}">
+                                                            <ListBox.ItemContainerStyle>
+                                                                <Style TargetType="ListBoxItem">
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
+                                                                            <Setter Property="IsEnabled" Value="False" />
+                                                                            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                                                                            <Setter Property="ToolTip" Value="Bu Seferin Süresi Geçmiştir." />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding İptal}" Value="true">
+                                                                            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                                                                            <Setter Property="IsEnabled" Value="False" />
+                                                                            <Setter Property="ToolTip" Value="Bu Sefer İptal Edilmiştir." />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </ListBox.ItemContainerStyle>
+                                                        </ListBox>
+                                                        <Button Content="SEFER DEĞİŞTİR"
+                                                            Command="{Binding TümSeferlerViewModel.SeferGüncelle, Mode=OneWay, Source={StaticResource MainViewModel}}"
+                                                            CommandParameter="{Binding ElementName=LbSefer, Path=SelectedItem}" />
+                                                    </StackPanel>
+                                                </GroupBox>
                                             </Extensions:ContentToggleButton.Content>
                                         </Extensions:ContentToggleButton>
                                     </StackPanel>

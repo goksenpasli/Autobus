@@ -92,7 +92,8 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Viewbox>
-                                                <StackPanel Width="75" Height="75">
+                                                <StackPanel Width="75" Height="75"
+                                                    d:Visibility="Visible">
                                                     <StackPanel.Visibility>
                                                         <MultiBinding Converter="{StaticResource KoltukNoGizlenenKoltuklarConverter}">
                                                             <Binding Mode="OneWay" />

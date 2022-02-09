@@ -66,11 +66,24 @@ namespace Extensions
 
         protected override void OnRender(DrawingContext drawingContext)
         {
-            if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()) && Series?.Any() == true)
+            if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
-                DrawGraph(drawingContext, Series);
+                if (Series?.Any() == true)
+                {
+                    DrawGraph(drawingContext, Series);
+                }
+            }
+            else
+            {
+                MockData = new();
+                MockData.Add(new Chart() { ChartBrush = Brushes.Blue, ChartValue = 100, Description = "Sample Item 1" });
+                MockData.Add(new Chart() { ChartBrush = Brushes.Red, ChartValue = 40, Description = "Sample Item 2" });
+                MockData.Add(new Chart() { ChartBrush = Brushes.Yellow, ChartValue = 60, Description = "Sample Item 3" });
+                DrawGraph(drawingContext, MockData);
             }
         }
+
+        private static ObservableCollection<Chart> MockData;
 
         private Visibility seriesListVisibility = Visibility.Collapsed;
 

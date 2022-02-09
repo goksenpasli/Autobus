@@ -4,8 +4,11 @@
     xmlns:Converter="clr-namespace:Autobus.Converter"
     xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
     xmlns:View="clr-namespace:Autobus.View" xmlns:ViewModel="clr-namespace:Autobus.ViewModel"
-    xmlns:local="clr-namespace:Autobus" xmlns:properties="clr-namespace:Autobus.Properties"
-    Startup="Application_Startup" StartupUri="MainWindow.xaml">
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Autobus"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:Autobus.Properties"
+    Startup="Application_Startup" StartupUri="MainWindow.xaml"
+    mc:Ignorable="d">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -228,12 +231,15 @@
             <DataTemplate x:Key="AraçÖnizleme">
                 <ItemsControl Grid.Row="1"
                     Margin="0,3,0,0"
+                    d:ItemsSource="{d:SampleData ItemCount=5}"
                     ItemTemplate="{StaticResource KoltukÖnizlemeTemplate}"
                     ItemsSource="{Binding KoltukÖnizlemeListe}"
                     Style="{StaticResource VirtualizingStackPanelItemsControl}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <Extensions:VirtualizingTilePanel Columns="{Binding BölmeSayısı}" Tile="False" />
+                            <Extensions:VirtualizingTilePanel d:Columns="2"
+                                Columns="{Binding BölmeSayısı}"
+                                Tile="False" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
@@ -241,6 +247,7 @@
             <DataTemplate x:Key="GizlenebilirAraçÖnizleme">
                 <ItemsControl Grid.Row="1"
                     Margin="0,3,0,0"
+                    d:ItemsSource="{d:SampleData ItemCount=5}"
                     ItemsSource="{Binding KoltukÖnizlemeListe}"
                     Style="{StaticResource VirtualizingStackPanelItemsControl}">
                     <ItemsControl.ItemTemplate>
@@ -260,7 +267,9 @@
                     </ItemsControl.ItemTemplate>
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <Extensions:VirtualizingTilePanel Columns="{Binding BölmeSayısı}" Tile="False" />
+                            <Extensions:VirtualizingTilePanel d:Columns="2"
+                                Columns="{Binding BölmeSayısı}"
+                                Tile="False" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>

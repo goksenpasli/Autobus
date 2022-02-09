@@ -28,7 +28,9 @@
                     <StackPanel>
                         <TextBlock Text="PLAKA" />
                         <Extensions:MaskedTextBox Mask="&gt;00 LL? 00000" Value="{Binding Araç.Plaka, UpdateSourceTrigger=PropertyChanged}" />
-                        <CheckBox Content="ARAÇ AKTİF Mİ" IsChecked="{Binding Araç.Aktif}" />
+                        <CheckBox Content="ARAÇ AKTİF Mİ"
+                            IsChecked="{Binding Araç.Aktif}"
+                            IsTabStop="False" />
                         <TextBlock Text="TOPLAM KOLTUK SAYISI" />
                         <Extensions:NumericUpDownControl Maximum="1000" Minimum="1" SmallChange="1"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
