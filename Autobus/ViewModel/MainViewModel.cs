@@ -94,6 +94,7 @@ namespace Autobus.ViewModel
             ÖdemeYapılmayanKoltuklarEkranıAç = new RelayCommand<object>(parameter =>
             {
                 ÖdemeYapılmayanKoltuklarViewModel.Tahsilatlar = Otobüs.BiletTahsilat();
+                ÖdemeYapılmayanKoltuklarViewModel.AraçMasraflar = Otobüs.AraçMasraflar();
                 ÖdemeYapılmayanKoltuklarViewModel.GrafikVerileri = Otobüs.GrafikVerileri();
                 ÖdemeYapılmayanKoltuklarViewModel.ÖdemeYapmayanMüşteriler = Otobüs?.Sefer?.SelectMany(z => z.Müşteri)?.Where(z => !z.BiletÖdendi);
             });

@@ -18,7 +18,28 @@
         </CollectionViewSource>
     </UserControl.Resources>
     <Grid>
-        <GroupBox Header="YOLCU İŞLEMLERİ">
+        <GroupBox>
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="YOLCU İŞLEMLERİ" VerticalAlignment="Center" />
+                    <Extensions:ContentToggleButton Command="{Binding YolcuAramaEkranı}" CommandParameter="{Binding Otobüs, Source={StaticResource MainViewModel}}">
+                        <Extensions:ContentToggleButton.OverContent>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="32" Height="32">
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                            <Binding Source="Shell32.dll" />
+                                            <Binding Source="22" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
+                                <TextBlock Text="YOLCU ARA" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Extensions:ContentToggleButton.OverContent>
+                        <local:YolcuAramaView />
+                    </Extensions:ContentToggleButton>
+                </StackPanel>
+            </GroupBox.Header>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />

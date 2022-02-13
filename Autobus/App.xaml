@@ -316,6 +316,13 @@
                     </TextBlock.Style>
                 </TextBlock>
             </DataTemplate>
+            <DataTemplate x:Key="ListBoxMüşteriSimpleTemplate">
+                <TextBlock>
+                    <Run Text="{Binding Ad}" />
+                    <Run Text="{Binding Soyad}" />
+                    <Extensions:MaskedTextBlock UnmaskedText="{Binding Telefon}" Mask="(000) 000 00 00"/>
+                </TextBlock>
+            </DataTemplate>
             <DataTemplate x:Key="ListBoxŞoförTemplate">
                 <StackPanel Orientation="Horizontal">
                     <ViewModel:ShadowedImage MaxWidth="64" MaxHeight="64"
@@ -471,6 +478,10 @@
                         SelectedValue="{Binding SeferId}"
                         SelectedValuePath="Id"
                         Template="{StaticResource ComboBoxSimpleTemplate}" />
+                    <CheckBox Content="KARŞILANDI"
+                        HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Command="{Binding DatabaseSave, Source={StaticResource MainViewModel}}"
+                        IsChecked="{Binding Karşılandı}" />
                 </StackPanel>
             </DataTemplate>
         </ResourceDictionary>

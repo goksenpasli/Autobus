@@ -34,6 +34,19 @@ namespace Autobus.ViewModel
             return new ObservableCollection<Araç>();
         }
 
+        public static IEnumerable<Tahsilat> AraçMasraflar(this Otobüs otobüs)
+        {
+            return otobüs?.Araçlar?.Araç?.GroupBy(sefer => sefer.Plaka).Select(sefer =>
+            {
+                AraçMasraf araçMasraf = new();
+                araçMasraf.Açıklama = sefer.Key;
+                araçMasraf.MasrafKarşılananTutar = sefer.SelectMany(z => z.Masraf).Where(z => z.Karşılandı).Sum(z => z.Tutar);
+                araçMasraf.ToplamTutar = sefer.SelectMany(z => z.Masraf).Sum(z => z.Tutar);
+                araçMasraf.Oran = araçMasraf.MasrafKarşılananTutar / araçMasraf.ToplamTutar;
+                return araçMasraf;
+            });
+        }
+
         public static ObservableCollection<Aylar> AylarıYükle()
         {
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
@@ -59,7 +72,7 @@ namespace Autobus.ViewModel
             return otobüs?.Sefer?.Where(sefer => sefer.KalkışZamanı.Year == DateTime.Today.Year && !sefer.İptal).GroupBy(sefer => sefer.KalkışZamanı.Month).OrderBy(z => z.Key).Select(sefer => new Tahsilat()
             {
                 Tarih = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(sefer.Key),
-                Tutar = sefer.SelectMany(z => z.Müşteri).Where(z => z.BiletÖdendi).Sum(z => z.BiletFiyat),
+                ToplamTutar = sefer.SelectMany(z => z.Müşteri).Where(z => z.BiletÖdendi).Sum(z => z.BiletFiyat),
                 ÜrünTutar = otobüs?.Sefer?.Where(z => z.KalkışZamanı.Month == sefer.Key).SelectMany(z => z.Müşteri).SelectMany(z => z.Sipariş).SelectMany(t => otobüs?.Ürünler.Ürün.Where(z => z.Id == t.ÜrünId)).Sum(z => z.ÜrünFiyat) ?? 0
             });
         }
@@ -96,7 +109,7 @@ namespace Autobus.ViewModel
                 {
                     ChartBrush = (Brush)stringToBrushConverter.Convert(otobüs?.Aylar?.FirstOrDefault(z => z.Ad == tahsilat.Tarih)?.Renk, null, null, CultureInfo.CurrentCulture),
                     Description = tahsilat.Tarih,
-                    ChartValue = (double)tahsilat.Tutar
+                    ChartValue = (double)tahsilat.ToplamTutar
                 });
             }
             return data;
@@ -175,6 +188,6 @@ namespace Autobus.ViewModel
             return new ObservableCollection<Ürün>();
         }
 
-        private static readonly string[] ColorNames = typeof(Brushes).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(propInfo => propInfo.Name).ToArray();
+        private static readonly string[] ColorNames = typeof(Brushes).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(propInfo => propInfo.Name).Where(z => z != "Transparent").ToArray();
     }
 }

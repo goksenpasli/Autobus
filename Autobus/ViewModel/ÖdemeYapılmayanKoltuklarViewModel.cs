@@ -24,13 +24,15 @@ namespace Autobus.ViewModel
                 File.AppendAllText(dosyaismi, $"AY{seperator}TOPLAM TUTAR{seperator}SİPARİŞ TUTAR\n", Encoding.UTF8);
                 foreach (Tahsilat tahsilat in Tahsilatlar)
                 {
-                    File.AppendAllText(dosyaismi, $"{tahsilat.Tarih}{seperator}{tahsilat.Tutar}{seperator}{tahsilat.ÜrünTutar}\n", Encoding.UTF8);
+                    File.AppendAllText(dosyaismi, $"{tahsilat.Tarih}{seperator}{tahsilat.ToplamTutar}{seperator}{tahsilat.ÜrünTutar}\n", Encoding.UTF8);
                 }
                 _ = Process.Start(dosyaismi);
             }, parameter => true);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public IEnumerable<Tahsilat> AraçMasraflar { get; set; }
 
         public ICommand CsvDosyasınaYaz { get; }
 

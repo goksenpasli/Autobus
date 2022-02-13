@@ -8,10 +8,10 @@ using System.Windows;
 [assembly: AssemblyTitle("Extensions")]
 [assembly: AssemblyDescription("GpExtensions")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Goksen")]
+[assembly: AssemblyCompany("Gok$en")]
 [assembly: AssemblyProduct("Extensions")]
 [assembly: AssemblyCopyright("Copyright © 2021")]
-[assembly: AssemblyTrademark("Goksen")]
+[assembly: AssemblyTrademark("Gok$en")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible

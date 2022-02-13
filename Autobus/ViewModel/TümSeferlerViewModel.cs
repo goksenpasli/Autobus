@@ -87,6 +87,8 @@ namespace Autobus.ViewModel
 
         public string MüşteriAdArama { get; set; }
 
+        public int? MüşteriKoltukNoArama { get; set; }
+
         public IEnumerable<Müşteri> Müşteriler { get; set; }
 
         public ICommand MüşteriSil { get; }
@@ -124,6 +126,15 @@ namespace Autobus.ViewModel
             if (e.PropertyName is "MüşteriAdArama")
             {
                 TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.Ad.Contains(MüşteriAdArama) == true;
+            }
+            if (e.PropertyName is "MüşteriKoltukNoArama")
+            {
+                if (MüşteriKoltukNoArama == null)
+                {
+                    TümSeferlerView.cvs.Filter += (s, e) => e.Accepted = true;
+                    return;
+                }
+                TümSeferlerView.cvs.Filter += (s, e) => e.Accepted &= (e.Item as Müşteri)?.KoltukNo == MüşteriKoltukNoArama;
             }
             if (e.PropertyName is "TelefonArama")
             {

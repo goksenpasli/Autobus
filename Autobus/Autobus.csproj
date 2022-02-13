@@ -114,6 +114,9 @@
     <Compile Include="View\TümSeferlerView.xaml.cs">
       <DependentUpon>TümSeferlerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\YolcuAramaView.xaml.cs">
+      <DependentUpon>YolcuAramaView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\YolcuDüzenView.xaml.cs">
       <DependentUpon>YolcuDüzenView.xaml</DependentUpon>
     </Compile>
@@ -159,6 +162,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\TümSeferlerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\YolcuAramaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

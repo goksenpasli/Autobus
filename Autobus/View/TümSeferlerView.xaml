@@ -63,9 +63,21 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Extensions:GridViewSort.PropertyName="KoltukNo"
-                            DisplayMemberBinding="{Binding KoltukNo}"
-                            Header="KOLTUK&#x0a;NO" />
+                        <GridViewColumn Extensions:GridViewSort.PropertyName="KoltukNo">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="KOLTUK NO" />
+                                <Extensions:MaskedTextBox Width="32"
+                                    IncludeLiterals="False" IncludePrompt="False" Mask="0000"
+                                    Value="{Binding MüşteriKoltukNoArama, Delay=500, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding KoltukNo}"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        FontSize="18" FontWeight="Bold" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn Extensions:GridViewSort.PropertyName="Ad" DisplayMemberBinding="{Binding Ad}">
                             <Extensions:ButtonedTextBox Text="{Binding MüşteriAdArama, Delay=500, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                                 Width="55"

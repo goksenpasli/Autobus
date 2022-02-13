@@ -14,6 +14,9 @@ namespace Autobus.Model
         [XmlAttribute(AttributeName = "Id")]
         public int Id { get; set; }
 
+        [XmlAttribute(AttributeName = "Karşılandı")]
+        public bool Karşılandı { get; set; }
+
         [XmlAttribute(AttributeName = "SeferId")]
         public int SeferId { get; set; }
 

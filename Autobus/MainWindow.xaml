@@ -4,10 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:Extensions.Controls;assembly=Extensions"
     xmlns:Extension="clr-namespace:Extensions;assembly=Extensions"
-    xmlns:Model="clr-namespace:Autobus.Model" xmlns:view="clr-namespace:Autobus.View"
+    xmlns:Model="clr-namespace:Autobus.Model"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Autobus"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:properties="clr-namespace:Autobus.Properties"
+    xmlns:properties="clr-namespace:Autobus.Properties" xmlns:view="clr-namespace:Autobus.View"
     xmlns:viewmodel="clr-namespace:Autobus.ViewModel"
     DataContext="{Binding Mode=OneWay, Source={StaticResource MainViewModel}}"
     d:DesignHeight="578" d:DesignWidth="1280" UseLayoutRounding="True" WindowStartupLocation="CenterScreen"
@@ -29,7 +29,7 @@
                         </MultiBinding>
                     </RibbonApplicationMenu.SmallImageSource>
                     <RibbonApplicationMenu.AuxiliaryPaneContent>
-                        <view:AppSettings/>
+                        <view:AppSettings />
                     </RibbonApplicationMenu.AuxiliaryPaneContent>
                     <RibbonApplicationMenuItem Command="{Binding VeritabanınıAç}" Header="VERİTABANINI AÇ">
                         <RibbonApplicationMenuItem.ImageSource>

@@ -13,6 +13,10 @@
     mc:Ignorable="d">
     <GroupBox Header="ÖDEME YAPILMAYAN KOLTUKLAR">
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -62,24 +66,39 @@
                         </Button>
                     </StackPanel>
                 </GroupBox.Header>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <ListView d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding ÖdemeYapılmayanKoltuklarViewModel.Tahsilatlar, Source={StaticResource MainViewModel}}">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn DisplayMemberBinding="{Binding Tarih}" Header="AY" />
-                                <GridViewColumn DisplayMemberBinding="{Binding Tutar, StringFormat=\{0:C\}}" Header="BİLET TUTAR" />
-                                <GridViewColumn DisplayMemberBinding="{Binding ÜrünTutar, StringFormat=\{0:C\}}" Header="SİPARİŞ TUTAR" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <Extension:GraphControl Grid.Row="1" Grid.ColumnSpan="2"
-                        Series="{Binding ÖdemeYapılmayanKoltuklarViewModel.GrafikVerileri, Source={StaticResource MainViewModel}}"
-                        SeriesListVisibility="Collapsed" SeriesTextVisibility="Visible" />
-                </Grid>
+                <ListView d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding ÖdemeYapılmayanKoltuklarViewModel.Tahsilatlar, Source={StaticResource MainViewModel}}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding="{Binding Tarih}" Header="AY" />
+                            <GridViewColumn DisplayMemberBinding="{Binding ToplamTutar, StringFormat=\{0:C\}}" Header="BİLET TUTAR" />
+                            <GridViewColumn DisplayMemberBinding="{Binding ÜrünTutar, StringFormat=\{0:C\}}" Header="SİPARİŞ TUTAR" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Header="MASRAFLAR">
+                <ListView d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding ÖdemeYapılmayanKoltuklarViewModel.AraçMasraflar, Source={StaticResource MainViewModel}}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding="{Binding Açıklama}" Header="PLAKA" />
+                            <GridViewColumn DisplayMemberBinding="{Binding ToplamTutar, StringFormat=\{0:C\}}" Header="MASRAF" />
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ProgressBar Width="60"
+                                            Maximum="1"
+                                            Style="{StaticResource ProgressBarStyle}"
+                                            Value="{Binding Oran}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Grid.Column="1">
+                <Extension:GraphControl Series="{Binding ÖdemeYapılmayanKoltuklarViewModel.GrafikVerileri, Source={StaticResource MainViewModel}}"
+                    SeriesListVisibility="Collapsed" SeriesTextVisibility="Visible" />
             </GroupBox>
         </Grid>
     </GroupBox>

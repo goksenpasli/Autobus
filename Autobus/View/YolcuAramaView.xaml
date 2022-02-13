@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="Autobus.View.YolcuAramaView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Autobus.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodel="clr-namespace:Autobus.ViewModel"
+    Width="350" Height="240"
+    d:DataContext="{d:DesignInstance Type={x:Type viewmodel:YolcuGirişViewModel}}"
+    d:DesignHeight="240" d:DesignWidth="350" UseLayoutRounding="True"
+    mc:Ignorable="d">
+    <GroupBox Header="YOLCULAR">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBox Text="{Binding YolcuAramaMetni, Delay=500, UpdateSourceTrigger=PropertyChanged}"
+                Grid.Row="0" Grid.ColumnSpan="2" />
+            <ListBox x:Name="LbYolcuArama"
+                Grid.Row="1"
+                d:ItemsSource="{d:SampleData ItemCount=5}"
+                ItemTemplate="{StaticResource ListBoxMüşteriSimpleTemplate}"
+                ItemsSource="{Binding AramaYolcuListesi}" />
+            <viewmodel:ShadowedImage Grid.Row="1" Grid.Column="1"
+                ShowShadow="True"
+                Source="{Binding ElementName=LbYolcuArama, Path=SelectedItem.Resim, Converter={StaticResource FilePathMergeConverter}}" />
+            <Button Grid.Row="2" Grid.ColumnSpan="2"
+                Command="{Binding YolcuAktar}"
+                CommandParameter="{Binding ElementName=LbYolcuArama, Path=SelectedItem}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="32" Height="32">
+                            <Image.Source>
+                                <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                    <Binding Source="Shell32.dll" />
+                                    <Binding Source="68" />
+                                </MultiBinding>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Text="AKTAR" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </Grid>
+    </GroupBox>
+</UserControl>

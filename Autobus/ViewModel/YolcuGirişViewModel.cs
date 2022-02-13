@@ -3,8 +3,10 @@ using Autobus.Properties;
 using Extensions;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -96,15 +98,36 @@ namespace Autobus.ViewModel
                 }
             }, parameter => true);
 
-            BiletYazdır = new RelayCommand<object>(parameter =>
+            BiletYazdır = new RelayCommand<object>(parameter => PrintTicket(parameter), parameter => SeçiliSefer is not null && SeçiliMüşteri is not null);
+
+            YolcuAktar = new RelayCommand<object>(parameter =>
             {
-                PrintTicket(parameter);
-            }, parameter => SeçiliSefer is not null && SeçiliMüşteri is not null);
+                if (parameter is Müşteri müşteri)
+                {
+                    Müşteri.Ad = müşteri.Ad;
+                    Müşteri.Soyad = müşteri.Soyad;
+                    Müşteri.Adres = müşteri.Adres;
+                    Müşteri.Telefon = müşteri.Telefon;
+                    Müşteri.Cinsiyet = müşteri.Cinsiyet;
+                    Müşteri.Resim = müşteri.Resim;
+                }
+            }, parameter => parameter is Müşteri müşteri);
+
+            YolcuAramaEkranı = new RelayCommand<object>(parameter =>
+            {
+                if (parameter is Otobüs otobüs)
+                {
+                    YolcuAramaMetni = string.Empty;
+                    AramaYolcuListesi = otobüs?.Sefer?.SelectMany(z => z.Müşteri);
+                }
+            }, parameter => true);
 
             PropertyChanged += YolcuGirişViewModel_PropertyChanged;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public IEnumerable<Müşteri> AramaYolcuListesi { get; set; }
 
         public ICommand BiletYazdır { get; }
 
@@ -129,6 +152,12 @@ namespace Autobus.ViewModel
         public Ürün Ürün { get; set; }
 
         public ICommand ÜrünEkle { get; }
+
+        public ICommand YolcuAktar { get; }
+
+        public ICommand YolcuAramaEkranı { get; }
+
+        public string YolcuAramaMetni { get; set; }
 
         public static void PrintTicket(object parameter)
         {
@@ -168,6 +197,10 @@ namespace Autobus.ViewModel
             if (e.PropertyName is "SeçiliSefer")
             {
                 Müşteri.KoltukNo = 0;
+            }
+            if (e.PropertyName is "YolcuAramaMetni")
+            {
+                AramaYolcuListesi = AramaYolcuListesi?.Where(z => z.Ad.Contains(YolcuAramaMetni) || z.Soyad.Contains(YolcuAramaMetni));
             }
         }
     }
