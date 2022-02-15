@@ -1,5 +1,4 @@
-﻿using Autobus.ViewModel;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Xml.Serialization;
 
@@ -15,6 +14,9 @@ namespace Autobus.Model
 
         [XmlElement(ElementName = "Aylar")]
         public ObservableCollection<Aylar> Aylar { get; set; }
+
+        [XmlElement(ElementName = "İadeler")]
+        public İadeler İadeler { get; set; }
 
         [XmlElement(ElementName = "Markalar")]
         public Markalar Markalar { get; set; }

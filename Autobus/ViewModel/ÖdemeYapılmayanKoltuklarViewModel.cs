@@ -38,6 +38,8 @@ namespace Autobus.ViewModel
 
         public ObservableCollection<Chart> GrafikVerileri { get; set; }
 
+        public ObservableCollection<İade> Müşteriİadeler { get; set; }
+
         public IEnumerable<Müşteri> ÖdemeYapmayanMüşteriler { get; set; }
 
         public double SiparişToplamı { get; set; }

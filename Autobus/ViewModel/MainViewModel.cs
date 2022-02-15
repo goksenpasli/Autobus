@@ -41,6 +41,10 @@ namespace Autobus.ViewModel
                 Ürünler = new Ürünler
                 {
                     Ürün = ExtensionMethods.ÜrünleriYükle()
+                },
+                İadeler = new İadeler
+                {
+                    İade = ExtensionMethods.İadeleriYükle(),
                 }
             };
 
@@ -95,6 +99,7 @@ namespace Autobus.ViewModel
             {
                 ÖdemeYapılmayanKoltuklarViewModel.Tahsilatlar = Otobüs.BiletTahsilat();
                 ÖdemeYapılmayanKoltuklarViewModel.AraçMasraflar = Otobüs.AraçMasraflar();
+                ÖdemeYapılmayanKoltuklarViewModel.Müşteriİadeler = Otobüs.İadeler.İade;
                 ÖdemeYapılmayanKoltuklarViewModel.GrafikVerileri = Otobüs.GrafikVerileri();
                 ÖdemeYapılmayanKoltuklarViewModel.ÖdemeYapmayanMüşteriler = Otobüs?.Sefer?.SelectMany(z => z.Müşteri)?.Where(z => !z.BiletÖdendi);
             });

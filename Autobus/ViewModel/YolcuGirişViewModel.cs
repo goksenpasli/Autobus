@@ -54,16 +54,6 @@ namespace Autobus.ViewModel
                 ResetMüşteri();
             }, parameter => SeçiliSefer is not null && Müşteri.KoltukNo > 0 && SeçiliSefer.VarışZamanı > DateTime.Now && !string.IsNullOrWhiteSpace(Müşteri.Ad) && !string.IsNullOrWhiteSpace(Müşteri.Soyad) && !string.IsNullOrWhiteSpace(Müşteri.Adres) && Müşteri.Telefon?.Length == 10 && Müşteri.Cinsiyet > -1);
 
-            MüşteriSil = new RelayCommand<object>(parameter =>
-            {
-                if (MessageBox.Show($"{SeçiliMüşteri.Ad} {SeçiliMüşteri.Soyad} Adlı Müşteriyi Silmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
-                {
-                    SeçiliSefer.Müşteri.Remove(parameter as Müşteri);
-                    MainViewModel.DatabaseSave.Execute(null);
-                    OnPropertyChanged(nameof(Müşteri));
-                }
-            }, parameter => SeçiliMüşteri is not null && SeçiliSefer?.İptal == false);
-
             ÜrünEkle = new RelayCommand<object>(parameter =>
             {
                 Ürün ürün = new();
@@ -136,8 +126,6 @@ namespace Autobus.ViewModel
         public ICommand MüşteriEkle { get; }
 
         public ICommand MüşteriResimYükle { get; }
-
-        public ICommand MüşteriSil { get; }
 
         public ICommand MüşteriSiparişEkle { get; }
 

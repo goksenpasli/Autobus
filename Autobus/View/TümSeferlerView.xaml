@@ -251,6 +251,20 @@
                                                 </Image.Source>
                                             </Image>
                                         </MenuItem.Icon>
+                                    </MenuItem>  
+                                    <MenuItem Command="{Binding TümSeferlerViewModel.Biletİade, Mode=OneWay, Source={StaticResource MainViewModel}}"
+                                        CommandParameter="{Binding Mode=OneWay}"
+                                        Header="BİLET İADE">
+                                        <MenuItem.Icon>
+                                            <Image Width="16" Height="16">
+                                                <Image.Source>
+                                                    <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                        <Binding Source="Shell32.dll" />
+                                                        <Binding Source="146" />
+                                                    </MultiBinding>
+                                                </Image.Source>
+                                            </Image>
+                                        </MenuItem.Icon>
                                     </MenuItem>
                                 </ContextMenu>
                             </Setter.Value>

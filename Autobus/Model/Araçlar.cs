@@ -11,5 +11,4 @@ namespace Autobus.Model
 
         [XmlElement(ElementName = "Araç")]
         public ObservableCollection<Araç> Araç { get; set; }
-    }
-}
+    } }

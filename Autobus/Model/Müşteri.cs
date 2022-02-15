@@ -11,7 +11,10 @@ namespace Autobus.Model
         public new event EventHandler<PropertyChangedEventArgs> PropertyChanged;
 
         [XmlAttribute(AttributeName = "BiletFiyat")]
-        public double BiletFiyat { get; set; }
+        public double BiletFiyat { get; set; }  
+        
+        [XmlAttribute(AttributeName = "Biletİade")]
+        public bool Biletİade { get; set; }
 
         [XmlAttribute(AttributeName = "BiletÖdendi")]
         public bool BiletÖdendi { get; set; }

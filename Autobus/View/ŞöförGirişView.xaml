@@ -13,44 +13,46 @@
         <GroupBox Header="ŞOFÖR GİRİŞİ">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <StackPanel>
-                    <TextBlock Text="ŞOFÖR ADI" />
-                    <TextBox Text="{Binding Şöför.Ad, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Text="ŞOFÖR SOYADI" />
-                    <TextBox Text="{Binding Şöför.Soyad, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Text="ŞOFÖR ADRESİ" />
-                    <TextBox Text="{Binding Şöför.Adres, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Text="ŞOFÖR TELEFON" />
-                    <Extensions:MaskedTextBox IncludeLiterals="False" IncludePrompt="False" Mask="(000) 000 00 00"
-                        Value="{Binding Şöför.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <Button Command="{Binding ŞöförResimYükle}" IsTabStop="False">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="32" Height="32">
-                                    <Image.Source>
-                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                            <Binding Source="Shell32.dll" />
-                                            <Binding Source="117" />
-                                        </MultiBinding>
-                                    </Image.Source>
-                                </Image>
-                                <TextBlock Text="ŞOFÖR RESİM EKLE" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                    <Button Command="{Binding ŞöförEkle}" CommandParameter="{Binding Otobüs.Şöförler, Source={StaticResource MainViewModel}}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="32" Height="32"
-                                    Source="/Resources/driver.png" />
-                                <TextBlock Text="ŞOFÖR EKLE" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                </StackPanel>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="ŞOFÖR ADI" />
+                        <TextBox Text="{Binding Şöför.Ad, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Text="ŞOFÖR SOYADI" />
+                        <TextBox Text="{Binding Şöför.Soyad, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Text="ŞOFÖR ADRESİ" />
+                        <TextBox Text="{Binding Şöför.Adres, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Text="ŞOFÖR TELEFON" />
+                        <Extensions:MaskedTextBox IncludeLiterals="False" IncludePrompt="False" Mask="(000) 000 00 00"
+                            Value="{Binding Şöför.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button Command="{Binding ŞöförResimYükle}" IsTabStop="False">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="32" Height="32">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="117" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock Text="ŞOFÖR RESİM EKLE" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button Command="{Binding ŞöförEkle}" CommandParameter="{Binding Otobüs.Şöförler, Source={StaticResource MainViewModel}}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="32" Height="32"
+                                        Source="/Resources/driver.png" />
+                                    <TextBlock Text="ŞOFÖR EKLE" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
                 <GroupBox Grid.Row="1" Header="ŞOFÖRLER">
                     <ListBox d:ItemsSource="{d:SampleData ItemCount=5}"
                         ItemTemplate="{StaticResource ListBoxŞoförTemplate}"

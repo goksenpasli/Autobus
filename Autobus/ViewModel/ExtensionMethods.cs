@@ -115,6 +115,20 @@ namespace Autobus.ViewModel
             return data;
         }
 
+        public static ObservableCollection<İade> İadeleriYükle()
+        {
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+            {
+                return null;
+            }
+            if (File.Exists(MainViewModel.xmldatapath))
+            {
+                return MainViewModel.xmldatapath.DeSerialize<Otobüs>().İadeler.İade;
+            }
+            _ = Directory.CreateDirectory(Path.GetDirectoryName(MainViewModel.xmldatapath));
+            return new ObservableCollection<İade>();
+        }
+
         public static ObservableCollection<Marka> MarkalarıYükle()
         {
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))

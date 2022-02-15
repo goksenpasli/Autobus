@@ -18,6 +18,11 @@ namespace Autobus.ViewModel
             BiletYazdır = new RelayCommand<object>(parameter => YolcuGirişViewModel.PrintTicket(parameter), parameter => true);
             MüşteriSil = new RelayCommand<object>(parameter =>
             {
+                if (SeçiliMüşteri.BiletÖdendi && !SeçiliMüşteri.Biletİade)
+                {
+                    MessageBox.Show("Bilet Ödendiğinden Önce İade İşlemi Yapın.", App.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
                 if (MessageBox.Show($"{SeçiliMüşteri.Ad} {SeçiliMüşteri.Soyad} Adlı Müşteriyi Silmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
                     SeçiliMüşteri?.SeçiliSefer?.Müşteri?.Remove(SeçiliMüşteri);
@@ -25,6 +30,25 @@ namespace Autobus.ViewModel
                     OnPropertyChanged(nameof(Otobüs));
                 }
             }, parameter => SeçiliMüşteri is not null);
+
+            Biletİade = new RelayCommand<object>(parameter =>
+            {
+                if (MessageBox.Show($"{SeçiliMüşteri.Ad} {SeçiliMüşteri.Soyad} Adlı Müşterinin Biletini İade Etmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    İade iade = new()
+                    {
+                        Id = ExtensionMethods.RandomNumber(),
+                        Ad = SeçiliMüşteri.Ad,
+                        Soyad = SeçiliMüşteri.Soyad,
+                        Tutar = SeçiliMüşteri.BiletFiyat,
+                        SeferId = SeçiliMüşteri.SeferId
+                    };
+                    Otobüs?.İadeler?.İade?.Add(iade);
+                    SeçiliMüşteri.Biletİade = true;
+                    MainViewModel.DatabaseSave.Execute(null);
+                    OnPropertyChanged(nameof(Otobüs));
+                }
+            }, parameter => SeçiliMüşteri?.BiletÖdendi == true && SeçiliMüşteri?.Biletİade == false);
 
             SeferGüncelle = new RelayCommand<object>(parameter =>
             {
@@ -55,6 +79,8 @@ namespace Autobus.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
 
         public bool? AramaBiletÖdendi { get; set; }
+
+        public ICommand Biletİade { get; }
 
         public ICommand BiletYazdır { get; }
 

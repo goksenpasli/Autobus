@@ -64,6 +64,13 @@
                                 </Image.Source>
                             </Image>
                         </Button>
+                        <Extension:ContentToggleButton IsTabStop="False" OverContent="GRAFİK">
+                            <GroupBox Width="320" Height="240"
+                                Header="GRAFİK">
+                                <Extension:GraphControl Series="{Binding ÖdemeYapılmayanKoltuklarViewModel.GrafikVerileri, Source={StaticResource MainViewModel}}"
+                                    SeriesListVisibility="Collapsed" SeriesTextVisibility="Visible" />
+                            </GroupBox>
+                        </Extension:ContentToggleButton>
                     </StackPanel>
                 </GroupBox.Header>
                 <ListView d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding ÖdemeYapılmayanKoltuklarViewModel.Tahsilatlar, Source={StaticResource MainViewModel}}">
@@ -96,9 +103,29 @@
                     </ListView.View>
                 </ListView>
             </GroupBox>
-            <GroupBox Grid.Row="1" Grid.Column="1">
-                <Extension:GraphControl Series="{Binding ÖdemeYapılmayanKoltuklarViewModel.GrafikVerileri, Source={StaticResource MainViewModel}}"
-                    SeriesListVisibility="Collapsed" SeriesTextVisibility="Visible" />
+            <GroupBox Grid.Row="1" Grid.Column="1"
+                Header="İADELER">
+                <ListView d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding ÖdemeYapılmayanKoltuklarViewModel.Müşteriİadeler, Source={StaticResource MainViewModel}}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding="{Binding Ad}" Header="AD" />
+                            <GridViewColumn DisplayMemberBinding="{Binding Soyad}" Header="SOYAD" />
+                            <GridViewColumn DisplayMemberBinding="{Binding Tutar, StringFormat=\{0:C\}}" Header="İADE TUTAR" />
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox IsEnabled="False"
+                                            ItemTemplate="{StaticResource SimpleItemSeferTemplate}"
+                                            ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
+                                            SelectedValue="{Binding DataContext.SeferId, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                            SelectedValuePath="Id"
+                                            Template="{StaticResource ComboBoxSimpleTemplate}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </GroupBox>
         </Grid>
     </GroupBox>

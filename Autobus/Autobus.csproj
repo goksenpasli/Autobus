@@ -79,6 +79,8 @@
     <Compile Include="Converter\NumberToSplitterVisibilityConverter.cs" />
     <Compile Include="Converter\SeferSüreGeçtiConverter.cs" />
     <Compile Include="Converter\StringToBrushConverter.cs" />
+    <Compile Include="Model\İade.cs" />
+    <Compile Include="Model\İadeler.cs" />
     <Compile Include="ViewModel\AnimationType.cs" />
     <Compile Include="Model\Aylar.cs" />
     <Compile Include="ViewModel\Mesafe.cs" />
