@@ -104,9 +104,9 @@
                     <Button Command="{Binding SeferEkle}" CommandParameter="{Binding Otobüs, Source={StaticResource MainViewModel}}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="SEFER EKLE" VerticalAlignment="Center" />
                                 <Image Width="32" Height="32"
                                     Source="/Resources/route.png" />
+                                <TextBlock Text="SEFER EKLE" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button.Content>
                     </Button>

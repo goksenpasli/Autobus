@@ -35,9 +35,9 @@
                     <Button Command="{Binding MasrafEkle}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="MASRAF EKLE" VerticalAlignment="Center" />
                                 <Image Width="32" Height="32"
                                     Source="/Resources/car-repair.png" />
+                                <TextBlock Text="MASRAF EKLE" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button.Content>
                     </Button>

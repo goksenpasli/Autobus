@@ -231,24 +231,30 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn>
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock>
-                                        <Hyperlink Command="{Binding TümSeferlerViewModel.MüşteriSil, Mode=OneWay, Source={StaticResource MainViewModel}}"
-                                            CommandParameter="{Binding Mode=OneWay}"
-                                            IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}"
-                                            Style="{StaticResource HyperLinkRed}">
-                                            <Run Text="Müşteri&#x0a;Sil" />
-                                        </Hyperlink>
-                                    </TextBlock>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu>
+                                    <MenuItem Command="{Binding TümSeferlerViewModel.MüşteriSil, Mode=OneWay, Source={StaticResource MainViewModel}}"
+                                        CommandParameter="{Binding Mode=OneWay}"
+                                        Header="MÜŞTERİ SİL">
+                                        <MenuItem.Icon>
+                                            <Image Width="16" Height="16">
+                                                <Image.Source>
+                                                    <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                        <Binding Source="Shell32.dll" />
+                                                        <Binding Source="131" />
+                                                    </MultiBinding>
+                                                </Image.Source>
+                                            </Image>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Cinsiyet}" Value="0">
                                 <Setter Property="Foreground" Value="Blue" />
@@ -429,12 +435,17 @@
                         SelectionMode="Single">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding}" />
+                                <Border Width="32" Height="32"
+                                    Background="{StaticResource Koltuk}">
+                                    <TextBlock Text="{Binding}"
+                                        HorizontalAlignment="Center"
+                                        Foreground="White" />
+                                </Border>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <Extensions:VirtualizingTilePanel ChildHeight="20"
+                                <Extensions:VirtualizingTilePanel d:Columns="4" ChildHeight="32"
                                     Columns="{Binding SeçiliAraç.BölmeSayısı}"
                                     Tile="False" />
                             </ItemsPanelTemplate>

@@ -255,8 +255,14 @@
                             <Border Width="50" Height="50"
                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                 Background="{StaticResource Koltuk}">
+                                <Border.Visibility>
+                                    <MultiBinding Converter="{StaticResource KoltukNoGizlenenKoltuklarConverter}">
+                                        <Binding Mode="OneWay" />
+                                        <Binding Path="AraçGirişViewModel.Araç.GizlenenKoltuklar" Source="{StaticResource MainViewModel}" />
+                                    </MultiBinding>
+                                </Border.Visibility>
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    FontSize="15" Foreground="White"
+                                    FontSize="16" Foreground="White"
                                     ToolTip="Koltuk Gizlemek İçin Tıklayın. Toplam Koltuk Sayısının Bir Eksiği Kadar Koltuk Gizlenebilir.">
                                     <Hyperlink Command="{Binding AraçGirişViewModel.GizlenenKoltuklaraEkle, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding Mode=OneWay}">
                                         <Run Text="{Binding Mode=OneWay}" />
@@ -308,9 +314,10 @@
                         IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}">
                         <Run Text="X" />
                     </Hyperlink>
-                    <Run Text="{Binding KoltukNo, StringFormat={}{0} NOLU KOLTUK\&#x09;\&#x09;\&#x09;}" />
+                    <Run Text="{Binding KoltukNo, StringFormat={}{0} NOLU KOLTUK\&#x09;\&#x09;}" />
                     <Run Text="{Binding Ad}" />
                     <Run Text="{Binding Soyad}" />
+                    <Extensions:MaskedTextBlock Mask="(000) 000 00 00" UnmaskedText="{Binding Telefon}" />
                     <TextBlock.Style>
                         <Style BasedOn="{StaticResource CinsiyetRenkStyle}" TargetType="TextBlock" />
                     </TextBlock.Style>
@@ -320,7 +327,7 @@
                 <TextBlock>
                     <Run Text="{Binding Ad}" />
                     <Run Text="{Binding Soyad}" />
-                    <Extensions:MaskedTextBlock UnmaskedText="{Binding Telefon}" Mask="(000) 000 00 00"/>
+                    <Extensions:MaskedTextBlock Mask="(000) 000 00 00" UnmaskedText="{Binding Telefon}" />
                 </TextBlock>
             </DataTemplate>
             <DataTemplate x:Key="ListBoxŞoförTemplate">
@@ -364,7 +371,8 @@
                 </TextBlock>
             </DataTemplate>
             <DataTemplate x:Key="SimpleItemSeferTemplate">
-                <Border Background="Blue" BorderBrush="Black" BorderThickness="1">
+                <Border Padding="3"
+                    Background="Blue" BorderBrush="Black" BorderThickness="1">
                     <StackPanel HorizontalAlignment="Right">
                         <ComboBox HorizontalAlignment="Center"
                             DisplayMemberPath="Value" Foreground="White"
@@ -390,9 +398,9 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Border Margin="3"
+                    <Border Margin="3" Padding="3"
                         BorderBrush="Black" BorderThickness="1">
-                        <StackPanel Width="270"
+                        <StackPanel Width="260"
                             HorizontalAlignment="Left"
                             Orientation="Horizontal">
                             <ComboBox ItemsSource="{Binding Otobüs.Şöförler.Şöför, Source={StaticResource MainViewModel}}"
@@ -472,6 +480,7 @@
                         <Run Text="{Binding Tutar, StringFormat=\{0:C\}}" Language="tr-tr" />
                     </TextBlock>
                     <ComboBox HorizontalContentAlignment="Stretch"
+                        d:Width="48"
                         ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
                         ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
                         ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"

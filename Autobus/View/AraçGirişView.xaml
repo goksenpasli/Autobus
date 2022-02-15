@@ -90,9 +90,9 @@
                         </UniformGrid>
                         <Button Command="{Binding AraçEkle}" CommandParameter="{Binding Otobüs.Araçlar, Source={StaticResource MainViewModel}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="ARAÇ GİR" VerticalAlignment="Center" />
                                 <Image Width="32" Height="32"
                                     Source="/Resources/car.png" />
+                                <TextBlock Text="ARAÇ GİR" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -106,9 +106,9 @@
                             ItemsSource="{StaticResource Arabalar}" />
                         <Button Command="{Binding MarkaEkle}" CommandParameter="{Binding Otobüs.Markalar, Source={StaticResource MainViewModel}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="MARKA GİR" VerticalAlignment="Center" />
                                 <Image Width="32" Height="32"
                                     Source="/Resources/car.png" />
+                                <TextBlock Text="MARKA GİR" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                     </StackPanel>

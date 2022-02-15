@@ -9,7 +9,7 @@ namespace Autobus.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (value is int sayı) ? (sayı % 2 == 0) ? Visibility.Visible : Visibility.Collapsed : Visibility.Collapsed;
+            return (value is short sayı) ? (sayı % 2 == 0) ? Visibility.Visible : Visibility.Collapsed : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

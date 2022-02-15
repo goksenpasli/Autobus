@@ -2,6 +2,7 @@
 using Extensions;
 using Microsoft.Win32;
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -10,7 +11,7 @@ using System.Windows.Media.Imaging;
 
 namespace Autobus.ViewModel
 {
-    public class AraçGirişViewModel
+    public class AraçGirişViewModel : INotifyPropertyChanged
     {
         public AraçGirişViewModel()
         {
@@ -19,20 +20,23 @@ namespace Autobus.ViewModel
             Araç.GizlenenKoltuklar = new();
             AraçEkle = new RelayCommand<object>(parameter =>
             {
-                Araç araç = new();
-                araç.Id = ExtensionMethods.RandomNumber();
-                araç.Aktif = Araç.Aktif;
-                araç.BölmeSayısı = Araç.BölmeSayısı;
-                araç.KoltukSayısı = Araç.KoltukSayısı;
-                araç.Plaka = Regex.Replace(Araç.Plaka, @"\s+", " ");
-                araç.MarkaId = Araç.MarkaId;
-                araç.BoyKoltukSayısı = Araç.BoyKoltukSayısı;
-                araç.Resim = Araç.Resim;
-                Araç.GizlenenKoltuklar.ToList().ForEach(z => araç.GizlenenKoltuklar?.Add(z));
-                (parameter as Araçlar)?.Araç.Add(araç);
-                MainViewModel.DatabaseSave.Execute(null);
+                if (parameter is Araçlar araçlar)
+                {
+                    Araç araç = new();
+                    araç.Id = ExtensionMethods.RandomNumber();
+                    araç.Aktif = Araç.Aktif;
+                    araç.BölmeSayısı = Araç.BölmeSayısı;
+                    araç.KoltukSayısı = Araç.KoltukSayısı;
+                    araç.Plaka = Regex.Replace(Araç.Plaka, @"\s+", " ");
+                    araç.MarkaId = Araç.MarkaId;
+                    araç.BoyKoltukSayısı = Araç.BoyKoltukSayısı;
+                    araç.Resim = Araç.Resim;
+                    Araç.GizlenenKoltuklar.ToList().ForEach(z => araç.GizlenenKoltuklar?.Add(z));
+                    araçlar?.Araç.Add(araç);
+                    MainViewModel.DatabaseSave.Execute(null);
 
-                ResetAraç();
+                    ResetAraç();
+                }
             }, parameter => Araç.KoltukSayısı > 0 && Araç.KoltukSayısı >= Araç.BölmeSayısı && Araç?.MarkaId != -1 && Araç?.KoltukSayısı % Araç?.BölmeSayısı == 0 && !string.IsNullOrWhiteSpace(Araç?.Plaka));
 
             MarkaEkle = new RelayCommand<object>(parameter =>
@@ -67,6 +71,7 @@ namespace Autobus.ViewModel
                 if (parameter is int koltukno && Araç.GizlenenKoltuklar?.Contains(koltukno) == false)
                 {
                     Araç.GizlenenKoltuklar?.Add(koltukno);
+                    OnPropertyChanged(nameof(Araç));
                 }
             }, parameter => Araç.GizlenenKoltuklar?.Count + 1 < Araç.KoltukSayısı);
 
@@ -75,9 +80,12 @@ namespace Autobus.ViewModel
                 if (parameter is int koltukno)
                 {
                     Araç.GizlenenKoltuklar?.Remove(koltukno);
+                    OnPropertyChanged(nameof(Araç));
                 }
             }, parameter => true);
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Araç Araç { get; set; }
 
@@ -96,6 +104,11 @@ namespace Autobus.ViewModel
         public double ResimBoy { get; set; }
 
         public double ResimEn { get; set; }
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public override string ToString()
         {

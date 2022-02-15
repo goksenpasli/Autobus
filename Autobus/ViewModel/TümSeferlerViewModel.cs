@@ -28,29 +28,8 @@ namespace Autobus.ViewModel
 
             SeferGüncelle = new RelayCommand<object>(parameter =>
             {
-                if (parameter is Sefer seçilisefer)
+                if (parameter is Sefer seçilisefer && SeferKontrol(seçilisefer))
                 {
-                    if (seçilisefer.AraçId != SeçiliAraç.Id)
-                    {
-                        MessageBox.Show("Sadece Aynı Araçta Taşıma İşlemi Yapılır.", Application.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        return;
-                    }
-                    if (seçilisefer.Müşteri.Any(z => (z.KoltukDolu || z.BiletÖdendi) && z.KoltukNo == SeçiliMüşteri?.KoltukNo))
-                    {
-                        MessageBox.Show("Bu Seferde Belirtilen Koltuk Doludur Veya Bilet Ödemesi Vardır.", Application.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        return;
-                    }
-
-                    double? şuankiseferbilettutarı = SeçiliMüşteri?.SeçiliSefer?.BiletTutarı;
-                    double taşınacakseferbilettutarı = seçilisefer.BiletTutarı;
-                    if (taşınacakseferbilettutarı > şuankiseferbilettutarı)
-                    {
-                        MessageBox.Show($"Dikkat Taşınacak Seferin Bilet Tutarı {taşınacakseferbilettutarı - şuankiseferbilettutarı:C} Daha Fazladır. Farkı Tahsil Edin.", Application.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                    if (taşınacakseferbilettutarı < şuankiseferbilettutarı)
-                    {
-                        MessageBox.Show($"Dikkat Taşınacak Seferin Bilet Tutarı {şuankiseferbilettutarı - taşınacakseferbilettutarı:C} Daha Azdır. Farkı Geri Verin.", Application.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
                     if (MessageBox.Show($"{SeçiliMüşteri.Ad} {SeçiliMüşteri.Soyad} Adlı Müşterinin Seferini Değiştirmek İstiyor Musun?", Application.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                     {
                         SeçiliMüşteri?.SeçiliSefer?.Müşteri?.Remove(SeçiliMüşteri);
@@ -121,6 +100,32 @@ namespace Autobus.ViewModel
             return "TÜM SEFERLER";
         }
 
+        private bool SeferKontrol(Sefer seçilisefer)
+        {
+            if (seçilisefer.AraçId != SeçiliAraç.Id)
+            {
+                MessageBox.Show("Sadece Aynı Araçta Taşıma İşlemi Yapılır.", Application.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return false;
+            }
+            if (seçilisefer.Müşteri.Any(z => (z.KoltukDolu || z.BiletÖdendi) && z.KoltukNo == SeçiliMüşteri?.KoltukNo))
+            {
+                MessageBox.Show("Bu Seferde Belirtilen Koltuk Doludur Veya Bilet Ödemesi Vardır.", Application.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return false;
+            }
+
+            double? şuankiseferbilettutarı = SeçiliMüşteri?.SeçiliSefer?.BiletTutarı;
+            double taşınacakseferbilettutarı = seçilisefer.BiletTutarı;
+            if (taşınacakseferbilettutarı > şuankiseferbilettutarı)
+            {
+                MessageBox.Show($"Dikkat Taşınacak Seferin Bilet Tutarı {taşınacakseferbilettutarı - şuankiseferbilettutarı:C} Daha Fazladır. Farkı Tahsil Edin.", Application.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            if (taşınacakseferbilettutarı < şuankiseferbilettutarı)
+            {
+                MessageBox.Show($"Dikkat Taşınacak Seferin Bilet Tutarı {şuankiseferbilettutarı - taşınacakseferbilettutarı:C} Daha Azdır. Farkı Geri Verin.", Application.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            return true;
+        }
+
         private void TümSeferlerViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName is "MüşteriAdArama")
@@ -182,7 +187,7 @@ namespace Autobus.ViewModel
             }
             if (e.PropertyName is "Otobüs")
             {
-                Müşteriler = Otobüs.Sefer?.SelectMany(z => z.Müşteri);
+                Müşteriler = Otobüs.Sefer?.OrderByDescending(z => z.VarışZamanı).SelectMany(z => z.Müşteri);
             }
             if (e.PropertyName is "SeçiliMüşteri")
             {
