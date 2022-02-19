@@ -5,13 +5,11 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace Autobus.ViewModel
 {
@@ -81,10 +79,7 @@ namespace Autobus.ViewModel
                 OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff;*.png)|*.jpg;*.jpeg;*.tif;*.tiff;*.png" };
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    string filename = Guid.NewGuid() + Path.GetExtension(openFileDialog.FileName);
-                    image = new BitmapImage(new Uri(openFileDialog.FileName));
-                    File.WriteAllBytes($"{Path.GetDirectoryName(MainViewModel.xmldatapath)}\\{filename}", image.Resize(Settings.Default.ResimEn, Settings.Default.ResimBoy).ToTiffJpegByteArray(Extensions.ExtensionMethods.Format.Jpg));
-                    Müşteri.Resim = filename;
+                    Müşteri.Resim = openFileDialog.FileName.ResimYükle(Settings.Default.ResimEn, Settings.Default.ResimBoy, Settings.Default.WebpEncode);
                 }
             }, parameter => true);
 
@@ -165,8 +160,6 @@ namespace Autobus.ViewModel
         {
             return "YOLCU GİRİŞ";
         }
-
-        private BitmapImage image;
 
         private void ResetMüşteri()
         {

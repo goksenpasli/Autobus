@@ -247,7 +247,7 @@
             <DataTemplate x:Key="GizlenebilirAraçÖnizleme">
                 <ItemsControl Grid.Row="1"
                     Margin="0,3,0,0"
-                    d:ItemsSource="{d:SampleData ItemCount=5}"
+                    d:ItemsSource="{d:SampleData ItemCount=10}"
                     ItemsSource="{Binding KoltukÖnizlemeListe}"
                     Style="{StaticResource VirtualizingStackPanelItemsControl}">
                     <ItemsControl.ItemTemplate>

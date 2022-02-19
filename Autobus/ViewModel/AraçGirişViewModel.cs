@@ -1,13 +1,11 @@
 ﻿using Autobus.Model;
+using Autobus.Properties;
 using Extensions;
 using Microsoft.Win32;
-using System;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 
 namespace Autobus.ViewModel
 {
@@ -59,10 +57,7 @@ namespace Autobus.ViewModel
                 OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff;*.png)|*.jpg;*.jpeg;*.tif;*.tiff;*.png" };
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    string filename = Guid.NewGuid() + Path.GetExtension(openFileDialog.FileName);
-                    image = new BitmapImage(new Uri(openFileDialog.FileName));
-                    File.WriteAllBytes($"{Path.GetDirectoryName(MainViewModel.xmldatapath)}\\{filename}", image.Resize(ResimEn, ResimBoy).ToTiffJpegByteArray(Extensions.ExtensionMethods.Format.Jpg));
-                    Araç.Resim = filename;
+                    Araç.Resim = openFileDialog.FileName.ResimYükle(ResimEn, ResimBoy, Settings.Default.WebpEncode);
                 }
             }, parameter => true);
 
@@ -114,8 +109,6 @@ namespace Autobus.ViewModel
         {
             return "ARAÇ GİRİŞ";
         }
-
-        private BitmapImage image;
 
         private void ResetAraç()
         {

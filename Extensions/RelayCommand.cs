@@ -69,9 +69,9 @@ namespace Extensions
         {
         }
 
-        public RelayCommand(Action<T> execute, Predicate<T> canExecute)
+        public RelayCommand(Action<T> execute!!, Predicate<T> canExecute)
         {
-            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _execute = execute;
             _canExecute = canExecute;
         }
 
@@ -101,9 +101,9 @@ namespace Extensions
 
     public class RelayCommand : ICommand
     {
-        public RelayCommand(Action execute, Func<bool> canExecute)
+        public RelayCommand(Action execute!!, Func<bool> canExecute)
         {
-            this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            this.execute = execute;
             this.canExecute = canExecute;
         }
 

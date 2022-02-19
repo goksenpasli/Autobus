@@ -2,11 +2,8 @@
 using Autobus.Properties;
 using Extensions;
 using Microsoft.Win32;
-using System;
-using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 
 namespace Autobus.ViewModel
 {
@@ -37,7 +34,7 @@ namespace Autobus.ViewModel
 
             ŞöförSil = new RelayCommand<object>(parameter =>
             {
-                if (parameter is Şöförler şöförler && MessageBox.Show("Seçili Şoförü Silmek İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                if (parameter is Şöförler şöförler && MessageBox.Show("Seçili Şoförü Silmek İstiyor Musun?", Application.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
                     şöförler?.Şöför?.Remove(SeçiliŞöför);
                     MainViewModel.DatabaseSave.Execute(null);
@@ -49,10 +46,7 @@ namespace Autobus.ViewModel
                 OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff;*.png)|*.jpg;*.jpeg;*.tif;*.tiff;*.png" };
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    string filename = Guid.NewGuid() + Path.GetExtension(openFileDialog.FileName);
-                    image = new BitmapImage(new Uri(openFileDialog.FileName));
-                    File.WriteAllBytes($"{Path.GetDirectoryName(MainViewModel.xmldatapath)}\\{filename}", image.Resize(Settings.Default.ResimEn, Settings.Default.ResimBoy).ToTiffJpegByteArray(Extensions.ExtensionMethods.Format.Jpg));
-                    Şöför.Resim = filename;
+                    Şöför.Resim = openFileDialog.FileName.ResimYükle(Settings.Default.ResimEn, Settings.Default.ResimBoy, Settings.Default.WebpEncode);
                 }
             }, parameter => true);
         }
@@ -66,8 +60,6 @@ namespace Autobus.ViewModel
         public ICommand ŞöförResimYükle { get; }
 
         public ICommand ŞöförSil { get; }
-
-        private BitmapImage image;
 
         private void ResetŞöför()
         {

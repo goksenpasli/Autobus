@@ -150,6 +150,12 @@ namespace Autobus.ViewModel
             {
                 CurrentView = DefaultScreen[Settings.Default.VarsayılanEkran];
             }
+
+            if (!File.Exists(xmldatapath))
+            {
+                _ = Directory.CreateDirectory(Path.GetDirectoryName(xmldatapath));
+            }
+
             TümSeferlerViewModel.Otobüs = Otobüs;
             TümSeferlerViewModel.Seferler = Otobüs?.Sefer;
 
@@ -207,6 +213,8 @@ namespace Autobus.ViewModel
 
         public RelayCommand<object> WebAdreseGit { get; }
 
+        public bool WebPFilesExists { get; set; } = File.Exists(ExeFolder + """\libwebp_x64.dll""") && File.Exists(ExeFolder + """\libwebp_x86.dll""");
+
         public RelayCommand<object> Yedekle { get; }
 
         public ICommand YolcuDüzeniEkranı { get; }
@@ -218,6 +226,8 @@ namespace Autobus.ViewModel
         public YolcuGirişViewModel YolcuGirişViewModel { get; set; }
 
         private DispatcherTimer timer;
+
+        private static string ExeFolder { get; } = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
 
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {

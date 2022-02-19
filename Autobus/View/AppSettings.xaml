@@ -12,6 +12,23 @@
         <TabControl>
             <TabItem Header="AYARLAR">
                 <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="RESİMLERİ WEBP FORMATINDA KODLA "
+                            VerticalAlignment="Center" VerticalContentAlignment="Center"
+                            IsChecked="{Binding Path=WebpEncode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}"
+                            IsEnabled="{Binding WebPFilesExists, Source={StaticResource MainViewModel}}"
+                            ToolTip="Bu Özellik İçin Uygulama Dizininde libwebp_x64.dll ve libwebp_x86.dll Dosyalarına İhtiyaç Vardır."
+                            ToolTipService.ShowOnDisabled="True" />
+                        <TextBlock>
+                            <Hyperlink Command="{Binding WebAdreseGit, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="https://github.com/JosePineiro/WebP-wrapper">
+                                <Run Text="DOSYALAR" />
+                            </Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+                    <HeaderedContentControl Header="WEBP KALİTE" IsEnabled="{Binding Path=WebpEncode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}">
+                        <Extension:NumericUpDownControl Maximum="100" Minimum="1" SmallChange="1"
+                            Value="{Binding Path=WebpQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
+                    </HeaderedContentControl>
                     <HeaderedContentControl Header="RESİM EN">
                         <Extension:NumericUpDownControl Maximum="1024" Minimum="120" SmallChange="1"
                             Value="{Binding Path=ResimEn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
