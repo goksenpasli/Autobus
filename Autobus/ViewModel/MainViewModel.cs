@@ -169,6 +169,8 @@ namespace Autobus.ViewModel
 
         public static Dictionary<int, object> DefaultScreen { get; set; }
 
+        public static string ExeFolder { get; } = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+
         public ICommand AraçGirişEkranı { get; }
 
         public AraçGirişViewModel AraçGirişViewModel { get; set; }
@@ -227,8 +229,6 @@ namespace Autobus.ViewModel
 
         private DispatcherTimer timer;
 
-        private static string ExeFolder { get; } = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             Fold = 0;
@@ -238,6 +238,10 @@ namespace Autobus.ViewModel
 
         private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (!WebPFilesExists)
+            {
+                Settings.Default.WebpEncode = false;
+            }
             if (e.PropertyName is "CurrentView")
             {
                 timer = new(DispatcherPriority.Normal) { Interval = TimeSpan.FromMilliseconds(15) };

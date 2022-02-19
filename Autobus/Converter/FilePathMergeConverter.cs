@@ -20,7 +20,9 @@ namespace Autobus.Converter
                     string file = $"{Path.GetDirectoryName(MainViewModel.xmldatapath)}\\{filename}";
                     if (File.Exists(file))
                     {
-                        return string.Equals(Path.GetExtension(file), ".webp", StringComparison.OrdinalIgnoreCase) ? file.WebpDecode() : file;
+                        return string.Equals(Path.GetExtension(file), ".webp", StringComparison.OrdinalIgnoreCase)
+                            ? (File.Exists(MainViewModel.ExeFolder + """\libwebp_x64.dll""") && File.Exists(MainViewModel.ExeFolder + """\libwebp_x86.dll""")) ? file.WebpDecode() : null
+                            : file;
                     }
                     else
                     {
