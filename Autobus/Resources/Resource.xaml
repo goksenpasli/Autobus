@@ -182,6 +182,10 @@
         <clc:DictionaryEntry Key="80" Value="OSMANİYE" />
         <clc:DictionaryEntry Key="81" Value="DÜZCE" />
     </clc:ArrayList>
+    <CompositeCollection x:Key="İllerMerged">
+        <clc:DictionaryEntry Key="0" Value="FARK ETMEZ" />
+        <CollectionContainer Collection="{Binding Mode=OneWay, Source={StaticResource İller}}" />
+    </CompositeCollection>
     <x:Array x:Key="Arabalar" Type="{x:Type sys:String}">
         <sys:String>Chrysler</sys:String>
         <sys:String>Citroën</sys:String>

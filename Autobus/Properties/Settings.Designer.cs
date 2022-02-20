@@ -133,7 +133,7 @@ namespace Autobus.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        [global::System.Configuration.DefaultSettingValueAttribute("65")]
         public int WebpQuality {
             get {
                 return ((int)(this["WebpQuality"]));

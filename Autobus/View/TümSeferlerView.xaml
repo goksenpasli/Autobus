@@ -9,13 +9,17 @@
     xmlns:model="clr-namespace:Autobus.Model" xmlns:properties="clr-namespace:Autobus.Properties"
     xmlns:viewmodel="clr-namespace:Autobus.ViewModel"
     d:DataContext="{d:DesignInstance Type={x:Type viewmodel:TümSeferlerViewModel}}"
-    d:DesignHeight="450" d:DesignWidth="800" UseLayoutRounding="True"
+    d:DesignHeight="450" d:DesignWidth="1280" UseLayoutRounding="True"
     mc:Ignorable="d">
     <UserControl.Resources>
         <CollectionViewSource x:Key="Müşteriler" Source="{Binding Müşteriler}" />
     </UserControl.Resources>
     <GroupBox Header="TÜM SEFERLER">
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="70" />
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
@@ -45,7 +49,7 @@
                         <GridViewColumn Header="RESİM">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <viewmodel:ShadowedImage MaxWidth="90" MaxHeight="110"
+                                    <viewmodel:ShadowedImage Width="90" Height="120"
                                         ShowOverlayColor="{Binding Biletİade}"
                                         ShowShadow="True">
                                         <viewmodel:ShadowedImage.Style>
@@ -117,37 +121,24 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Extensions:GridViewSort.PropertyName="SeçiliSefer.KalkışZamanı">
+                        <GridViewColumn Width="330" Extensions:GridViewSort.PropertyName="SeçiliSefer.KalkışZamanı">
                             <GridViewColumn.Header>
                                 <StackPanel Orientation="Horizontal">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="ComboBox">
+                                            <Setter Property="ItemTemplate" Value="{StaticResource İlİsimTemplate}" />
+                                            <Setter Property="ItemsPanel" Value="{StaticResource ItemsVirtualizedPanel}" />
+                                            <Setter Property="ItemsSource" Value="{StaticResource İllerMerged}" />
+                                        </Style>
+                                    </StackPanel.Resources>
                                     <TextBlock Text="KALKIŞ&#x0a;TARİHİ " VerticalAlignment="Center" />
                                     <DatePicker VerticalContentAlignment="Center" SelectedDate="{Binding KalkışTarihArama}" />
-                                    <TextBlock Text="KALKIŞ&#x0a;İLİ " VerticalAlignment="Center" />
-                                    <ComboBox VerticalContentAlignment="Center"
-                                        ItemTemplate="{StaticResource İlİsimTemplate}"
-                                        ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
-                                        SelectedValue="{Binding KalkışŞehirAramaId}"
-                                        SelectedValuePath="Key">
-                                        <ComboBox.ItemsSource>
-                                            <CompositeCollection>
-                                                <collections:DictionaryEntry Key="0" Value="FARK&#x0a;ETMEZ" />
-                                                <CollectionContainer Collection="{Binding Mode=OneWay, Source={StaticResource İller}}" />
-                                            </CompositeCollection>
-                                        </ComboBox.ItemsSource>
-                                    </ComboBox>
-                                    <TextBlock Text="VARIŞ&#x0a;İLİ " VerticalAlignment="Center" />
-                                    <ComboBox VerticalContentAlignment="Center"
-                                        ItemTemplate="{StaticResource İlİsimTemplate}"
-                                        ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
-                                        SelectedValue="{Binding VarışŞehirAramaId}"
-                                        SelectedValuePath="Key">
-                                        <ComboBox.ItemsSource>
-                                            <CompositeCollection>
-                                                <collections:DictionaryEntry Key="0" Value="FARK&#x0a;ETMEZ" />
-                                                <CollectionContainer Collection="{Binding Mode=OneWay, Source={StaticResource İller}}" />
-                                            </CompositeCollection>
-                                        </ComboBox.ItemsSource>
-                                    </ComboBox>
+                                    <HeaderedContentControl Header="KALKIŞ İLİ">
+                                        <ComboBox SelectedValue="{Binding KalkışŞehirAramaId}" SelectedValuePath="Key" />
+                                    </HeaderedContentControl>
+                                    <HeaderedContentControl Header="VARIŞ İLİ">
+                                        <ComboBox SelectedValue="{Binding VarışŞehirAramaId}" SelectedValuePath="Key" />
+                                    </HeaderedContentControl>
                                 </StackPanel>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
@@ -157,7 +148,7 @@
                                             HorizontalContentAlignment="Stretch"
                                             IsEnabled="False"
                                             ItemContainerStyle="{StaticResource ComboBoxSüresiGeçenSeferItemContainerStyle}"
-                                            ItemTemplate="{StaticResource ItemSeferTemplate}"
+                                            ItemTemplate="{StaticResource ŞehirSeferTemplate}"
                                             ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
                                             ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
                                             SelectedItem="{Binding SeçiliSefer}"
@@ -181,7 +172,7 @@
                                                         <ListBox x:Name="LbSefer"
                                                             Height="300"
                                                             IsTextSearchEnabled="False"
-                                                            ItemTemplate="{StaticResource SimpleItemSeferTemplate}"
+                                                            ItemTemplate="{StaticResource ŞehirSeferTemplate}"
                                                             ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}">
                                                             <ListBox.ItemContainerStyle>
                                                                 <Style TargetType="ListBoxItem">
@@ -214,18 +205,24 @@
                         <GridViewColumn Header="SİPARİŞ">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ListBox Width="100" MaxHeight="110"
-                                        ItemsSource="{Binding Sipariş}">
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <ComboBox ItemTemplate="{StaticResource ComboBoxItemSiparişTemplate}"
-                                                    ItemsSource="{Binding Otobüs.Ürünler.Ürün, Source={StaticResource MainViewModel}}"
-                                                    SelectedValue="{Binding ÜrünId}"
-                                                    SelectedValuePath="Id"
-                                                    Template="{DynamicResource ComboBoxSimpleTemplate}" />
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
+                                    <Extensions:ContentToggleButton OverContent="SİPARİŞLER">
+                                        <ItemsControl Width="100" MaxHeight="110"
+                                            Background="{StaticResource BorderBackground}"
+                                            BorderBrush="{StaticResource GroupBoxBackGround}"
+                                            BorderThickness="2"
+                                            ItemsSource="{Binding Sipariş}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ComboBox d:Width="50"
+                                                        ItemTemplate="{StaticResource ComboBoxItemSiparişTemplate}"
+                                                        ItemsSource="{Binding Otobüs.Ürünler.Ürün, Source={StaticResource MainViewModel}}"
+                                                        SelectedValue="{Binding ÜrünId}"
+                                                        SelectedValuePath="Id"
+                                                        Template="{StaticResource ComboBoxSimpleTemplate}" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Extensions:ContentToggleButton>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -237,7 +234,7 @@
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock>
+                                    <TextBlock IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}">
                                         <Hyperlink Command="{Binding YolcuDüzenViewModel.MüşteriBorçTahsilEt, Source={StaticResource MainViewModel}}"
                                             CommandParameter="{Binding Mode=OneWay}"
                                             Style="{StaticResource HyperLinkRed}">
@@ -306,7 +303,7 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
-            <Grid Grid.Column="1"
+            <Grid Grid.RowSpan="2" Grid.Column="1"
                 Width="10cm"
                 HorizontalAlignment="Left">
                 <Grid.RowDefinitions>
@@ -520,6 +517,9 @@
                     </ListBox>
                 </GroupBox>
             </Grid>
+            <GroupBox Grid.Row="1">
+                <ContentPresenter Content="{Binding SeçiliMüşteri.SeçiliSefer}" ContentTemplate="{StaticResource SeferTarihTemplate}" />
+            </GroupBox>
         </Grid>
     </GroupBox>
 </UserControl>

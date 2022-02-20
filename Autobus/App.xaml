@@ -60,6 +60,7 @@
                 <Setter Property="IsTextSearchEnabled" Value="False" />
             </Style>
             <Style TargetType="ListView">
+                <Setter Property="VirtualizingPanel.CacheLength" Value="2,2" />
                 <Setter Property="VirtualizingPanel.CacheLengthUnit" Value="Item" />
                 <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel" />
                 <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling" />
@@ -386,25 +387,110 @@
                     <Run Text="{Binding Value}" />
                 </TextBlock>
             </DataTemplate>
-            <DataTemplate x:Key="SimpleItemSeferTemplate">
+            <DataTemplate x:Key="SeferTarihTemplate">
+                <Border Margin="3" Padding="3"
+                    BorderBrush="Black" BorderThickness="1">
+                    <StackPanel Width="260"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
+                        <ComboBox ItemsSource="{Binding Otobüs.Şöförler.Şöför, Source={StaticResource MainViewModel}}"
+                            SelectedValue="{Binding ŞöförId}"
+                            SelectedValuePath="Id"
+                            Template="{StaticResource ComboBoxSimpleTemplate}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="2" Orientation="Horizontal">
+                                        <ViewModel:ShadowedImage MaxWidth="64" MaxHeight="64"
+                                            ShowOverlayColor="{Binding DataContext.İptal, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                            ShowShadow="True">
+                                            <ViewModel:ShadowedImage.Style>
+                                                <Style TargetType="ViewModel:ShadowedImage">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding TümSeferlerResimGöster, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" Value="true">
+                                                            <Setter Property="Source">
+                                                                <Setter.Value>
+                                                                    <Binding Converter="{StaticResource FilePathMergeConverter}" Path="Resim" />
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ViewModel:ShadowedImage.Style>
+                                        </ViewModel:ShadowedImage>
+                                        <TextBlock VerticalAlignment="Center">
+                                            <Run Text="{Binding Ad}" />
+                                            <LineBreak />
+                                            <Run Text="{Binding Soyad}" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <TextBlock VerticalAlignment="Center"
+                            FontWeight="Bold" Foreground="Red">
+                            <Run Text="{Binding KalkışZamanı, StringFormat=KALKIŞ: \{0:g\}}" Language="tr-tr" />
+                            <LineBreak />
+                            <Run Text="{Binding VarışZamanı, StringFormat=VARIŞ: \{0:g\}}" Language="tr-tr" />
+                        </TextBlock>
+                        <Image MaxWidth="32" MaxHeight="32">
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TarihDeğiştirildi, Mode=OneWay}" Value="true">
+                                            <Setter Property="Source">
+                                                <Setter.Value>
+                                                    <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                        <Binding Source="Shell32.dll" />
+                                                        <Binding Source="249" />
+                                                    </MultiBinding>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                        <Image MaxWidth="32" MaxHeight="32">
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding İptal, Mode=OneWay}" Value="true">
+                                            <Setter Property="Source">
+                                                <Setter.Value>
+                                                    <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                        <Binding Source="Shell32.dll" />
+                                                        <Binding Source="131" />
+                                                    </MultiBinding>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+            <Style x:Key="ComboBoxİlStyle" TargetType="ComboBox">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="DisplayMemberPath" Value="Value" />
+                <Setter Property="Template" Value="{StaticResource ComboBoxSimpleTemplate}" />
+                <Setter Property="ItemsSource" Value="{Binding Mode=OneWay, Source={StaticResource İller}}" />
+            </Style>
+            <DataTemplate x:Key="ŞehirSeferTemplate">
                 <Border Padding="3"
                     Background="Blue" BorderBrush="Black" BorderThickness="1">
                     <StackPanel HorizontalAlignment="Right">
-                        <ComboBox HorizontalAlignment="Center"
-                            DisplayMemberPath="Value" Foreground="White"
-                            ItemsSource="{Binding Mode=OneWay, Source={StaticResource İller}}"
-                            SelectedValue="{Binding KalkışŞehirId}"
+                        <ComboBox SelectedValue="{Binding KalkışŞehirId}"
                             SelectedValuePath="Key"
-                            Template="{StaticResource ComboBoxSimpleTemplate}" />
+                            Style="{StaticResource ComboBoxİlStyle}" />
                         <TextBlock Text="ÞÞÞ"
                             HorizontalAlignment="Center" VerticalAlignment="Center"
                             FontFamily="Wingdings" FontSize="16" FontWeight="Bold" Foreground="White" />
-                        <ComboBox HorizontalAlignment="Center"
-                            DisplayMemberPath="Value" Foreground="White"
-                            ItemsSource="{Binding Mode=OneWay, Source={StaticResource İller}}"
-                            SelectedValue="{Binding VarışŞehirId}"
+                        <ComboBox SelectedValue="{Binding VarışŞehirId}"
                             SelectedValuePath="Key"
-                            Template="{StaticResource ComboBoxSimpleTemplate}" />
+                            Style="{StaticResource ComboBoxİlStyle}" />
                     </StackPanel>
                 </Border>
             </DataTemplate>
@@ -414,91 +500,10 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Border Margin="3" Padding="3"
-                        BorderBrush="Black" BorderThickness="1">
-                        <StackPanel Width="260"
-                            HorizontalAlignment="Left"
-                            Orientation="Horizontal">
-                            <ComboBox ItemsSource="{Binding Otobüs.Şöförler.Şöför, Source={StaticResource MainViewModel}}"
-                                SelectedValue="{Binding ŞöförId}"
-                                SelectedValuePath="Id"
-                                Template="{StaticResource ComboBoxSimpleTemplate}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Margin="2" Orientation="Horizontal">
-                                            <ViewModel:ShadowedImage MaxWidth="64" MaxHeight="64"
-                                                ShowOverlayColor="{Binding DataContext.İptal, RelativeSource={RelativeSource AncestorType=ComboBox}}"
-                                                ShowShadow="True">
-                                                <ViewModel:ShadowedImage.Style>
-                                                    <Style TargetType="ViewModel:ShadowedImage">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding TümSeferlerResimGöster, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" Value="true">
-                                                                <Setter Property="Source">
-                                                                    <Setter.Value>
-                                                                        <Binding Converter="{StaticResource FilePathMergeConverter}" Path="Resim" />
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ViewModel:ShadowedImage.Style>
-                                            </ViewModel:ShadowedImage>
-                                            <TextBlock VerticalAlignment="Center">
-                                                <Run Text="{Binding Ad}" />
-                                                <LineBreak />
-                                                <Run Text="{Binding Soyad}" />
-                                            </TextBlock>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                            <TextBlock VerticalAlignment="Center"
-                                FontWeight="Bold" Foreground="Red">
-                                <Run Text="{Binding KalkışZamanı, StringFormat=KALKIŞ: \{0:g\}}" Language="tr-tr" />
-                                <LineBreak />
-                                <Run Text="{Binding VarışZamanı, StringFormat=VARIŞ: \{0:g\}}" Language="tr-tr" />
-                            </TextBlock>
-                            <Image MaxWidth="32" MaxHeight="32">
-                                <Image.Style>
-                                    <Style TargetType="Image">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding TarihDeğiştirildi, Mode=OneWay}" Value="true">
-                                                <Setter Property="Source">
-                                                    <Setter.Value>
-                                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                                            <Binding Source="Shell32.dll" />
-                                                            <Binding Source="249" />
-                                                        </MultiBinding>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Image.Style>
-                            </Image>
-                            <Image MaxWidth="32" MaxHeight="32">
-                                <Image.Style>
-                                    <Style TargetType="Image">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding İptal, Mode=OneWay}" Value="true">
-                                                <Setter Property="Source">
-                                                    <Setter.Value>
-                                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                                            <Binding Source="Shell32.dll" />
-                                                            <Binding Source="131" />
-                                                        </MultiBinding>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Image.Style>
-                            </Image>
-                        </StackPanel>
-                    </Border>
+                    <ContentPresenter Grid.Column="0" ContentTemplate="{StaticResource SeferTarihTemplate}" />
                     <ContentPresenter Grid.Column="1"
                         Margin="3"
-                        ContentTemplate="{StaticResource SimpleItemSeferTemplate}" />
+                        ContentTemplate="{StaticResource ŞehirSeferTemplate}" />
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="MasrafTemplate">

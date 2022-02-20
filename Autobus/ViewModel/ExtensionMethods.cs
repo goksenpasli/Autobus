@@ -42,7 +42,7 @@ namespace Autobus.ViewModel
                 araçMasraf.Açıklama = sefer.Key;
                 araçMasraf.MasrafKarşılananTutar = sefer.SelectMany(z => z.Masraf).Where(z => z.Karşılandı).Sum(z => z.Tutar);
                 araçMasraf.ToplamTutar = sefer.SelectMany(z => z.Masraf).Sum(z => z.Tutar);
-                araçMasraf.Oran = araçMasraf.MasrafKarşılananTutar / araçMasraf.ToplamTutar;
+                araçMasraf.Oran = !double.IsNaN(araçMasraf.MasrafKarşılananTutar / araçMasraf.ToplamTutar) ? araçMasraf.MasrafKarşılananTutar / araçMasraf.ToplamTutar : 0;
                 return araçMasraf;
             });
         }

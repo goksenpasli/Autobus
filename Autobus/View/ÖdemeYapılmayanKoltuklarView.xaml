@@ -41,7 +41,7 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox IsEnabled="False"
-                                        ItemTemplate="{StaticResource SimpleItemSeferTemplate}"
+                                        ItemTemplate="{StaticResource ŞehirSeferTemplate}"
                                         ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
                                         SelectedValue="{Binding DataContext.SeferId, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                         SelectedValuePath="Id"
@@ -115,7 +115,7 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox IsEnabled="False"
-                                            ItemTemplate="{StaticResource SimpleItemSeferTemplate}"
+                                            ItemTemplate="{StaticResource ŞehirSeferTemplate}"
                                             ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
                                             SelectedValue="{Binding DataContext.SeferId, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                             SelectedValuePath="Id"
