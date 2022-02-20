@@ -57,7 +57,7 @@
                         </ListBox>
                         <TextBlock Text="ARAÇ MARKASI" />
                         <ComboBox DisplayMemberPath="Açıklama"
-                            ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                            ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
                             ItemsSource="{Binding Otobüs.Markalar.Marka, Source={StaticResource MainViewModel}}"
                             SelectedValue="{Binding Araç.MarkaId}"
                             SelectedValuePath="Id" />

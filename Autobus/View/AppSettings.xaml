@@ -30,11 +30,11 @@
                             Value="{Binding Path=WebpQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
                     </HeaderedContentControl>
                     <HeaderedContentControl Header="RESİM EN">
-                        <Extension:NumericUpDownControl Maximum="1024" Minimum="120" SmallChange="1"
+                        <Extension:NumericUpDownControl Maximum="320" Minimum="1" SmallChange="1"
                             Value="{Binding Path=ResimEn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
                     </HeaderedContentControl>
                     <HeaderedContentControl Header="RESİM BOY">
-                        <Extension:NumericUpDownControl Maximum="1024" Minimum="160" SmallChange="1"
+                        <Extension:NumericUpDownControl Maximum="320" Minimum="1" SmallChange="1"
                             Value="{Binding Path=ResimBoy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
                     </HeaderedContentControl>
                     <HeaderedContentControl Header="ORTALAMA HIZ">
@@ -42,9 +42,9 @@
                             Value="{Binding Path=OrtalamaHız, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
                     </HeaderedContentControl>
                     <CheckBox Content="SÜRESİ GEÇEN SEFERLERİ GİZLE" IsChecked="{Binding Path=SüresiGeçenSeferleriGizle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" />
-                    <CheckBox Content="MÜŞTERİ RESİM GÖSTER"
+                    <CheckBox Content="RESİM GÖSTER"
                         IsChecked="{Binding Path=TümSeferlerResimGöster, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}"
-                        ToolTip="Bu İşaretliyse Tüm Seferler Ekranında Müşteri Resimleri Gösterilir." />
+                        ToolTip="Bu İşaretliyse Tüm Seferler Ekranında Resimler Gösterilir." />
                     <HeaderedContentControl Header="ANİMASYON TİPİ">
                         <ComboBox SelectedValue="{Binding Path=AnimasyonTipi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" SelectedValuePath="Tag">
                             <ComboBoxItem Content="FOLD" Tag="0" />

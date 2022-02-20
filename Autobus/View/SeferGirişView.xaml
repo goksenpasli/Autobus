@@ -15,7 +15,7 @@
                 <StackPanel>
                     <TextBlock Text="ŞOFÖR SEÇ" />
                     <ComboBox ItemTemplate="{StaticResource ComboBoxItemŞoförTemplate}"
-                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                        ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
                         ItemsSource="{Binding Otobüs.Şöförler.Şöför, Source={StaticResource MainViewModel}}"
                         SelectedValue="{Binding Sefer.ŞöförId}"
                         SelectedValuePath="Id">
@@ -35,7 +35,7 @@
                                 Height="150"
                                 IsTextSearchEnabled="True"
                                 ItemTemplate="{StaticResource İlTemplate}"
-                                ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                                ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
                                 ItemsSource="{StaticResource İller}"
                                 SelectedValue="{Binding Sefer.KalkışŞehirId}"
                                 SelectedValuePath="Key" SelectionMode="Single" TextSearch.TextPath="Key" />
@@ -45,7 +45,7 @@
                                 Height="150"
                                 IsTextSearchEnabled="True"
                                 ItemTemplate="{StaticResource İlTemplate}"
-                                ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                                ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
                                 ItemsSource="{StaticResource İller}"
                                 SelectedValue="{Binding Sefer.VarışŞehirId}"
                                 SelectedValuePath="Key" SelectionMode="Single" TextSearch.TextPath="Key" />
@@ -59,7 +59,7 @@
                     <TextBlock Text="ARAÇ" />
                     <ComboBox IsSynchronizedWithCurrentItem="False"
                         ItemTemplate="{StaticResource AraçTemplate}"
-                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                        ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
                         ItemsSource="{Binding Otobüs.Araçlar.Araç, Source={StaticResource MainViewModel}}"
                         SelectedValue="{Binding Sefer.AraçId}"
                         SelectedValuePath="Id">
@@ -115,8 +115,8 @@
                             <ComboBox x:Name="CbSefer"
                                 HorizontalContentAlignment="Stretch"
                                 ItemContainerStyle="{StaticResource ComboBoxSüresiGeçenSeferItemContainerStyle}"
-                                ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
-                                ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                                ItemTemplate="{StaticResource ItemSeferTemplate}"
+                                ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
                                 ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
                                 SelectedItem="{Binding SeçiliSefer}" />
                             <UniformGrid Columns="3" IsEnabled="{Binding ElementName=CbSefer, Path=SelectedItem, Converter={StaticResource NullableToBooleanConverter}}">

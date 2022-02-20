@@ -93,6 +93,7 @@
     <Compile Include="ViewModel\ExtensionMethods.cs" />
     <Compile Include="ViewModel\FoldEffect.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\MovableControl.cs" />
     <Compile Include="ViewModel\RippleEffect.cs" />
     <Compile Include="ViewModel\SeferGirişViewModel.cs" />
     <Compile Include="ViewModel\ShadowedImage.cs" />

@@ -43,8 +43,8 @@
                 <ComboBox x:Name="CbSefer"
                     HorizontalContentAlignment="Stretch"
                     ItemContainerStyle="{StaticResource ComboBoxSüresiGeçenSeferItemContainerStyle}"
-                    ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
-                    ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                    ItemTemplate="{StaticResource ItemSeferTemplate}"
+                    ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
                     ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
                     SelectedItem="{Binding SeçiliSefer}" />
                 <GroupBox DataContext="{Binding SelectedItem, ElementName=CbAraç}" Grid.Row="1">
@@ -71,7 +71,7 @@
                                 VerticalContentAlignment="Center"
                                 d:Width="200" IsEnabled="False"
                                 ItemTemplate="{StaticResource AraçTemplate}"
-                                ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                                ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
                                 ItemsSource="{Binding Otobüs.Araçlar.Araç, Source={StaticResource MainViewModel}}"
                                 SelectedItem="{Binding YolcuDüzenViewModel.SeçiliAraç, Source={StaticResource MainViewModel}}"
                                 SelectedValue="{Binding SelectedItem.AraçId, ElementName=CbSefer}"
@@ -93,7 +93,11 @@
                                         <DataTemplate>
                                             <Viewbox>
                                                 <StackPanel Width="75" Height="75"
-                                                    d:Visibility="Visible">
+                                                    d:Visibility="Visible"
+                                                    viewmodel:MovableControl.DraggedData="{Binding ElementName=Tb, Path=DataContext}"
+                                                    viewmodel:MovableControl.PlacedData="{Binding}"
+                                                    AllowDrop="{Binding ElementName=Tb, Path=DataContext, Converter={StaticResource NullableToBooleanConverter}, ConverterParameter=reverse}"
+                                                    Cursor="SizeAll" Drop="StackPanel_Drop" MouseDown="StackPanel_MouseDown">
                                                     <StackPanel.Visibility>
                                                         <MultiBinding Converter="{StaticResource KoltukNoGizlenenKoltuklarConverter}">
                                                             <Binding Mode="OneWay" />
@@ -117,7 +121,7 @@
                                                     </TextBlock>
                                                     <TextBlock x:Name="Tb"
                                                         HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                        FontSize="14" Foreground="White">
+                                                        Cursor="Arrow" FontSize="14" Foreground="White">
                                                         <TextBlock.DataContext>
                                                             <MultiBinding Converter="{StaticResource KoltukNoMüşteriConverter}">
                                                                 <Binding Mode="OneWay" />
@@ -127,7 +131,7 @@
                                                         <TextBlock.ToolTip>
                                                             <StackPanel>
                                                                 <Extensions:MaskedTextBlock Mask="(000) 000 00 00" UnmaskedText="{Binding Telefon}" />
-                                                                <ListBox ItemsSource="{Binding Sipariş}">
+                                                                <ListBox MaxHeight="100" ItemsSource="{Binding Sipariş}">
                                                                     <ListBox.ItemTemplate>
                                                                         <DataTemplate>
                                                                             <ComboBox ItemTemplate="{StaticResource ComboBoxItemSiparişTemplate}"
@@ -138,7 +142,7 @@
                                                                         </DataTemplate>
                                                                     </ListBox.ItemTemplate>
                                                                 </ListBox>
-                                                                <Image MaxWidth="128" MaxHeight="128"
+                                                                <Image MaxWidth="320" MaxHeight="320"
                                                                     Source="{Binding Resim, Converter={StaticResource FilePathMergeConverter}}" />
                                                             </StackPanel>
                                                         </TextBlock.ToolTip>

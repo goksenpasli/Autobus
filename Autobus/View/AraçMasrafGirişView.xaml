@@ -24,8 +24,8 @@
                     <TextBlock Text="SEFER" />
                     <ComboBox x:Name="CbSefer"
                         HorizontalContentAlignment="Stretch"
-                        ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
-                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                        ItemTemplate="{StaticResource ItemSeferTemplate}"
+                        ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
                         ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
                         SelectedItem="{Binding SeçiliSefer}" />
                     <TextBlock Text="MASRAF AÇIKLAMA" />
@@ -63,7 +63,7 @@
                         Background="{StaticResource Direksiyon}" />
                     <ComboBox IsEnabled="False"
                         ItemTemplate="{StaticResource AraçTemplate}"
-                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                        ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
                         ItemsSource="{Binding Otobüs.Araçlar.Araç, Source={StaticResource MainViewModel}}"
                         SelectedItem="{Binding SeçiliAraç}"
                         SelectedValue="{Binding ElementName=CbSefer, Path=SelectedItem.AraçId}"

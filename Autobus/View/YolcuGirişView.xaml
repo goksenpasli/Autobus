@@ -50,7 +50,11 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="381.953" />
                 </Grid.ColumnDefinitions>
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid Grid.RowSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="209.6" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
                     <StackPanel>
                         <TextBlock Text="YOLCU ADI" />
                         <TextBox Text="{Binding Müşteri.Ad, UpdateSourceTrigger=PropertyChanged}" />
@@ -80,38 +84,47 @@
                                 <TextBlock Text="YOLCU RESİM EKLE" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
-                        <GroupBox Header="SEFER">
-                            <StackPanel>
-                                <ComboBox x:Name="CbSefer"
-                                    HorizontalContentAlignment="Stretch"
-                                    ItemContainerStyle="{StaticResource ComboBoxSüresiGeçenSeferItemContainerStyle}"
-                                    ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
-                                    ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
-                                    ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
-                                    SelectedItem="{Binding SeçiliSefer}" />
-                                <CheckBox VerticalContentAlignment="Center" IsChecked="{Binding Müşteri.BiletÖdendi}">
-                                    <CheckBox.Content>
-                                        <TextBlock FontSize="16" Foreground="Red">
-                                            <Run Text="BİLET PARASI ÖDENDİ" />
-                                            <Separator />
-                                            <Run Text="{Binding SeçiliSefer.BiletTutarı, StringFormat=\{0:C\}}" Language="tr-tr" />
-                                        </TextBlock>
-                                    </CheckBox.Content>
-                                </CheckBox>
-                                <Button Command="{Binding MüşteriEkle}">
-                                    <Button.Content>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Width="32" Height="32"
-                                                Source="/Resources/car-sharing.png" />
-                                            <TextBlock Text="YOLCU EKLE" VerticalAlignment="Center" />
-                                        </StackPanel>
-                                    </Button.Content>
-                                </Button>
-                            </StackPanel>
-                        </GroupBox>
                     </StackPanel>
-                </ScrollViewer>
-                <GroupBox Grid.Column="1" Width="400">
+                    <GroupBox Grid.Row="1" Header="SEFER">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <ListBox x:Name="CbSefer"
+                                HorizontalContentAlignment="Stretch"
+                                d:ItemsSource="{d:SampleData ItemCount=5}"
+                                ItemContainerStyle="{StaticResource ListBoxSüresiGeçenSeferItemContainerStyle}"
+                                ItemTemplate="{StaticResource ItemSeferTemplate}"
+                                ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
+                                ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
+                                SelectedItem="{Binding SeçiliSefer}" />
+                            <CheckBox Grid.Row="1"
+                                VerticalContentAlignment="Center"
+                                IsChecked="{Binding Müşteri.BiletÖdendi}">
+                                <CheckBox.Content>
+                                    <TextBlock FontSize="16" Foreground="Red">
+                                        <Run Text="BİLET PARASI ÖDENDİ" />
+                                        <Separator />
+                                        <Run Text="{Binding SeçiliSefer.BiletTutarı, StringFormat=\{0:C\}}" Language="tr-tr" />
+                                    </TextBlock>
+                                </CheckBox.Content>
+                            </CheckBox>
+                            <Button Grid.Row="2" Command="{Binding MüşteriEkle}">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="32" Height="32"
+                                            Source="/Resources/car-sharing.png" />
+                                        <TextBlock Text="YOLCU EKLE" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+                <GroupBox Grid.RowSpan="2" Grid.Column="1"
+                    Width="300">
                     <GroupBox.Header>
                         <StackPanel Orientation="Horizontal">
                             <Canvas Width="96" Height="96"
@@ -181,58 +194,12 @@
                         </ListBox.ItemContainerStyle>
                     </ListBox>
                 </GroupBox>
-                <GroupBox Grid.Row="2" Grid.ColumnSpan="2"
-                    Header="SİPARİŞ">
-                    <UniformGrid Columns="2">
-                        <GroupBox Header="ÜRÜN GİRİŞİ">
-                            <StackPanel DataContext="{Binding Ürün}">
-                                <TextBlock Text="ÜRÜN ADI" />
-                                <TextBox Text="{Binding ÜrünAçıklama, UpdateSourceTrigger=PropertyChanged}" />
-                                <TextBlock Text="ÜRÜN FİYATI" />
-                                <Extensions:NumericUpDownControl Maximum="1000" Minimum="0" ShowMode="CurrencyMode"
-                                    Value="{Binding ÜrünFiyat, UpdateSourceTrigger=PropertyChanged}" />
-                                <Button Command="{Binding YolcuGirişViewModel.ÜrünEkle, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding Otobüs.Ürünler, Source={StaticResource MainViewModel}}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Width="16" Height="16">
-                                            <Image.Source>
-                                                <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                                    <Binding Source="Shell32.dll" />
-                                                    <Binding Source="144" />
-                                                </MultiBinding>
-                                            </Image.Source>
-                                        </Image>
-                                        <TextBlock Text="EKLE" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-                        </GroupBox>
-                        <GroupBox Header="ÜRÜN SAT">
-                            <ListBox HorizontalContentAlignment="Stretch"
-                                d:ItemsSource="{d:SampleData ItemCount=5}"
-                                ItemsSource="{Binding Otobüs.Ürünler.Ürün, Source={StaticResource MainViewModel}}"
-                                SelectedItem="{Binding SeçiliÜrün}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock VerticalAlignment="Center">
-                                            <Run Text="{Binding ÜrünAçıklama}" />
-                                            <Run Text="{Binding ÜrünFiyat, StringFormat=\{0:C\}\&#x09;\&#x09;}" Language="tr-tr" />
-                                            <TextBlock>
-                                                <Hyperlink Command="{Binding YolcuGirişViewModel.MüşteriSiparişEkle, Mode=OneWay, Source={StaticResource MainViewModel}}">
-                                                    <Run Text="ÜRÜN SAT" />
-                                                </Hyperlink>
-                                            </TextBlock>
-                                        </TextBlock>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </GroupBox>
-                    </UniformGrid>
-                </GroupBox>
                 <GroupBox DataContext="{Binding SeçiliAraç}"
                     Grid.RowSpan="2" Grid.Column="2"
                     Header="OTURAN LİSTESİ">
                     <Grid>
                         <Grid.RowDefinitions>
+                            <RowDefinition />
                             <RowDefinition />
                             <RowDefinition Height="189.9" />
                         </Grid.RowDefinitions>
@@ -252,7 +219,53 @@
                                 </Style>
                             </ListBox.ItemContainerStyle>
                         </ListBox>
-                        <Grid Grid.Row="1"
+                        <GroupBox Grid.Row="1" Header="SİPARİŞ">
+                            <UniformGrid Columns="2">
+                                <GroupBox Header="ÜRÜN GİRİŞİ">
+                                    <StackPanel DataContext="{Binding YolcuGirişViewModel.Ürün, Source={StaticResource MainViewModel}}">
+                                        <TextBlock Text="ÜRÜN ADI" />
+                                        <TextBox Text="{Binding ÜrünAçıklama, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBlock Text="ÜRÜN FİYATI" />
+                                        <Extensions:NumericUpDownControl Maximum="1000" Minimum="0" ShowMode="CurrencyMode"
+                                            Value="{Binding ÜrünFiyat, UpdateSourceTrigger=PropertyChanged}" />
+                                        <Button Command="{Binding YolcuGirişViewModel.ÜrünEkle, Mode=OneWay, Source={StaticResource MainViewModel}}" CommandParameter="{Binding Otobüs.Ürünler, Source={StaticResource MainViewModel}}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Width="16" Height="16">
+                                                    <Image.Source>
+                                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                            <Binding Source="Shell32.dll" />
+                                                            <Binding Source="144" />
+                                                        </MultiBinding>
+                                                    </Image.Source>
+                                                </Image>
+                                                <TextBlock Text="EKLE" VerticalAlignment="Center" />
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="ÜRÜN SAT">
+                                    <ListBox HorizontalContentAlignment="Stretch"
+                                        d:ItemsSource="{d:SampleData ItemCount=5}"
+                                        ItemsSource="{Binding Otobüs.Ürünler.Ürün, Source={StaticResource MainViewModel}}"
+                                        SelectedItem="{Binding YolcuGirişViewModel.SeçiliÜrün, Source={StaticResource MainViewModel}}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock VerticalAlignment="Center">
+                                                    <Run Text="{Binding ÜrünAçıklama}" />
+                                                    <Run Text="{Binding ÜrünFiyat, StringFormat=\{0:C\}\&#x09;\&#x09;}" Language="tr-tr" />
+                                                    <TextBlock IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}">
+                                                        <Hyperlink Command="{Binding YolcuGirişViewModel.MüşteriSiparişEkle, Mode=OneWay, Source={StaticResource MainViewModel}}">
+                                                            <Run Text="ÜRÜN SAT" />
+                                                        </Hyperlink>
+                                                    </TextBlock>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </GroupBox>
+                            </UniformGrid>
+                        </GroupBox>
+                        <Grid Grid.Row="2"
                             Width="10cm"
                             HorizontalAlignment="Left">
                             <Grid.RowDefinitions>

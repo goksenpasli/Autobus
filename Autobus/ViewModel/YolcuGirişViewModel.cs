@@ -64,7 +64,7 @@ namespace Autobus.ViewModel
 
             MüşteriSiparişEkle = new RelayCommand<object>(parameter =>
              {
-                 if (MessageBox.Show("Seçili Ürünü Müşteriye Satmak İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                 if (MessageBox.Show($"Seçili Ürünü {SeçiliMüşteri.Ad} {SeçiliMüşteri.Soyad} Adlı Müşteriye Satmak İstiyor Musun?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                  {
                      Sipariş sipariş = new();
                      sipariş.Id = ExtensionMethods.RandomNumber();

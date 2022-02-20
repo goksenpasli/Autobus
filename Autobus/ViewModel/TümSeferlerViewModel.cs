@@ -52,7 +52,7 @@ namespace Autobus.ViewModel
 
             SeferGüncelle = new RelayCommand<object>(parameter =>
             {
-                if (parameter is Sefer seçilisefer && SeferKontrol(seçilisefer))
+                if (parameter is Sefer seçilisefer && SeferKontrol(seçilisefer, SeçiliAraç, SeçiliMüşteri))
                 {
                     if (MessageBox.Show($"{SeçiliMüşteri.Ad} {SeçiliMüşteri.Soyad} Adlı Müşterinin Seferini Değiştirmek İstiyor Musun?", Application.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                     {
@@ -126,20 +126,20 @@ namespace Autobus.ViewModel
             return "TÜM SEFERLER";
         }
 
-        private bool SeferKontrol(Sefer seçilisefer)
+        private bool SeferKontrol(Sefer seçilisefer, Araç seçiliaraç, Müşteri seçilimüşteri)
         {
-            if (seçilisefer.AraçId != SeçiliAraç.Id)
+            if (seçilisefer.AraçId != seçiliaraç.Id)
             {
                 MessageBox.Show("Sadece Aynı Araçta Taşıma İşlemi Yapılır.", Application.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return false;
             }
-            if (seçilisefer.Müşteri.Any(z => (z.KoltukDolu || z.BiletÖdendi) && z.KoltukNo == SeçiliMüşteri?.KoltukNo))
+            if (seçilisefer.Müşteri.Any(z => (z.KoltukDolu || z.BiletÖdendi) && z.KoltukNo == seçilimüşteri?.KoltukNo))
             {
                 MessageBox.Show("Bu Seferde Belirtilen Koltuk Doludur Veya Bilet Ödemesi Vardır.", Application.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return false;
             }
 
-            double? şuankiseferbilettutarı = SeçiliMüşteri?.SeçiliSefer?.BiletTutarı;
+            double? şuankiseferbilettutarı = seçilimüşteri?.SeçiliSefer?.BiletTutarı;
             double taşınacakseferbilettutarı = seçilisefer.BiletTutarı;
             if (taşınacakseferbilettutarı > şuankiseferbilettutarı)
             {

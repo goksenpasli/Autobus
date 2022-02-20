@@ -53,7 +53,7 @@
             <ObjectDataProvider x:Key="ColorList"
                 MethodName="GetProperties"
                 ObjectInstance="{x:Type Colors}" />
-            <ItemsPanelTemplate x:Key="ComboBoxItemsVirtualizedPanel">
+            <ItemsPanelTemplate x:Key="ItemsVirtualizedPanel">
                 <VirtualizingStackPanel />
             </ItemsPanelTemplate>
             <Style TargetType="ComboBox">
@@ -100,6 +100,27 @@
                 <Setter Property="Foreground" Value="Red" />
             </Style>
             <Style x:Key="ComboBoxSüresiGeçenSeferItemContainerStyle" TargetType="{x:Type ComboBoxItem}">
+                <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Setter Property="ToolTip" Value="Bu Seferin Süresi Geçmiştir." />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding İptal}" Value="true">
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Setter Property="ToolTip" Value="Bu Sefer İptal Edilmiştir." />
+                    </DataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true" />
+                            <Condition Binding="{Binding Path=SüresiGeçenSeferleriGizle, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" Value="true" />
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </MultiDataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="ListBoxSüresiGeçenSeferItemContainerStyle" TargetType="{x:Type ListBoxItem}">
                 <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding VarışZamanı, Converter={StaticResource SeferSüreGeçtiConverter}}" Value="true">
@@ -308,7 +329,7 @@
                 </StackPanel>
             </DataTemplate>
             <DataTemplate x:Key="ListBoxMüşteriTemplate">
-                <TextBlock>                    
+                <TextBlock>
                     <Run Text="{Binding KoltukNo, StringFormat={}{0} NOLU KOLTUK\&#x09;\&#x09;}" />
                     <Run Text="{Binding Ad}" />
                     <Run Text="{Binding Soyad}" />
@@ -387,7 +408,7 @@
                     </StackPanel>
                 </Border>
             </DataTemplate>
-            <DataTemplate x:Key="ComboBoxItemSeferTemplate">
+            <DataTemplate x:Key="ItemSeferTemplate">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -407,8 +428,21 @@
                                         <StackPanel Margin="2" Orientation="Horizontal">
                                             <ViewModel:ShadowedImage MaxWidth="64" MaxHeight="64"
                                                 ShowOverlayColor="{Binding DataContext.İptal, RelativeSource={RelativeSource AncestorType=ComboBox}}"
-                                                ShowShadow="True"
-                                                Source="{Binding Resim, Mode=OneWay, Converter={StaticResource FilePathMergeConverter}}" />
+                                                ShowShadow="True">
+                                                <ViewModel:ShadowedImage.Style>
+                                                    <Style TargetType="ViewModel:ShadowedImage">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding TümSeferlerResimGöster, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" Value="true">
+                                                                <Setter Property="Source">
+                                                                    <Setter.Value>
+                                                                        <Binding Converter="{StaticResource FilePathMergeConverter}" Path="Resim" />
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ViewModel:ShadowedImage.Style>
+                                            </ViewModel:ShadowedImage>
                                             <TextBlock VerticalAlignment="Center">
                                                 <Run Text="{Binding Ad}" />
                                                 <LineBreak />
@@ -476,8 +510,8 @@
                     </TextBlock>
                     <ComboBox HorizontalContentAlignment="Stretch"
                         d:Width="48"
-                        ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
-                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                        ItemTemplate="{StaticResource ItemSeferTemplate}"
+                        ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
                         ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
                         SelectedValue="{Binding SeferId}"
                         SelectedValuePath="Id"

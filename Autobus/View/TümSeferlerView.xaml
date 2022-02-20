@@ -32,11 +32,12 @@
                                 <DataTemplate>
                                     <Grid>
                                         <Ellipse Width="32" Height="32"
-                                            d:Fill="Blue"
-                                            Fill="{Binding SeçiliSefer.Renk, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
+                                            d:Stroke="Black"
+                                            Stroke="{Binding SeçiliSefer.Renk, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+                                            StrokeThickness="1" />
                                         <TextBlock Text="{Binding SeçiliSefer.Başlık, Mode=OneWay}"
                                             HorizontalAlignment="Center" VerticalAlignment="Center"
-                                            d:Foreground="White" FontStyle="Italic" FontWeight="Bold" />
+                                            d:Foreground="Black" FontStyle="Italic" FontWeight="Bold" />
                                     </Grid>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -45,11 +46,12 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <viewmodel:ShadowedImage MaxWidth="90" MaxHeight="110"
+                                        ShowOverlayColor="{Binding Biletİade}"
                                         ShowShadow="True">
                                         <viewmodel:ShadowedImage.Style>
                                             <Style TargetType="viewmodel:ShadowedImage">
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding TümSeferlerResimGöster, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" Value="true">
+                                                    <DataTrigger Binding="{Binding TümSeferlerResimGöster, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}" Value="true">
                                                         <Setter Property="Source">
                                                             <Setter.Value>
                                                                 <Binding Converter="{StaticResource FilePathMergeConverter}" Path="Resim" />
@@ -78,17 +80,31 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Extensions:GridViewSort.PropertyName="Ad" DisplayMemberBinding="{Binding Ad}">
+                        <GridViewColumn Extensions:GridViewSort.PropertyName="Ad">
                             <Extensions:ButtonedTextBox Text="{Binding MüşteriAdArama, Delay=500, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                                 Width="55"
                                 VerticalContentAlignment="Center"
                                 IsTabStop="False" />
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Ad}"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        FontSize="18" FontWeight="Bold" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Extensions:GridViewSort.PropertyName="Soyad" DisplayMemberBinding="{Binding Soyad}">
+                        <GridViewColumn Extensions:GridViewSort.PropertyName="Soyad">
                             <Extensions:ButtonedTextBox Text="{Binding MüşteriSoyadArama, Delay=500, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                                 Width="55"
                                 VerticalContentAlignment="Center"
                                 IsTabStop="False" />
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Soyad}"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        FontSize="18" FontWeight="Bold" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Extensions:GridViewSort.PropertyName="Telefon">
                             <GridViewColumn.Header>
@@ -109,7 +125,7 @@
                                     <TextBlock Text="KALKIŞ&#x0a;İLİ " VerticalAlignment="Center" />
                                     <ComboBox VerticalContentAlignment="Center"
                                         ItemTemplate="{StaticResource İlİsimTemplate}"
-                                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                                        ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
                                         SelectedValue="{Binding KalkışŞehirAramaId}"
                                         SelectedValuePath="Key">
                                         <ComboBox.ItemsSource>
@@ -122,7 +138,7 @@
                                     <TextBlock Text="VARIŞ&#x0a;İLİ " VerticalAlignment="Center" />
                                     <ComboBox VerticalContentAlignment="Center"
                                         ItemTemplate="{StaticResource İlİsimTemplate}"
-                                        ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                                        ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
                                         SelectedValue="{Binding VarışŞehirAramaId}"
                                         SelectedValuePath="Key">
                                         <ComboBox.ItemsSource>
@@ -141,8 +157,8 @@
                                             HorizontalContentAlignment="Stretch"
                                             IsEnabled="False"
                                             ItemContainerStyle="{StaticResource ComboBoxSüresiGeçenSeferItemContainerStyle}"
-                                            ItemTemplate="{StaticResource ComboBoxItemSeferTemplate}"
-                                            ItemsPanel="{StaticResource ComboBoxItemsVirtualizedPanel}"
+                                            ItemTemplate="{StaticResource ItemSeferTemplate}"
+                                            ItemsPanel="{StaticResource ItemsVirtualizedPanel}"
                                             ItemsSource="{Binding Otobüs.Sefer, Source={StaticResource MainViewModel}}"
                                             SelectedItem="{Binding SeçiliSefer}"
                                             SelectedValue="{Binding SeferId}"
@@ -251,7 +267,7 @@
                                                 </Image.Source>
                                             </Image>
                                         </MenuItem.Icon>
-                                    </MenuItem>  
+                                    </MenuItem>
                                     <MenuItem Command="{Binding TümSeferlerViewModel.Biletİade, Mode=OneWay, Source={StaticResource MainViewModel}}"
                                         CommandParameter="{Binding Mode=OneWay}"
                                         Header="BİLET İADE">
