@@ -70,17 +70,24 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Extensions:GridViewSort.PropertyName="KoltukNo">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="KOLTUK NO" />
-                                <Extensions:MaskedTextBox Width="32"
+                            <StackPanel>
+                                <TextBlock Text="KOLTUK&#x0a;NO" />
+                                <Extensions:MaskedTextBox Width="45"
                                     IncludeLiterals="False" IncludePrompt="False" Mask="0000"
                                     Value="{Binding MüşteriKoltukNoArama, Delay=500, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding KoltukNo}"
-                                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                                        FontSize="18" FontWeight="Bold" />
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        FontSize="18" FontWeight="Bold"
+                                        IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}"
+                                        ToolTip="Koltuk Göster">
+                                        <Hyperlink Command="{Binding TümSeferlerViewModel.KoltukGit, Mode=OneWay, Source={StaticResource MainViewModel}}"
+                                            CommandParameter="{Binding ElementName=LbKoltuk}"
+                                            TextDecorations="None">
+                                            <Run Text="{Binding KoltukNo}" />
+                                        </Hyperlink>
+                                    </TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -121,9 +128,9 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Width="330" Extensions:GridViewSort.PropertyName="SeçiliSefer.KalkışZamanı">
+                        <GridViewColumn Width="200" Extensions:GridViewSort.PropertyName="SeçiliSefer.KalkışZamanı">
                             <GridViewColumn.Header>
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel>
                                     <StackPanel.Resources>
                                         <Style TargetType="ComboBox">
                                             <Setter Property="ItemTemplate" Value="{StaticResource İlİsimTemplate}" />
@@ -131,12 +138,14 @@
                                             <Setter Property="ItemsSource" Value="{StaticResource İllerMerged}" />
                                         </Style>
                                     </StackPanel.Resources>
-                                    <TextBlock Text="KALKIŞ&#x0a;TARİHİ " VerticalAlignment="Center" />
-                                    <DatePicker VerticalContentAlignment="Center" SelectedDate="{Binding KalkışTarihArama}" />
-                                    <HeaderedContentControl Header="KALKIŞ İLİ">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="KALKIŞ TARİHİ " VerticalAlignment="Center" />
+                                        <DatePicker VerticalContentAlignment="Center" SelectedDate="{Binding KalkışTarihArama}" />
+                                    </StackPanel>
+                                    <HeaderedContentControl Header="KALKIŞ İLİ" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                                         <ComboBox SelectedValue="{Binding KalkışŞehirAramaId}" SelectedValuePath="Key" />
                                     </HeaderedContentControl>
-                                    <HeaderedContentControl Header="VARIŞ İLİ">
+                                    <HeaderedContentControl Header="VARIŞ İLİ" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                                         <ComboBox SelectedValue="{Binding VarışŞehirAramaId}" SelectedValuePath="Key" />
                                     </HeaderedContentControl>
                                 </StackPanel>
@@ -454,19 +463,29 @@
                             </StackPanel>
                         </UniformGrid>
                     </GroupBox.Header>
-                    <ListBox HorizontalContentAlignment="Center"
+                    <ListBox x:Name="LbKoltuk"
+                        HorizontalContentAlignment="Center"
                         d:ItemsSource="{d:SampleData ItemCount=5}"
-                        IsTextSearchEnabled="False"
+                        IsHitTestVisible="False" IsTextSearchEnabled="False"
                         ItemsSource="{Binding SeçiliAraç.KoltukÖnizlemeListe}"
-                        SelectedItem="{Binding SeçiliMüşteri.KoltukNo, Mode=OneWay}"
                         SelectionMode="Single">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Border Width="32" Height="32"
+                                <Border Width="28" Height="28"
                                     Background="{StaticResource Koltuk}">
                                     <TextBlock Text="{Binding}"
-                                        HorizontalAlignment="Center"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
                                         Foreground="White" />
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="true">
+                                                    <Setter Property="BorderBrush" Value="Red" />
+                                                    <Setter Property="BorderThickness" Value="2" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
                                 </Border>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

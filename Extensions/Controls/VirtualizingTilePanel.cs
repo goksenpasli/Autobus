@@ -621,6 +621,16 @@ namespace Extensions
             InvalidateMeasure();
         }
 
+        protected override void BringIndexIntoView(int index)
+        {
+            SetVerticalOffset(GetOffsetForFirstVisibleIndex(index).Height);
+        }
+
+        private Size GetOffsetForFirstVisibleIndex(int index)
+        {
+            return new Size(_offset.X, index * ChildHeight / CalculateChildrenPerRow(_extent));
+        }
+
         #endregion Methods
 
         #region Fields

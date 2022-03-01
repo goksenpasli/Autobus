@@ -7,7 +7,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Autobus.ViewModel
 {
@@ -73,6 +75,17 @@ namespace Autobus.ViewModel
                     OnPropertyChanged(nameof(SeçiliMüşteri));
                 }
             }, parameter => true);
+
+            KoltukGit = new RelayCommand<object>(parameter =>
+            {
+                if (parameter is ListBox listBox && SeçiliMüşteri is not null)
+                {
+                    listBox.SelectedItem = null;
+                    listBox.ScrollIntoView(SeçiliMüşteri.KoltukNo);
+                    listBox.SelectedItem = SeçiliMüşteri.KoltukNo;
+                }
+            }, parameter => SeçiliMüşteri is not null);
+
             PropertyChanged += TümSeferlerViewModel_PropertyChanged;
         }
 
@@ -89,6 +102,8 @@ namespace Autobus.ViewModel
         public int KalkışŞehirAramaId { get; set; }
 
         public DateTime? KalkışTarihArama { get; set; }
+
+        public ICommand KoltukGit { get; }
 
         public string MüşteriAdArama { get; set; }
 

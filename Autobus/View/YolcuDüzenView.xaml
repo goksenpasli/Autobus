@@ -87,13 +87,13 @@
                             <DataTemplate>
                                 <ItemsControl Grid.Row="1"
                                     Margin="0,3,0,0"
+                                    d:ItemsSource="{d:SampleData ItemCount=10}"
                                     ItemsSource="{Binding KoltukÖnizlemeListe}"
                                     Style="{StaticResource VirtualizingStackPanelItemsControl}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Viewbox>
+                                            <Viewbox d:Height="32" d:Width="32">
                                                 <StackPanel Width="75" Height="75"
-                                                    d:Visibility="Visible"
                                                     viewmodel:MovableControl.DraggedData="{Binding ElementName=Tb, Path=DataContext}"
                                                     viewmodel:MovableControl.PlacedData="{Binding}"
                                                     AllowDrop="{Binding ElementName=Tb, Path=DataContext, Converter={StaticResource NullableToBooleanConverter}, ConverterParameter=reverse}"

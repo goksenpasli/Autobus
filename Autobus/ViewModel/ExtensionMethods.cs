@@ -188,34 +188,6 @@ namespace Autobus.ViewModel
                 : new ObservableCollection<Şöför>();
         }
 
-        public static BitmapImage ToBitmapImage(this Image bitmap, ImageFormat format, double decodeheight = 0)
-        {
-            if (bitmap != null)
-            {
-                using MemoryStream memoryStream = new();
-                bitmap.Save(memoryStream, format);
-                memoryStream.Position = 0;
-                BitmapImage image = new();
-                image.BeginInit();
-                if (decodeheight != 0)
-                {
-                    image.DecodePixelHeight = bitmap.Height > (int)decodeheight ? (int)decodeheight : bitmap.Height;
-                }
-
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.StreamSource = memoryStream;
-                image.EndInit();
-                bitmap.Dispose();
-                if (!image.IsFrozen && image.CanFreeze)
-                {
-                    image.Freeze();
-                }
-                return image;
-            }
-
-            return null;
-        }
-
         public static ObservableCollection<Ürün> ÜrünleriYükle()
         {
             return DesignerProperties.GetIsInDesignMode(new DependencyObject())

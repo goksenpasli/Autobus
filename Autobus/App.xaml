@@ -173,6 +173,23 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
+            <ControlTemplate x:Key="HorizontalHeaderedContentControlControlTemplate" TargetType="{x:Type HeaderedContentControl}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ContentPresenter Content="{TemplateBinding Header}"
+                        VerticalAlignment="Center"
+                        ContentSource="Header"
+                        ContentStringFormat="{TemplateBinding HeaderStringFormat}"
+                        ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                    <ContentPresenter Content="{TemplateBinding Content}"
+                        Grid.Column="1"
+                        ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Grid>
+            </ControlTemplate>
             <ControlTemplate x:Key="ValidationErrorTemplate">
                 <Grid Focusable="False">
                     <Canvas x:Name="Cnv"
