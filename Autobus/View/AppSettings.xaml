@@ -88,9 +88,7 @@
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
-                    <Button Grid.Row="1"
-                        Command="{Binding DatabaseSave, Source={StaticResource MainViewModel}}"
-                        CommandParameter="{Binding Mode=OneWay, Source={StaticResource MainViewModel}}">
+                    <Button Grid.Row="1" Command="{Binding DatabaseSave, Source={StaticResource MainViewModel}}">
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                             <Image Width="32" Height="32">
                                 <Image.Source>
@@ -104,6 +102,16 @@
                         </StackPanel>
                     </Button>
                 </Grid>
+            </TabItem>
+            <TabItem Header="VERİTABANI">
+                <StackPanel>
+                    <Button Content="BİR ÖNCEKİ YILA AİT&#x0a;SEFERLERİN TÜMÜNÜ SİL"
+                        Background="Yellow"
+                        Command="{Binding RemovePreviousYearData, Mode=OneWay, Source={StaticResource MainViewModel}}" />
+                    <Button Content="GEÇMİŞ TÜM YILLARA AİT&#x0a;SEFERLERİN TÜMÜNÜ SİL"
+                        Background="Red"
+                        Command="{Binding RemoveAllPreviousYearData, Mode=OneWay, Source={StaticResource MainViewModel}}" />
+                </StackPanel>
             </TabItem>
         </TabControl>
     </GroupBox>

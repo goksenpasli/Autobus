@@ -11,7 +11,20 @@
     d:DataContext="{d:DesignInstance Type=viewmodel:ÖdemeYapılmayanKoltuklarViewModel}"
     d:DesignHeight="480" d:DesignWidth="720" UseLayoutRounding="True"
     mc:Ignorable="d">
-    <GroupBox Header="ÖDEME YAPILMAYAN KOLTUKLAR">
+    <GroupBox>
+        <GroupBox.Header>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="ÖDEME YAPILMAYAN KOLTUKLAR" VerticalAlignment="Center" />
+                <Button Command="{Binding ÖdemeYapılmayanCsvDosyasınaYaz, Mode=OneWay}"
+                    IsTabStop="False" ToolTip="Excele Ver">
+                    <Image Width="16" Height="16">
+                        <Image.Source>
+                            <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".csv" />
+                        </Image.Source>
+                    </Image>
+                </Button>
+            </StackPanel>
+        </GroupBox.Header>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -103,8 +116,20 @@
                     </ListView.View>
                 </ListView>
             </GroupBox>
-            <GroupBox Grid.Row="1" Grid.Column="1"
-                Header="İADELER">
+            <GroupBox Grid.Row="1" Grid.Column="1">
+                <GroupBox.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="İADELER" VerticalAlignment="Center" />
+                        <Button Command="{Binding İadelerCsvDosyasınaYaz, Mode=OneWay}"
+                            IsTabStop="False" ToolTip="Excele Ver">
+                            <Image Width="16" Height="16">
+                                <Image.Source>
+                                    <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".csv" />
+                                </Image.Source>
+                            </Image>
+                        </Button>
+                    </StackPanel>
+                </GroupBox.Header>
                 <ListView d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding ÖdemeYapılmayanKoltuklarViewModel.Müşteriİadeler, Source={StaticResource MainViewModel}}">
                     <ListView.View>
                         <GridView>

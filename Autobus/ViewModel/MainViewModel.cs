@@ -87,6 +87,28 @@ namespace Autobus.ViewModel
 
             DatabaseSave = new RelayCommand<object>(parameter => Otobüs.Serialize());
 
+            RemovePreviousYearData = new RelayCommand<object>(parameter =>
+            {
+                if (MessageBox.Show("Bir önceki yıla ait tüm seferleri, kişileri, siparişleri silmek istiyor musun?\nBu işlem geri alınamaz işlem bitiminde program otomatik kapanacaktır.", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    DateTime başlangıçtarih = new(DateTime.Now.Year - 1, 1, 1);
+                    DateTime bitiştarih = new(DateTime.Now.Year - 1, 12, 31);
+                    RemoveData(başlangıçtarih, bitiştarih);
+                    Application.Current.MainWindow.Close();
+                }
+            });
+
+            RemoveAllPreviousYearData = new RelayCommand<object>(parameter =>
+            {
+                if (MessageBox.Show("Önceki yıllara ait tüm seferleri, kişileri, siparişleri silmek istiyor musun?\nBu işlem geri alınamaz işlem bitiminde program otomatik kapanacaktır.", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    DateTime başlangıçtarih = new(1, 1, 1);
+                    DateTime bitiştarih = new(DateTime.Now.Year - 1, 12, 31);
+                    RemoveData(başlangıçtarih, bitiştarih);
+                    Application.Current.MainWindow.Close();
+                }
+            });
+
             VeritabanınıAç = new RelayCommand<object>(parameter =>
             {
                 if (File.Exists(xmldatapath) && MessageBox.Show("Veritabanı dosyasını düzenlemek istiyor musun? Dikkat yanlış düzenleme programın açılmamasına neden olabilir. Devam edilsin mi?", App.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No) == MessageBoxResult.Yes)
@@ -195,6 +217,10 @@ namespace Autobus.ViewModel
 
         public ÖdemeYapılmayanKoltuklarViewModel ÖdemeYapılmayanKoltuklarViewModel { get; set; }
 
+        public ICommand RemoveAllPreviousYearData { get; }
+
+        public ICommand RemovePreviousYearData { get; }
+
         public double Ripple { get; set; }
 
         public ICommand SeferGirişEkranı { get; }
@@ -281,6 +307,15 @@ namespace Autobus.ViewModel
                         }
                 }
             }
+        }
+
+        private void RemoveData(DateTime başlangıçtarih, DateTime bitiştarih)
+        {
+            foreach (Sefer item in Otobüs?.Sefer?.Where(z => z.VarışZamanı <= bitiştarih && z.VarışZamanı >= başlangıçtarih).ToList())
+            {
+                Otobüs.Sefer.Remove(item);
+            }
+            DatabaseSave.Execute(null);
         }
     }
 }
