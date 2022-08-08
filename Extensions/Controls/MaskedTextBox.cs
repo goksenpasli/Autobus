@@ -258,10 +258,7 @@ namespace Extensions
 
         private string ConvertValueToText(object value)
         {
-            if (value == null)
-            {
-                value = string.Empty;
-            }
+            value ??= string.Empty;
 
             if (_convertExceptionOccurred)
             {

@@ -81,7 +81,7 @@
                             <GroupBox Width="320" Height="240"
                                 Header="GRAFİK">
                                 <Extension:GraphControl Series="{Binding ÖdemeYapılmayanKoltuklarViewModel.GrafikVerileri, Source={StaticResource MainViewModel}}"
-                                    SeriesListVisibility="Collapsed" SeriesTextVisibility="Visible" />
+                                     SeriesTextVisibility="Visible" />
                             </GroupBox>
                         </Extension:ContentToggleButton>
                     </StackPanel>
@@ -107,7 +107,6 @@
                                     <DataTemplate>
                                         <ProgressBar Width="60"
                                             Maximum="1"
-                                            Style="{StaticResource ProgressBarStyle}"
                                             Value="{Binding Oran}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

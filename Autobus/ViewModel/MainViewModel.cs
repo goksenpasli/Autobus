@@ -1,8 +1,4 @@
-﻿using Autobus.Model;
-using Autobus.Properties;
-using Extensions;
-using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -13,12 +9,18 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Autobus.Model;
+using Autobus.Properties;
+using Extensions;
+using Microsoft.Win32;
 
 namespace Autobus.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged
     {
         public static readonly string xmldatapath = Path.GetDirectoryName(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath) + @"\Data.xml";
+
+        private DispatcherTimer timer;
 
         public MainViewModel()
         {
@@ -209,7 +211,7 @@ namespace Autobus.ViewModel
 
         public object CurrentView { get; set; }
 
-        public double Fold { get; set; } = 0.5;
+        public double Fold { get; set; }
 
         public Otobüs Otobüs { get; set; }
 
@@ -253,13 +255,17 @@ namespace Autobus.ViewModel
 
         public YolcuGirişViewModel YolcuGirişViewModel { get; set; }
 
-        private DispatcherTimer timer;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            Fold = 0;
-            Ripple = 0;
-            Settings.Default.Save();
+            if (e.PropertyName is "AnimasyonTipi")
+            {
+                Settings.Default.Save();
+            }
         }
 
         private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -313,7 +319,7 @@ namespace Autobus.ViewModel
         {
             foreach (Sefer item in Otobüs?.Sefer?.Where(z => z.VarışZamanı <= bitiştarih && z.VarışZamanı >= başlangıçtarih).ToList())
             {
-                Otobüs.Sefer.Remove(item);
+                _ = Otobüs.Sefer.Remove(item);
             }
             DatabaseSave.Execute(null);
         }

@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -11,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 
 namespace Extensions
 {
@@ -28,6 +28,8 @@ namespace Extensions
         public static readonly DependencyProperty DecodeHeightProperty = DependencyProperty.Register("DecodeHeight", typeof(int), typeof(ImageViewer), new PropertyMetadata(300, DecodeHeightChanged));
 
         public static readonly DependencyProperty ImageFilePathProperty = DependencyProperty.Register("ImageFilePath", typeof(string), typeof(ImageViewer), new PropertyMetadata(null, ImageFilePathChanged));
+
+        public static readonly DependencyProperty SnapTickProperty = DependencyProperty.Register("SnapTick", typeof(bool), typeof(ImageViewer), new PropertyMetadata(false));
 
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(ImageSource), typeof(ImageViewer), new PropertyMetadata(null, SourceChanged));
 
@@ -49,28 +51,15 @@ namespace Extensions
                 }
             });
 
-            ViewerBack = new RelayCommand<object>(parameter =>
-            {
-                Sayfa--;
-                Source = Decoder.Frames[Sayfa - 1];
-            }, parameter => Decoder != null && Sayfa > 1 && Sayfa <= Decoder.Frames.Count);
+            ViewerBack = new RelayCommand<object>(parameter => Sayfa--, parameter => Decoder != null && Sayfa > 1 && Sayfa <= Decoder.Frames.Count);
 
-            ViewerNext = new RelayCommand<object>(parameter =>
-            {
-                Sayfa++;
-                Source = Decoder.Frames[Sayfa - 1];
-            }, parameter => Decoder != null && Sayfa >= 1 && Sayfa < Decoder.Frames.Count);
+            ViewerNext = new RelayCommand<object>(parameter => Sayfa++, parameter => Decoder != null && Sayfa >= 1 && Sayfa < Decoder.Frames.Count);
 
             Resize = new RelayCommand<object>(parameter =>
             {
-                if (FitImageOrientation == FitImageOrientation.Width)
-                {
-                    Zoom = !double.IsNaN(Width) ? Width == 0 ? 1 : Width / Source.Width : ActualWidth == 0 ? 1 : ActualWidth / Source.Width;
-                }
-                else
-                {
-                    Zoom = !double.IsNaN(Height) ? Height == 0 ? 1 : Height / Source.Height : ActualHeight == 0 ? 1 : ActualHeight / Source.Height;
-                }
+                Zoom = FitImageOrientation == FitImageOrientation.Width
+                    ? !double.IsNaN(Width) ? Width == 0 ? 1 : Width / Source.Width : ActualWidth == 0 ? 1 : ActualWidth / Source.Width
+                    : !double.IsNaN(Height) ? Height == 0 ? 1 : Height / Source.Height : ActualHeight == 0 ? 1 : ActualHeight / Source.Height;
             }, parameter => Source is not null);
 
             OrijinalResimDosyaAç = new RelayCommand<object>(parameter => _ = Process.Start(parameter as string), parameter => !DesignerProperties.GetIsInDesignMode(new DependencyObject()) && File.Exists(parameter as string));
@@ -262,6 +251,12 @@ namespace Extensions
             }
         }
 
+        public bool SnapTick
+        {
+            get => (bool)GetValue(SnapTickProperty);
+            set => SetValue(SnapTickProperty, value);
+        }
+
         public ImageSource Source
         {
             get => (ImageSource)GetValue(SourceProperty);
@@ -278,6 +273,20 @@ namespace Extensions
                 {
                     tifNavigasyonButtonEtkin = value;
                     OnPropertyChanged(nameof(TifNavigasyonButtonEtkin));
+                }
+            }
+        }
+
+        public bool ToolBarIsEnabled
+        {
+            get => toolBarIsEnabled;
+
+            set
+            {
+                if (toolBarIsEnabled != value)
+                {
+                    toolBarIsEnabled = value;
+                    OnPropertyChanged(nameof(ToolBarIsEnabled));
                 }
             }
         }
@@ -329,6 +338,8 @@ namespace Extensions
 
         private Visibility tifNavigasyonButtonEtkin = Visibility.Collapsed;
 
+        private bool toolBarIsEnabled = true;
+
         private Visibility toolBarVisibility;
 
         private static void DecodeHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -360,53 +371,88 @@ namespace Extensions
         {
             if (filepath is not null)
             {
-                if (Path.GetExtension(filepath).ToLower() is ".tiff" or ".tif")
+                switch (Path.GetExtension(filepath).ToLower())
                 {
-                    imageViewer.Sayfa = 1;
-                    imageViewer.Decoder = new TiffBitmapDecoder(new Uri(filepath), BitmapCreateOptions.None, BitmapCacheOption.None);
-                    imageViewer.TifNavigasyonButtonEtkin = Visibility.Visible;
-                    imageViewer.Source = imageViewer.Decoder.Frames[0];
-                    imageViewer.Pages = Enumerable.Range(1, imageViewer.Decoder.Frames.Count);
-                }
-                else if (Path.GetExtension(filepath).ToLower() is ".png" or ".jpg" or ".jpeg")
-                {
-                    imageViewer.TifNavigasyonButtonEtkin = Visibility.Collapsed;
-                    BitmapImage image = new();
-                    image.BeginInit();
-                    image.DecodePixelHeight = imageViewer.DecodeHeight;
-                    image.CacheOption = BitmapCacheOption.None;
-                    image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-                    image.UriSource = new Uri(filepath);
-                    image.EndInit();
-                    if (!image.IsFrozen && image.CanFreeze)
-                    {
-                        image.Freeze();
-                    }
-                    imageViewer.Source = image;
-                }
-                else
-                {
-                    FormattedText formattedText = new("ÖNİZLEME YOK EVRAKI DİREKT AÇIN", CultureInfo.GetCultureInfo("tr-TR"), FlowDirection.LeftToRight, new Typeface("Arial"), 15, Brushes.Red) { TextAlignment = TextAlignment.Left };
-                    DrawingVisual dv = new();
-                    using (DrawingContext dc = dv.RenderOpen())
-                    {
-                        dc.DrawText(formattedText, new Point(10, 200));
-                    }
-                    RenderTargetBitmap rtb = new(315, 445, 96, 96, PixelFormats.Default);
-                    rtb.Render(dv);
-                    rtb.Freeze();
-                    imageViewer.Source = rtb;
+                    case ".tiff" or ".tif":
+                        imageViewer.Sayfa = 1;
+                        imageViewer.Decoder = new TiffBitmapDecoder(new Uri(filepath), BitmapCreateOptions.None, BitmapCacheOption.None);
+                        imageViewer.TifNavigasyonButtonEtkin = Visibility.Visible;
+                        imageViewer.Source = imageViewer.Decoder.Frames[0];
+                        imageViewer.Pages = Enumerable.Range(1, imageViewer.Decoder.Frames.Count);
+                        return;
+
+                    case ".png" or ".jpg" or ".jpeg":
+                        {
+                            imageViewer.TifNavigasyonButtonEtkin = Visibility.Collapsed;
+                            BitmapImage image = new();
+                            image.BeginInit();
+                            image.DecodePixelHeight = imageViewer.DecodeHeight;
+                            image.CacheOption = BitmapCacheOption.None;
+                            image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                            image.UriSource = new Uri(filepath);
+                            image.EndInit();
+                            if (!image.IsFrozen && image.CanFreeze)
+                            {
+                                image.Freeze();
+                            }
+                            imageViewer.Source = image;
+                            return;
+                        }
+
+                    default:
+                        {
+                            FormattedText formattedText = new("ÖNİZLEME YOK EVRAKI DİREKT AÇIN", CultureInfo.GetCultureInfo("tr-TR"), FlowDirection.LeftToRight, new Typeface("Arial"), 15, Brushes.Red) { TextAlignment = TextAlignment.Left };
+                            DrawingVisual dv = new();
+                            using (DrawingContext dc = dv.RenderOpen())
+                            {
+                                dc.DrawText(formattedText, new Point(10, 200));
+                            }
+                            RenderTargetBitmap rtb = new(315, 445, 96, 96, PixelFormats.Default);
+                            rtb.Render(dv);
+                            rtb.Freeze();
+                            imageViewer.Source = rtb;
+                            return;
+                        }
                 }
             }
         }
 
         private static void SourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is ImageViewer imageViewer && imageViewer.Source is not null)
+            if (d is ImageViewer imageViewer && e.NewValue is not null)
             {
-                imageViewer.Zoom = imageViewer.FitImageOrientation == FitImageOrientation.Width
-                    ? !double.IsNaN(imageViewer.Width) ? imageViewer.Width == 0 ? 1 : imageViewer.Width / imageViewer.Source.Width : imageViewer.ActualWidth == 0 ? 1 : imageViewer.ActualWidth / imageViewer.Source.Width
-                    : !double.IsNaN(imageViewer.Height) ? imageViewer.Height == 0 ? 1 : imageViewer.Height / imageViewer.Source.Height : imageViewer.ActualHeight == 0 ? 1 : imageViewer.ActualHeight / imageViewer.Source.Height;
+                switch (imageViewer.FitImageOrientation)
+                {
+                    case FitImageOrientation.Width:
+                        {
+                            if (!double.IsNaN(imageViewer.Width))
+                            {
+                                imageViewer.Zoom = imageViewer.Width == 0 ? 1 : imageViewer.Width / imageViewer.Source.Width;
+                                return;
+                            }
+                            if (imageViewer.ActualWidth == 0)
+                            {
+                                imageViewer.Zoom = 1;
+                                return;
+                            }
+                            imageViewer.Zoom = Math.Round(imageViewer.ActualWidth / imageViewer.Source.Width, 2);
+                            return;
+                        }
+
+                    default:
+                        if (!double.IsNaN(imageViewer.Height))
+                        {
+                            imageViewer.Zoom = imageViewer.Height == 0 ? 1 : imageViewer.Height / imageViewer.Source.Height;
+                            return;
+                        }
+                        if (imageViewer.ActualHeight == 0)
+                        {
+                            imageViewer.Zoom = 1;
+                            return;
+                        }
+                        imageViewer.Zoom = Math.Round(imageViewer.ActualHeight / imageViewer.Source.Height, 2);
+                        return;
+                }
             }
         }
 

@@ -226,7 +226,7 @@ namespace Extensions.Controls
             {
                 try
                 {
-                    task.StartNew(() =>
+                    _ = task.StartNew(() =>
                        {
                            _ = Dispatcher.BeginInvoke(() =>
                            {

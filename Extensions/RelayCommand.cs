@@ -69,9 +69,9 @@ namespace Extensions
         {
         }
 
-        public RelayCommand(Action<T> execute!!, Predicate<T> canExecute)
+        public RelayCommand(Action<T> execute, Predicate<T> canExecute)
         {
-            _execute = execute;
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute;
         }
 
@@ -81,8 +81,8 @@ namespace Extensions
 
         public event EventHandler CanExecuteChanged
         {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
         }
 
         [DebuggerStepThrough]
@@ -101,9 +101,9 @@ namespace Extensions
 
     public class RelayCommand : ICommand
     {
-        public RelayCommand(Action execute!!, Func<bool> canExecute)
+        public RelayCommand(Action execute, Func<bool> canExecute)
         {
-            this.execute = execute;
+            this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
             this.canExecute = canExecute;
         }
 

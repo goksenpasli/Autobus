@@ -195,6 +195,7 @@ namespace Extensions
                 case NotifyCollectionChangedAction.Remove:
                 case NotifyCollectionChangedAction.Replace:
                 case NotifyCollectionChangedAction.Reset:
+
                     //Peform layout refreshment.
                     ScrollOwner?.ScrollToTop();
                     break;

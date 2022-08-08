@@ -168,7 +168,7 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
-            <ContentPresenter Content="{Binding CurrentView}" />
+            <ContentControl Content="{Binding CurrentView}" />
         </Grid>
         <StatusBar Grid.Row="2" Background="Maroon">
             <StatusBarItem>

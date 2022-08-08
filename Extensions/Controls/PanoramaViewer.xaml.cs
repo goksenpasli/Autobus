@@ -219,7 +219,7 @@ namespace Extensions.Controls
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, Application.Current?.MainWindow?.Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    _ = MessageBox.Show(ex.Message, Application.Current?.MainWindow?.Title, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -235,7 +235,7 @@ namespace Extensions.Controls
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, Application.Current?.MainWindow?.Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    _ = MessageBox.Show(ex.Message, Application.Current?.MainWindow?.Title, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }

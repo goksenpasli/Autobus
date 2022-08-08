@@ -365,7 +365,7 @@ namespace Extensions
                     }
                 }
 
-                return (_containerLayouts.ContainsKey(idx)) ? _containerLayouts[idx].Size : _prevSize;
+                return _containerLayouts.ContainsKey(idx) ? _containerLayouts[idx].Size : _prevSize;
             });
             Size size = getSize(index);
             if (!double.IsNaN(ItemWidth))

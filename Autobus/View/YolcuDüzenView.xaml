@@ -59,9 +59,9 @@
                     <GroupBox.Header>
                         <StackPanel Orientation="Horizontal">
                             <ProgressBar Width="16"
-                                Foreground="{StaticResource ProgressBarPinkForeground}"
+                                
                                 Maximum="1" Orientation="Vertical"
-                                Style="{StaticResource ProgressBarStyle}"
+                              
                                 Value="{Binding YolcuDüzenViewModel.DolulukOranı, Mode=OneWay, Source={StaticResource MainViewModel}}" />
                             <Canvas Width="96" Height="96"
                                 HorizontalAlignment="Left" VerticalAlignment="Bottom"

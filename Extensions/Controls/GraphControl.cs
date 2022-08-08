@@ -3,12 +3,11 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Extensions
 {
-    public partial class GraphControl : Control, INotifyPropertyChanged
+    public class GraphControl : FrameworkElement, INotifyPropertyChanged
     {
         public static readonly DependencyProperty SeriesProperty = DependencyProperty.Register("Series", typeof(ObservableCollection<Chart>), typeof(GraphControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
@@ -17,32 +16,96 @@ namespace Extensions
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphControl), new FrameworkPropertyMetadata(typeof(GraphControl)));
         }
 
-        public GraphControl()
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public double FontSize
         {
-            Margin = SeriesTextVisibility == Visibility.Visible ? new Thickness(0, 12, 0, 0) : new Thickness(0);
-            PropertyChanged += GraphControl_PropertyChanged;
+            get => fontSize;
+
+            set
+            {
+                if (fontSize != value)
+                {
+                    fontSize = value;
+                    OnPropertyChanged(nameof(FontSize));
+                }
+            }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public Visibility GraphContentVisibility
+        {
+            get => graphcontentVisibility;
+
+            set
+            {
+                if (graphcontentVisibility != value)
+                {
+                    graphcontentVisibility = value;
+                    OnPropertyChanged(nameof(GraphContentVisibility));
+                }
+            }
+        }
+
+        public Brush LineColor
+        {
+            get => lineColor;
+
+            set
+            {
+                if (lineColor != value)
+                {
+                    lineColor = value;
+                    OnPropertyChanged(nameof(LineColor));
+                }
+            }
+        }
+
+        public Visibility LineDotVisibility
+        {
+            get => lineDotVisibility;
+
+            set
+            {
+                if (lineDotVisibility != value)
+                {
+                    lineDotVisibility = value;
+                    OnPropertyChanged(nameof(LineDotVisibility));
+                }
+            }
+        }
+
+        public Visibility LineGraphVisibility
+        {
+            get => lineGraphVisibility;
+
+            set
+            {
+                if (lineGraphVisibility != value)
+                {
+                    lineGraphVisibility = value;
+                    OnPropertyChanged(nameof(LineGraphVisibility));
+                }
+            }
+        }
+
+        public double LineThickness
+        {
+            get => lineThickness;
+
+            set
+            {
+                if (lineThickness != value)
+                {
+                    lineThickness = value;
+                    OnPropertyChanged(nameof(LineThickness));
+                }
+            }
+        }
 
         public ObservableCollection<Chart> Series
         {
             get => (ObservableCollection<Chart>)GetValue(SeriesProperty);
             set => SetValue(SeriesProperty, value);
-        }
-
-        public Visibility SeriesListVisibility
-        {
-            get => seriesListVisibility;
-
-            set
-            {
-                if (seriesListVisibility != value)
-                {
-                    seriesListVisibility = value;
-                    OnPropertyChanged(nameof(SeriesListVisibility));
-                }
-            }
         }
 
         public Visibility SeriesTextVisibility
@@ -59,6 +122,47 @@ namespace Extensions
             }
         }
 
+        public Brush TextColor
+        {
+            get => textColor; set
+
+            {
+                if (textColor != value)
+                {
+                    textColor = value;
+                    OnPropertyChanged(nameof(TextColor));
+                }
+            }
+        }
+
+        public Brush ValueColor
+        {
+            get => valueColor;
+
+            set
+            {
+                if (valueColor != value)
+                {
+                    valueColor = value;
+                    OnPropertyChanged(nameof(ValueColor));
+                }
+            }
+        }
+
+        public Visibility ValueTextVisibility
+        {
+            get => valueTextVisibility;
+
+            set
+            {
+                if (valueTextVisibility != value)
+                {
+                    valueTextVisibility = value;
+                    OnPropertyChanged(nameof(ValueTextVisibility));
+                }
+            }
+        }
+
         protected virtual void OnPropertyChanged(string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -68,65 +172,120 @@ namespace Extensions
         {
             if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
-                if (Series?.Any() == true)
-                {
-                    DrawGraph(drawingContext, Series);
-                }
+                _ = DrawGraph(drawingContext, Series);
             }
             else
             {
-                MockData = new();
-                MockData.Add(new Chart() { ChartBrush = Brushes.Blue, ChartValue = 100, Description = "Sample Item 1" });
-                MockData.Add(new Chart() { ChartBrush = Brushes.Red, ChartValue = 40, Description = "Sample Item 2" });
-                MockData.Add(new Chart() { ChartBrush = Brushes.Yellow, ChartValue = 60, Description = "Sample Item 3" });
-                DrawGraph(drawingContext, MockData);
+                MockData = new()
+                {
+                    new Chart() { ChartBrush = Brushes.Blue, ChartValue = 100, Description = "Sample Item 1" },
+                    new Chart() { ChartBrush = Brushes.Red, ChartValue = 40, Description = "Sample Item 2" },
+                    new Chart() { ChartBrush = Brushes.Yellow, ChartValue = 60, Description = "Sample Item 3" }
+                };
+                _ = DrawGraph(drawingContext, MockData);
             }
         }
 
         private static ObservableCollection<Chart> MockData;
 
-        private Visibility seriesListVisibility = Visibility.Collapsed;
+        private double fontSize = 12;
+
+        private Visibility graphcontentVisibility;
+
+        private Brush lineColor = Brushes.Blue;
+
+        private Visibility lineDotVisibility;
+
+        private Visibility lineGraphVisibility;
+
+        private double lineThickness = 2;
 
         private Visibility seriesTextVisibility;
 
+        private Brush textColor = Brushes.Black;
+
+        private Brush valueColor = Brushes.Red;
+
+        private Visibility valueTextVisibility;
+
         private DrawingContext DrawGraph(DrawingContext drawingContext, ObservableCollection<Chart> Series)
         {
-            double max = Series.Max(z => z.ChartValue);
-            Pen pen = null;
-            DrawingGroup dg = null;
-
-            for (int i = 1; i <= Series.Count; i++)
+            if (Series is not null && Series.Any())
             {
-                Chart item = Series[i - 1];
-                pen = new Pen(item.ChartBrush, ActualWidth / Series.Count);
-                pen.Freeze();
-                dg = new();
-                using (DrawingContext graph = dg.Open())
+                double max = Series.Max(z => z.ChartValue);
+                double thickness = ActualWidth / Series.Count;
+                if (ValueTextVisibility == Visibility.Visible)
                 {
-                    Point point0 = new((pen.Thickness * i) - (pen.Thickness / 2), ActualHeight);
-                    Point point1 = new((pen.Thickness * i) - (pen.Thickness / 2), ActualHeight - (item.ChartValue / max * ActualHeight));
-                    graph.DrawLine(pen, point0, point1);
-                    if (SeriesTextVisibility == Visibility.Visible)
-                    {
-                        FormattedText formattedText = new(item.Description, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Segoe UI"), 12, Brushes.Black)
-                        {
-                            MaxTextWidth = pen.Thickness
-                        };
-                        graph.DrawText(formattedText, new Point(point1.X - (pen.Thickness / 2), point1.Y - 16));
-                    }
-                    drawingContext.DrawDrawing(dg);
+                    Margin = new Thickness(0, 12, 0, 0);
                 }
-                dg.Freeze();
+
+                StreamGeometry geometry = new();
+                using (StreamGeometryContext gc = geometry.Open())
+                {
+                    gc.BeginFigure(new Point(thickness / 2, ActualHeight - (Series[0].ChartValue / max * ActualHeight)), false, false);
+                    for (int i = 1; i <= Series.Count; i++)
+                    {
+                        DrawingGroup graphdrawinggroup = new();
+                        using (DrawingContext graph = graphdrawinggroup.Open())
+                        {
+                            Chart item = Series[i - 1];
+                            Pen pen = new(item.ChartBrush, thickness);
+                            Pen linepen = new(LineColor, LineThickness);
+                            linepen.Freeze();
+                            pen.Freeze();
+                            Point point0 = new((pen.Thickness * i) - (pen.Thickness / 2), ActualHeight);
+                            Point point1 = new((pen.Thickness * i) - (pen.Thickness / 2), ActualHeight - (item.ChartValue / max * ActualHeight));
+                            if (GraphContentVisibility == Visibility.Visible)
+                            {
+                                graph.DrawLine(pen, point0, point1);
+                            }
+                            if (SeriesTextVisibility == Visibility.Visible)
+                            {
+                                FormattedText formattedText = GenerateFormattedText(item, pen);
+                                Point textpoint = new(point1.X - (formattedText.WidthIncludingTrailingWhitespace / 2), point1.Y);
+                                graph.DrawText(formattedText, textpoint);
+                            }
+                            if (ValueTextVisibility == Visibility.Visible)
+                            {
+                                FormattedText formattedValueText = GenerateFormattedValueText(item, pen);
+                                Point textpointValue = new(point1.X - (formattedValueText.WidthIncludingTrailingWhitespace / 2), -16);
+                                graph.DrawText(formattedValueText, textpointValue);
+                            }
+                            if (LineGraphVisibility == Visibility.Visible)
+                            {
+                                gc.LineTo(point1, true, true);
+                                graph.DrawGeometry(null, linepen, geometry);
+                                if (LineDotVisibility == Visibility.Visible)
+                                {
+                                    graph.DrawEllipse(null, linepen, point1, linepen.Thickness, linepen.Thickness);
+                                }
+                            }
+                        }
+                        graphdrawinggroup.Freeze();
+                        geometry.Freeze();
+                        drawingContext.DrawDrawing(graphdrawinggroup);
+                    }
+                }
+
+                return drawingContext;
             }
-            return drawingContext;
+            return null;
         }
 
-        private void GraphControl_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private FormattedText GenerateFormattedText(Chart item, Pen pen)
         {
-            if (e.PropertyName is "SeriesTextVisibility")
+            return new(item.Description, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Segoe UI"), FontSize, TextColor)
             {
-                Margin = SeriesTextVisibility == Visibility.Visible ? new Thickness(0, 12, 0, 0) : new Thickness(0);
-            }
+                MaxTextWidth = pen.Thickness
+            };
+        }
+
+        private FormattedText GenerateFormattedValueText(Chart item, Pen pen)
+        {
+            return new(item.ChartValue.ToString(), CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Segoe UI Bold"), FontSize, ValueColor)
+            {
+                MaxTextWidth = pen.Thickness
+            };
         }
     }
 }

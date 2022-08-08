@@ -41,7 +41,7 @@ namespace Extensions
                     if (listBox.SelectedItems.Count > maxitem)
                     {
                         listBox.SelectedItems.Clear();
-                        MessageBox.Show($"En Fazla {maxitem} Adet Seçim Yapabilirsiniz.", Application.Current?.MainWindow?.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        _ = MessageBox.Show($"En Fazla {maxitem} Adet Seçim Yapabilirsiniz.", Application.Current?.MainWindow?.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     }
 
                     selectedItems?.Clear();

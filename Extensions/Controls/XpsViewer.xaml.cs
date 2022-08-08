@@ -47,7 +47,7 @@ namespace Extensions.Controls
                     if (parentField != null)
                     {
                         parentField.SetValue(childClone, null);
-                        cv.Children.Add(childClone);
+                        _ = cv.Children.Add(childClone);
                     }
                 }
 
@@ -112,7 +112,7 @@ namespace Extensions.Controls
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, Application.Current?.MainWindow?.Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    _ = MessageBox.Show(ex.Message, Application.Current?.MainWindow?.Title, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }

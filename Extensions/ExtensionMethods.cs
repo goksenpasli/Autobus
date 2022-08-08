@@ -20,6 +20,8 @@ namespace Extensions
     {
         public const uint FILE_ATTRIBUTE_NORMAL = 0x00000080;
 
+        public const uint SHGFI_DISPLAYNAME = 0x000000200;
+
         public const uint SHGFI_ICON = 0x000000100;
 
         public const uint SHGFI_LARGEICON = 0x000000000;
@@ -130,11 +132,11 @@ namespace Extensions
 
                     string[] files = Directory.GetFiles(path, pattern);
 
-                    _ = Parallel.ForEach(files, x => filesNames.Add(x));
+                    _ = Parallel.ForEach(files, filesNames.Add);
 
                     string[] directories = Directory.GetDirectories(path);
 
-                    _ = Parallel.ForEach(directories, (x) => pendingQueue.Enqueue(x));
+                    _ = Parallel.ForEach(directories, pendingQueue.Enqueue);
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -151,9 +153,15 @@ namespace Extensions
             return exts.Select(x => x).SelectMany(x => Directory.EnumerateFiles(path, x, SearchOption.TopDirectoryOnly));
         }
 
+        public static string GetDisplayName(string path)
+        {
+            _ = new SHFILEINFO();
+            return (SHGetFileInfo(path, FILE_ATTRIBUTE_NORMAL, out SHFILEINFO shfi, (uint)Marshal.SizeOf(typeof(SHFILEINFO)), SHGFI_DISPLAYNAME) != IntPtr.Zero) ? shfi.szDisplayName : null;
+        }
+
         public static string GetFileType(this string filename)
         {
-            SHFILEINFO shinfo = new();
+            SHFILEINFO shinfo = new SHFILEINFO();
             _ = SHGetFileInfo
                 (
                         filename,
@@ -180,7 +188,8 @@ namespace Extensions
                 {
                     flags += SHGFI_LARGEICON;
                 }
-                SHFILEINFO shfi = new();
+
+                SHFILEINFO shfi = new SHFILEINFO();
 
                 IntPtr res = SHGetFileInfo(path, FILE_ATTRIBUTE_NORMAL, out shfi, (uint)Marshal.SizeOf(shfi), flags);
 
@@ -254,28 +263,27 @@ namespace Extensions
         {
             if (value != null)
             {
-                RegistryKey keyForExt = Registry.ClassesRoot.OpenSubKey(value);
+                using RegistryKey keyForExt = Registry.ClassesRoot.OpenSubKey(value);
                 if (keyForExt == null)
                 {
                     return null;
                 }
 
                 string className = Convert.ToString(keyForExt.GetValue(null));
-                RegistryKey keyForClass = Registry.ClassesRoot.OpenSubKey(className);
+                using RegistryKey keyForClass = Registry.ClassesRoot.OpenSubKey(className);
                 if (keyForClass == null)
                 {
                     return null;
                 }
 
-                RegistryKey keyForIcon = keyForClass.OpenSubKey("DefaultIcon");
+                using RegistryKey keyForIcon = keyForClass.OpenSubKey("DefaultIcon");
                 if (keyForIcon == null)
                 {
-                    RegistryKey keyForCLSID = keyForClass.OpenSubKey("CLSID");
+                    using RegistryKey keyForCLSID = keyForClass.OpenSubKey("CLSID");
                     if (keyForCLSID != null)
                     {
                         string clsid = $"CLSID\\{Convert.ToString(keyForCLSID.GetValue(null))}\\DefaultIcon";
-                        keyForIcon = Registry.ClassesRoot.OpenSubKey(clsid);
-                        if (keyForIcon == null)
+                        if (Registry.ClassesRoot.OpenSubKey(clsid) == null)
                         {
                             return null;
                         }
@@ -322,15 +330,19 @@ namespace Extensions
             return tb;
         }
 
-        public static string SetUniqueFile(this string path, string file, string extension)
+        public static string SetUniqueFile(this string path, string file, string extension, string seperator = "_")
         {
+            if (seperator.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+            {
+                seperator = "_";
+            }
             int i;
-            for (i = 0; File.Exists($"{path}\\{file}_{i}.{extension}"); i++)
+            for (i = 0; File.Exists($@"{path}\{file}{seperator}{i}.{extension}"); i++)
             {
                 _ = i + 1;
             }
 
-            return $"{path}\\{file}_{i}.{extension}";
+            return $@"{path}\{file}{seperator}{i}.{extension}";
         }
 
         [DllImport("shell32.dll", CharSet = CharSet.Auto)]
